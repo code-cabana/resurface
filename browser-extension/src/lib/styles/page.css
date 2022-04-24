@@ -1,0 +1,25 @@
+body {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 18px;
+  line-height: 31.5px;
+  background-color: var(--cc-colour-sand);
+  color: var(--cc-colour-deepsea);
+  background-image: url("../../assets/cc-submark.svg");
+  background-repeat: no-repeat;
+  background-size: 400px;
+  background-position: 100% 100%;
+  background-blend-mode: overlay;
+}
+
+h1 {
+  font-family: "Horizon", sans-serif;
+  margin: 0;
+  font-size: 36px;
+  line-height: 52px;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 24px;
+  font-family: "Albra", sans-serif;
+}

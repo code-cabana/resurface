@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "Horizon";
+  src: url("../../assets/Horizon.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Albra";
+  src: url("../../assets/AlbraMedium.otf") format("opentype");
+  font-weight: medium;
+}
+
+@font-face {
+  font-family: "Helvetica";
+  src: url("../../assets/Helvetica-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+
+html,
+body {
+  height: 100%;
+}

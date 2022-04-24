@@ -1,0 +1,25 @@
+.numberGroup .label,
+.number {
+  font-family: "Albra", sans-serif;
+}
+
+.numberGroup {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 12px;
+}
+
+.numberGroup .description {
+  margin: 0;
+}
+
+.number {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 8px;
+}
+
+.number input {
+  background-color: var(--cc-colour-seaspray-light);
+  border: 1px solid black;
+}

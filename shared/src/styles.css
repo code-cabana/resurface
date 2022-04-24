@@ -1,0 +1,25 @@
+:root {
+  --cc-colour-deepsea: #133d65;
+  --cc-colour-sand: #f5efe4;
+  --cc-colour-seaspray: #b9d7d7;
+  --cc-colour-seaspray-light: #e6f4f4;
+  --cc-colour-error: red;
+  --cc-colour-link: #133d65;
+
+  --font-family: "Helvetica", "Arial", sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--cc-colour-link);
+  text-decoration: dotted underline;
+}

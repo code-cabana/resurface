@@ -1,0 +1,58 @@
+.authenticated,
+.unAuthenticated {
+  height: 100vh;
+  max-width: 800px;
+  margin: auto;
+}
+
+.unAuthenticated {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.unAuthenticated .container {
+  position: relative;
+  width: 500px;
+  height: 450px;
+}
+
+.authenticated {
+  padding: 32px;
+}
+
+.authenticated .header {
+  display: grid;
+  grid-template-columns: repeat(2, min-content);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.authenticated .logout {
+  align-self: start;
+}
+
+.authenticated .paidSession {
+  display: grid;
+  justify-content: start;
+  grid-template-columns: auto min-content;
+  align-items: center;
+  column-gap: 6px;
+}
+
+.authenticated .buttons {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: start;
+  row-gap: 18px;
+}
+
+.logo {
+  transform: scale(1) translateZ(0);
+  transition: transform 0.1s ease;
+}
+
+.logo:hover {
+  transform: scale(1.1) translateZ(0);
+}

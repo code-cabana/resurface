@@ -1,0 +1,89 @@
+/* 
+  Switch
+  https://www.w3schools.com/howto/howto_css_switch.asp
+*/
+.switchGroup {
+  display: inline-grid;
+  justify-content: start;
+  align-items: center;
+  grid-template-columns: 40px 1fr;
+  column-gap: 16px;
+}
+
+.switchGroup .label {
+  font-family: "Albra", sans-serif;
+}
+
+.switchGroup .description {
+  margin: 0;
+  grid-column-start: span 2;
+}
+
+.switch {
+  --cc-switch-width: 40px;
+  --cc-switch-height: 22px;
+  --cc-thumb-size: calc(var(--cc-switch-width) - var(--cc-switch-height));
+  --cc-switch-padding: 2px;
+  --cc-switch-transition: 0.15s;
+
+  position: relative;
+  display: inline-block;
+  width: var(--cc-switch-width);
+  height: var(--cc-switch-height);
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: var(--cc-switch-transition);
+  transition: var(--cc-switch-transition);
+}
+
+/* Thumb */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: var(--cc-thumb-size);
+  width: var(--cc-thumb-size);
+  left: var(--cc-switch-padding);
+  bottom: var(--cc-switch-padding);
+  background-color: white;
+  -webkit-transition: var(--cc-switch-transition);
+  transition: var(--cc-switch-transition);
+}
+
+input:checked + .slider {
+  background-color: var(--cc-colour-deepsea);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--cc-colour-deepsea);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(var(--cc-thumb-size));
+  -ms-transform: translateX(var(--cc-thumb-size));
+  transform: translateX(var(--cc-thumb-size));
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: var(--cc-switch-height);
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}

@@ -1,0 +1,12 @@
+.select select {
+  width: 100%;
+  padding: 8px;
+  font-family: "Helvetica", sans-serif;
+  font-size: 18px;
+  color: var(--cc-colour-deepsea);
+  background-color: var(--cc-colour-seaspray-light);
+}
+
+.select .label {
+  font-family: "Albra", sans-serif;
+}

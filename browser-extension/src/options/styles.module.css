@@ -1,0 +1,16 @@
+.container {
+  padding: 24px;
+}
+
+.subtitle {
+  font-size: 16px;
+  line-height: 12px;
+}
+
+.options {
+  display: inline-grid;
+  grid-template-columns: 1fr;
+  row-gap: 24px;
+  max-width: 400px;
+  margin-top: 24px;
+}

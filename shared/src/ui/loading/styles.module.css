@@ -1,0 +1,52 @@
+.container {
+  position: relative;
+  height: 45px;
+  text-align: center;
+  overflow: hidden;
+  --cc-stripe-1: #133d65;
+  --cc-stripe-2: #f5efe4;
+  --cc-stripe-anim-duration: 0.6s;
+  --cc-stripe-anim-distance: 46px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.85;
+}
+
+.bg {
+  position: absolute;
+  left: calc(-1 * var(--cc-stripe-anim-distance));
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+
+  background: repeating-linear-gradient(
+    -55deg,
+    var(--cc-stripe-1) 1px,
+    var(--cc-stripe-2) 2px,
+    var(--cc-stripe-2) 11px,
+    var(--cc-stripe-1) 12px,
+    var(--cc-stripe-1) 20px
+  );
+
+  animation-name: stripes;
+  animation-duration: var(--cc-stripe-anim-duration);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes stripes {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--cc-stripe-anim-distance));
+  }
+}

@@ -1,0 +1,62 @@
+.form {
+  display: grid;
+  grid-template-columns: minmax(350px, 1fr);
+  justify-content: center;
+  row-gap: 18px;
+  padding: 32px;
+  border: 1px solid var(--cc-colour-deepsea);
+  border-radius: 4px;
+}
+
+.body h2 {
+  margin: 0;
+}
+
+.errorMessage {
+  color: var(--cc-colour-error);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 18px;
+}
+
+.button {
+  justify-self: end;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.checkbox {
+  justify-self: start;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+}
+
+.switchAction {
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0;
+  margin-bottom: 18px;
+}
+
+.firstLast {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 18px;
+}
+
+.firstLast label {
+  grid-template-columns: 1fr;
+}
+
+.resetPassword {
+  font-size: 0.9rem;
+}

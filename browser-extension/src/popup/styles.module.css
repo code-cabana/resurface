@@ -1,0 +1,52 @@
+:global(html),
+:global(body) {
+  width: 800px;
+  height: 250px;
+}
+
+:global(body) {
+  background-position: 100% 50%;
+}
+
+:global(#popup),
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+:global(#popup) {
+  padding: 16px 24px;
+}
+
+.container {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: space-between;
+}
+
+.description {
+  margin-bottom: 0;
+}
+
+.buttons {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 8px;
+}
+
+.footer {
+  position: relative;
+  display: grid;
+  align-items: end;
+}
+
+.footerLink {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: var(--cc-colour-deepsea);
+}

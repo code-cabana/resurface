@@ -1,0 +1,30 @@
+/* Regular button */
+.button {
+  font-family: var(--font-family);
+  font-size: 18px;
+  border: 2px solid var(--cc-colour-deepsea);
+  color: var(--cc-colour-deepsea);
+  background-color: var(--cc-colour-sand);
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+/* Button that looks like a link */
+.linkButton {
+  display: inline;
+  border: none;
+  color: var(--cc-colour-link);
+  background-color: transparent;
+  text-decoration: dotted underline;
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-body);
+  cursor: pointer;
+}
+
+/* Link that looks like a button */
+.buttonLink {
+  composes: button;
+  text-decoration: none;
+  line-height: normal;
+}

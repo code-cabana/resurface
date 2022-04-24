@@ -1,0 +1,39 @@
+.container {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  padding: 6px;
+  padding-bottom: 18px;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 1;
+  pointer-events: none;
+  font-family: "Helvetica" sans-serif;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  row-gap: 4px;
+}
+
+.buyButton,
+.loginButton {
+  pointer-events: all;
+}
+
+.buyButton {
+  padding: 8px 12px;
+}
+
+.loginButton {
+  padding: 2px 4px;
+  color: white;
+}
+
+.text {
+  background-color: var(--cc-colour-deepsea);
+  color: white;
+  margin: 0;
+  padding: 2px 8px;
+  border-radius: 4px;
+}

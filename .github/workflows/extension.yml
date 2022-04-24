@@ -1,0 +1,26 @@
+name: Extension
+on:
+  push:
+    branches: [main]
+
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+
+      - name: npx envinfo
+        run: npx envinfo
+
+      - name: npm ci
+        run: npm ci
+
+      - name: npm run be build
+        run: npm run be build
+
+      - name: npm run release
+        run: npm run release

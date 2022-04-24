@@ -1,0 +1,50 @@
+:global(html),
+:global(body),
+:global(#editor) {
+  height: 100%;
+  overflow: hidden;
+}
+
+:global(#editor) {
+  display: grid;
+  grid-template-rows: 32px repeat(auto-fit, minmax(0, 1fr));
+}
+
+.select {
+  justify-self: start;
+}
+
+.header {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 8px;
+  justify-content: start;
+  align-items: center;
+  height: 100%;
+  padding: 0 8px;
+}
+
+.editor {
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+.spacer {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.button {
+  font-size: 14px;
+  padding: 2px 4px;
+}
+
+.theme-vs-dark {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.theme-hc-black {
+  background-color: black;
+  color: white;
+}

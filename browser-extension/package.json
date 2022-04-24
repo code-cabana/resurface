@@ -1,0 +1,41 @@
+{
+  "name": "browser-extension",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env MODE=dev run-s dev:prepare dev:esbuild-webext",
+    "dev:serve": "cross-env MODE=dev run-s dev:prepare dev:esbuild-serve",
+    "dev:prepare": "run-s clean build:manifest build:assets",
+    "dev:esbuild-webext": "run-p build:esbuild web-ext",
+    "dev:esbuild-serve": "run-p build:esbuild serve",
+    "build": "cross-env MODE=prod run-s clean build:**",
+    "build:manifest": "shx mkdir dist && esr ci/manifest.js",
+    "build:assets": "shx cp -r src/assets dist",
+    "build:esbuild": "node ci/esbuild.js",
+    "build:zip": "wait-on dist && cd ./dist && bestzip ../resurface.zip *",
+    "clean": "shx rm -rf dist resurface.zip",
+    "web-ext": "wait-on dist/service-worker.js && web-ext run -c ci/web-ext.config.js -t chromium",
+    "serve": "browser-sync start --config ci/bsconfig.js"
+  },
+  "devDependencies": {
+    "@preact/compat": "^17.0.3",
+    "bestzip": "^2.2.1",
+    "browser-sync": "^2.27.9",
+    "cross-env": "^7.0.3",
+    "esbuild-css-modules-plugin": "^2.2.16",
+    "esbuild-runner": "^2.2.1",
+    "lang-detector": "^1.0.6",
+    "lodash.isequal": "^4.5.0",
+    "monaco-editor": "^0.33.0",
+    "npm-run-all": "^4.1.5",
+    "preact": "^10.7.2",
+    "react": "npm:@preact/compat@^17.0.3",
+    "react-dom": "npm:@preact/compat@^17.0.3",
+    "resolve": "^1.22.0",
+    "shared": "*",
+    "shelljs": "^0.8.5",
+    "shx": "^0.3.4",
+    "swell-js": "^3.14.0",
+    "wait-on": "^6.0.1",
+    "web-ext": "^6.8.0"
+  }
+}

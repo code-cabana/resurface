@@ -1,0 +1,16 @@
+{
+  "name": "shared",
+  "description": "shared library source code",
+  "version": "0.0.0",
+  "exports": {
+    "./config": "./src/config.js",
+    "./hooks": "./src/hooks/index.js",
+    "./ui": "./src/ui/index.js",
+    "./util": "./src/util.js",
+    "./styles": "./src/styles.css"
+  },
+  "dependencies": {
+    "react": "^18.1.0",
+    "swell-js": "^3.14.0"
+  }
+}
