@@ -24,8 +24,9 @@ export default function FAQ() {
             Klaviyo + more.
           </p>
           <p>
-            Please <a href={`mailto:${email}`}>shoot us an email</a> if you'd
-            like to confirm if a site you're building on is supported
+            Please <a href={`mailto:${email}`}>shoot us an email</a> if
+            you&apos;d like to confirm if a site you&apos;re building on is
+            supported
           </p>
         </li>
         <li>

@@ -17,8 +17,8 @@ export default function HowDoesItWork() {
           </i>
         </li>
         <li>
-          Click the "Open {name} editor" button that appears within any
-          CodeMirror editor on the page
+          Click the &quot;Open {name} editor&quot; button that appears within
+          any CodeMirror editor on the page
         </li>
         <li>
           Away you go! Any changes made within a {name} editor are instantly

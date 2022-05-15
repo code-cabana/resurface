@@ -8,9 +8,9 @@ export default function Features() {
     <>
       <h2>Features</h2>
       <p>
-        If you're familiar with{" "}
-        <a href="https://code.visualstudio.com/">Visual Studio Code</a>, you'll
-        feel right at home with {name}
+        If you&apos;re familiar with{" "}
+        <a href="https://code.visualstudio.com/">Visual Studio Code</a>,
+        you&apos;ll feel right at home with {name}
       </p>
       <ul>
         <li>Search and replace</li>
@@ -20,8 +20,8 @@ export default function Features() {
           Syntax highlighting (pretty colours that make code easier to read)
         </li>
         <li>
-          Error highlighting (pinpoint exactly where you're missing that curly
-          bracket)
+          Error highlighting (pinpoint exactly where you&apos;re missing that
+          curly bracket)
         </li>
       </ul>
     </>
