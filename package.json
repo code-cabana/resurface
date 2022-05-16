@@ -13,11 +13,9 @@
   "scripts": {
     "be": "npm run -w browser-extension --",
     "store": "npm run -w storefront --",
-    "format": "prettier --write . --ignore-path .gitignore",
-    "clean": "run-s clean:**",
-    "clean:self": "shx rm -f ./package-lock.json",
-    "clean:ws": "shx rm -rf ./{browser-extension,storefront,shared}/**/{package-lock.json,node_modules}",
     "release": "semantic-release",
+    "format": "prettier --write . --ignore-path .gitignore",
+    "clean": "shx rm -rf ./package-lock.json ./{browser-extension,storefront,shared}/**/{package-lock.json,node_modules}",
     "prepare": "husky install"
   },
   "devDependencies": {
