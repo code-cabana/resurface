@@ -1,0 +1,9 @@
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 18px;
+}
+
+.button {
+  justify-self: end;
+}

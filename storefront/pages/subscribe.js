@@ -1,6 +1,8 @@
 import MainLayout from "../layouts/main";
 import { AuthForm, Subscriptions } from "shared/ui";
 import { useAuth, useSwellProduct } from "shared/hooks";
+import { resetPasswordPageRel } from "shared/config";
+import Link from "next/link";
 
 export default function Subscribe() {
   const { loading, customer } = useAuth();
@@ -15,7 +17,15 @@ export default function Subscribe() {
           ? `${productName} subscription`
           : `Subscribe to ${productName}`}
       </h1>
-      {isLoggedIn ? <Authenticated /> : <AuthForm />}
+      {isLoggedIn ? (
+        <Authenticated />
+      ) : (
+        <AuthForm
+          resetPasswordLink={
+            <Link href={resetPasswordPageRel}>I forgot my password</Link>
+          }
+        />
+      )}
       {loading && "LOADING"}
     </MainLayout>
   );

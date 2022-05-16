@@ -7,7 +7,7 @@ import {
 } from "shared/ui";
 import { useEffect } from "preact/hooks";
 import { useAuth } from "shared/hooks";
-import { salesPage, accountPage } from "shared/config";
+import { homePage, accountPage } from "shared/config";
 import { getPath } from "../lib/util";
 import renderWithProviders from "../lib/render/page";
 import styles from "./styles.module.css";
@@ -41,7 +41,7 @@ function Authenticated() {
       {loading && <LoadingStripes overlay />}
 
       <div className={styles.header}>
-        <a href={salesPage} target="_blank">
+        <a href={homePage} target="_blank">
           <img
             src={getPath("/assets/resurface-logo-128-dark-transparent.png")}
             alt="Resurface"

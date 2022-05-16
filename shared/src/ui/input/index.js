@@ -56,3 +56,19 @@ export function Checkbox({
     </label>
   );
 }
+
+export function Email(props) {
+  return <Input label="Email" type="email" name="email" {...props} />;
+}
+
+export function Password(props) {
+  return <Input label="Password" type="password" name="password" {...props} />;
+}
+
+export function FirstName(props) {
+  return <Input label="First name" name="fname" {...props} />;
+}
+
+export function LastName(props) {
+  return <Input label="Last name" name="lname" {...props} />;
+}
