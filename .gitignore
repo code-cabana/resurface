@@ -1,3 +1,22 @@
+node_modules
+
+# Nextjs
+.pnp
+.pnp.js
+coverage
+.next
+
+# Output
+dist
+dist-ssr
+out
+build
+resurface.zip
+
+# Local env files
+.env*.local
+*.local
+
 # Logs
 logs
 *.log
@@ -7,18 +26,15 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# Misc
 .vscode/*
 !.vscode/extensions.json
 .idea
+.vercel
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.pem
