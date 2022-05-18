@@ -7,6 +7,7 @@ import {
   SWELL_STOREFRONT_PUBLIC_KEY,
   SWELL_PRODUCT_ID,
   SWELL_PLAN_ID,
+  resetPasswordKeyPage,
 } from "../config";
 
 swell.init(SWELL_STOREFRONT_ID, SWELL_STOREFRONT_PUBLIC_KEY);
@@ -102,6 +103,36 @@ export function AuthProvider({ children }) {
           logout(); // Ignore any errors and logout
           resolve();
         })
+        .finally(() => setLoading(false));
+    });
+  }
+
+  // https://swell.store/docs/js/account#send-a-password-reset-email
+  function sendResetPasswordEmail({ email, resetUrl }) {
+    return new Promise((resolve, reject) => {
+      setLoading(true);
+      swell.account
+        .recover({
+          email,
+          reset_url: resetUrl || resetPasswordKeyPage,
+        })
+        .then(resolve)
+        .catch(reject)
+        .finally(() => setLoading(false));
+    });
+  }
+
+  // https://swell.store/docs/js/account#reset-an-account-password
+  function resetPassword({ password, resetKey }) {
+    return new Promise((resolve, reject) => {
+      setLoading(true);
+      swell.account
+        .recover({
+          password,
+          reset_key: resetKey,
+        })
+        .then(resolve)
+        .catch(reject)
         .finally(() => setLoading(false));
     });
   }
@@ -221,6 +252,8 @@ export function AuthProvider({ children }) {
         logout,
         refresh,
         addCurrentSession,
+        sendResetPasswordEmail,
+        resetPassword,
       }}
     >
       {children}

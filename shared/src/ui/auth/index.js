@@ -1,12 +1,18 @@
+import {
+  Email as _Email,
+  Password as _Password,
+  FirstName as _FirstName,
+  LastName as _LastName,
+  Checkbox as _Checkbox,
+} from "../input";
 import { useEffect, useState } from "react";
 import { Button, LinkButton } from "../button";
 import { useAuth } from "../../hooks";
 import { cssJoin } from "../../util";
 import { resetPasswordPage } from "../../config";
-import { Input as _Input, Checkbox as _Checkbox } from "../input";
 import styles from "./styles.module.css";
 
-export function AuthForm({ disabled }) {
+export function AuthForm({ resetPasswordLink: _resetPasswordLink, disabled }) {
   const [action, setAction] = useState("Login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,6 +48,19 @@ export function AuthForm({ disabled }) {
 
   useEffect(() => setError(""), [action]);
 
+  const emailAndPassword = (
+    <>
+      <Email value={email} setValue={setEmail} disabled={disabled} />
+      <Password value={password} setValue={setPassword} disabled={disabled} />
+    </>
+  );
+
+  const resetPasswordLink = _resetPasswordLink || (
+    <a href={resetPasswordPage} target="_blank">
+      I forgot my password
+    </a>
+  );
+
   return (
     <form
       className={cssJoin(styles.form, disabled && styles.disabled)}
@@ -59,54 +78,22 @@ export function AuthForm({ disabled }) {
         </p>
         <div className={styles.fields}>
           {lcAction === "login" ? (
-            <>
-              <Input
-                label="Email"
-                type="email"
-                value={email}
-                setValue={setEmail}
-                disabled={disabled}
-              />
-              <Input
-                label="Password"
-                type="password"
-                value={password}
-                setValue={setPassword}
-                disabled={disabled}
-              />
-            </>
+            emailAndPassword
           ) : lcAction === "register" ? (
             <>
               <div className={styles.firstLast}>
-                <Input
-                  label="First name"
-                  name="fname"
+                <FirstName
                   value={firstName}
                   setValue={setFirstName}
                   disabled={disabled}
                 />
-                <Input
-                  label="Last name"
-                  name="lname"
+                <LastName
                   value={lastName}
                   setValue={setLastName}
                   disabled={disabled}
                 />
               </div>
-              <Input
-                label="Email"
-                type="email"
-                value={email}
-                setValue={setEmail}
-                disabled={disabled}
-              />
-              <Input
-                label="Password"
-                type="password"
-                value={password}
-                setValue={setPassword}
-                disabled={disabled}
-              />
+              {emailAndPassword}
             </>
           ) : null}
         </div>
@@ -116,15 +103,7 @@ export function AuthForm({ disabled }) {
 
       <div className={styles.footer}>
         {lcAction === "login" && (
-          <div>
-            <a
-              href={resetPasswordPage}
-              target="_blank"
-              className={styles.resetPassword}
-            >
-              I forgot my password
-            </a>
-          </div>
+          <div className={styles.resetPassword}>{resetPasswordLink}</div>
         )}
 
         {lcAction === "register" && (
@@ -144,10 +123,8 @@ export function AuthForm({ disabled }) {
   );
 }
 
-function Input(props) {
-  return <_Input className={styles.input} {...props} />;
-}
-
-function Checkbox(props) {
-  return <_Checkbox className={styles.checkbox} {...props} />;
-}
+const Email = (args) => <_Email className={styles.input} {...args} />;
+const Password = (args) => <_Password className={styles.input} {...args} />;
+const FirstName = (args) => <_FirstName className={styles.input} {...args} />;
+const LastName = (args) => <_LastName className={styles.input} {...args} />;
+const Checkbox = (args) => <_Checkbox className={styles.checkbox} {...args} />;

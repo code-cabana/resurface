@@ -14,11 +14,11 @@ function Subscription({ debug }) {
         {!canceled && (
           <>
             {paused ? (
-              <Button onClick={unpause}>Resume</Button>
+              <Button onClick={unpause}>Resume subscription</Button>
             ) : (
-              <Button onClick={pause}>Pause</Button>
+              <Button onClick={pause}>Pause subscription</Button>
             )}
-            <Button onClick={cancel}>Cancel</Button>
+            <Button onClick={cancel}>Terminate subscription</Button>
           </>
         )}
       </div>
