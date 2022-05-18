@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { cssJoin } from "../../util";
 import styles from "./styles.module.css";
 
@@ -21,13 +22,15 @@ export function LinkButton({
 }
 
 // Link that looks like a button
-export function ButtonLink({ label, children, className, ...args }) {
-  return (
-    <a className={cssJoin(styles.buttonLink, className)} {...args}>
-      {label || children || "ButtonLink"}
-    </a>
-  );
-}
+export const ButtonLink = forwardRef(
+  ({ label, children, className, ...args }, ref) => {
+    return (
+      <a className={cssJoin(styles.buttonLink, className)} {...args} ref={ref}>
+        {label || children || "ButtonLink"}
+      </a>
+    );
+  }
+);
 
 // Regular button
 export function Button({

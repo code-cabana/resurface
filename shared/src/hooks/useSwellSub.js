@@ -89,7 +89,7 @@ export function SwellSubProvider({ children }) {
 
   function cancel() {
     if (!subscription?.id) return;
-    return updateSubscription(subscription.id, { canceled: true }); //cancel_at_end instead? https://developers.swell.is/backend-api/subscriptions/update-a-subscription#update-a-subscription
+    return updateSubscription(subscription.id, { canceled: true }); // TODO cancel_at_end instead? https://developers.swell.is/backend-api/subscriptions/update-a-subscription#update-a-subscription
   }
 
   useEffect(() => {

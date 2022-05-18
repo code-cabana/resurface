@@ -1,6 +1,6 @@
-import { ButtonLink, TextLink } from "../link";
+import { LogoLink, ButtonLink } from "../link";
 import { useAuth } from "shared/hooks";
-import { Button } from "shared/ui";
+import { Button, LoadingStripes } from "shared/ui";
 import styles from "./styles.module.css";
 
 function AuthArea() {
@@ -10,14 +10,14 @@ function AuthArea() {
   return (
     <div>
       {loading ? (
-        "Loading"
+        <LoadingStripes />
       ) : isLoggedIn ? (
         <>
           <span>{name}</span>
           <Button onClick={logout}>Logout</Button>
         </>
       ) : (
-        <span>Not logged in</span>
+        <ButtonLink label="Login" href="/account" />
       )}
     </div>
   );
@@ -27,8 +27,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.navLinks}>
-        <TextLink href="/" label="Home" />
-        <ButtonLink label="Subscribe" href="/subscribe" />
+        <LogoLink />
       </div>
       <AuthArea />
     </header>

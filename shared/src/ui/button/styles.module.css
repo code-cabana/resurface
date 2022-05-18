@@ -25,6 +25,7 @@
 /* Link that looks like a button */
 .buttonLink {
   composes: button;
+  display: inline-block;
   text-decoration: none;
   line-height: normal;
 }

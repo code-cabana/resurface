@@ -7,7 +7,7 @@
 
 .pricing > div {
   display: grid;
-  border: 1px solid black;
+  border: 2px solid var(--cc-colour-deepsea);
   border-radius: 4px;
 }
 

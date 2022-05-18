@@ -10,7 +10,7 @@ export default function Features() {
       <p>
         If you&apos;re familiar with{" "}
         <a href="https://code.visualstudio.com/">Visual Studio Code</a>,
-        you&apos;ll feel right at home with {name}
+        you&apos;ll feel right at home when using {name}
       </p>
       <ul>
         <li>Search and replace</li>

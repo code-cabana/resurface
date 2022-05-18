@@ -1,4 +1,6 @@
+import { TextLink } from "../link";
 import { useSwellProduct } from "shared/hooks";
+import { getPageRel } from "shared/config";
 
 export default function HowDoesItWork() {
   const { product } = useSwellProduct();
@@ -8,7 +10,10 @@ export default function HowDoesItWork() {
     <>
       <h2>How does it work?</h2>
       <ol>
-        <li>Install the {name} extension in your browser</li>
+        <li>
+          Install the{" "}
+          <TextLink label={`${name} browser extension`} href={getPageRel} />
+        </li>
         <li>
           Open any page that contains a CodeMirror editor{" "}
           <i>

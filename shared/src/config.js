@@ -20,3 +20,8 @@ export const resetPasswordPage = `${homePage}${resetPasswordPageRel}`;
 
 const resetPasswordKeyPageRel = "/reset-password/{reset_key}";
 export const resetPasswordKeyPage = `${homePage}${resetPasswordKeyPageRel}`;
+
+// Webstore
+const extensionId = "mcneombcjoaibfjnpodhhngnlhapiocl";
+export const webstorePage = `https://chrome.google.com/webstore/detail/resurface/${extensionId}`;
+export const getPageRel = webstorePage; // "/get"; // TODO Uncomment when more than 1 browser is supported

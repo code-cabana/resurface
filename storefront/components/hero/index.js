@@ -1,5 +1,6 @@
 import { useSwellProduct } from "shared/hooks";
-import { Button } from "shared/ui";
+import { ButtonLink } from "../link";
+import { getPageRel } from "shared/config";
 
 export default function Hero() {
   const { product } = useSwellProduct();
@@ -26,7 +27,7 @@ export default function Hero() {
         <a href="https://code.visualstudio.com/">Visual Studio Code</a>, the
         most popular code editor trusted by developers everywhere
       </p>
-      <Button>Install free version now</Button>
+      <ButtonLink href={getPageRel}>Install now for free</ButtonLink>
     </>
   );
 }
