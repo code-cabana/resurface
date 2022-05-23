@@ -18,20 +18,17 @@ export default function HowDoesItWork() {
           />
         </li>
         <li>
-          Open any page that contains a CodeMirror editor{" "}
+          Open any page that contains a CodeMirror editor <br />
           <i>
             (commonly found on Squarespace, Shopify, Wix, Klaviyo and many other
             website builders)
           </i>
         </li>
         <li>
-          Click the &quot;Open {name} editor&quot; button that appears within
-          any CodeMirror editor on the page
+          Click the <i>&quot;Open {name} editor&quot;</i> button that appears
+          within any CodeMirror editor on the page
         </li>
-        <li>
-          Away you go! Any changes made within a {name} editor are instantly
-          synced across to the webpage that opened it
-        </li>
+        <li>Away you go! 🚀</li>
       </ol>
     </>
   );

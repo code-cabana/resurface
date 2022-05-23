@@ -1,13 +1,14 @@
 import { useSwellProduct } from "shared/hooks";
-import { ButtonLink } from "../link";
+// import { ButtonLink } from "../link";
+import { Button } from "shared/ui";
 import { getResurfaceLink } from "shared/config";
 import { cssJoin } from "shared/util";
 import styles from "./styles.module.css";
 
-function Column({ title, price, points, cta, className }) {
+function Column({ title, href, price, points, cta, className }) {
   return (
     <>
-      <div className={cssJoin(styles.column, className)}>
+      <a href={href} className={cssJoin(styles.column, className)}>
         <div className={styles.header}>
           <h3>{title}</h3>
           <div className={styles.price}>{price}</div>
@@ -25,7 +26,7 @@ function Column({ title, price, points, cta, className }) {
           })}
         </ul>
         {cta}
-      </div>
+      </a>
     </>
   );
 }
@@ -41,23 +42,19 @@ export default function Pricing() {
       <div className={styles.pricing}>
         <Column
           title="Personal"
+          href={getResurfaceLink}
           price="Free"
           points={[
             { icon: "check", label: "All features" },
             { icon: "scale", label: "Personal use" },
             { icon: "droplets", label: "Watermarked" },
           ]}
-          cta={
-            <ButtonLink
-              label="Install now"
-              href={getResurfaceLink}
-              className={styles.button}
-            />
-          }
+          cta={<Button label="Install now" className={styles.button} />}
           className={styles.personal}
         />
         <Column
           title="Business"
+          href="/account"
           price={
             <>
               <span>
@@ -72,13 +69,7 @@ export default function Pricing() {
             { icon: "droplets", label: "No watermark" },
             { icon: "bye", label: "Cancel anytime" },
           ]}
-          cta={
-            <ButtonLink
-              label="Subscribe"
-              href="/account"
-              className={styles.button}
-            />
-          }
+          cta={<Button label="Subscribe" className={styles.button} />}
           className={styles.business}
         />
       </div>

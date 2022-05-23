@@ -1,13 +1,18 @@
 /* Regular button */
 .button {
-  font-family: var(--font-family);
-  font-size: 18px;
+  font-family: var(--font-family-button);
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
   border: 2px solid var(--cc-colour-deepsea);
   color: var(--cc-colour-deepsea);
-  background-color: var(--cc-colour-sand);
+  background-color: var(--cc-colour-seaspray-light);
   border-radius: 4px;
-  padding: 6px 12px;
+  padding: 12px 24px;
   cursor: pointer;
+}
+
+.button:hover {
+  text-decoration: dotted underline;
 }
 
 /* Button that looks like a link */
@@ -16,10 +21,13 @@
   border: none;
   color: var(--cc-colour-link);
   background-color: transparent;
-  text-decoration: dotted underline;
   font-family: var(--font-family-body);
   font-size: var(--font-size-body);
   cursor: pointer;
+}
+
+.linkButton:hover {
+  text-decoration: dotted underline;
 }
 
 /* Link that looks like a button */
@@ -28,4 +36,12 @@
   display: inline-block;
   text-decoration: none;
   line-height: normal;
+  color: var(--cc-colour-deepsea);
+  font-family: var(--font-family-button);
+  font-size: var(--font-size-button);
+  font-weight: var(--font-weight-button);
+}
+
+.buttonLink:visited {
+  color: var(--cc-colour-deepsea);
 }

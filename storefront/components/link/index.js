@@ -12,6 +12,7 @@ export function TextLink({ label, href, className, ...args }) {
   );
 }
 
+// Link that looks like a button
 export function ButtonLink({ href, className, ...args }) {
   return (
     <Link href={href} passHref>

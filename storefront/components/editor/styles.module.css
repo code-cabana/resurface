@@ -1,0 +1,17 @@
+.container {
+  position: relative;
+  margin-top: 32px;
+  height: 400px;
+}
+
+.img {
+  position: absolute;
+  width: 164px;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+.editor {
+  height: 400px;
+}

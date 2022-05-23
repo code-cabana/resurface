@@ -4,9 +4,22 @@
   --cc-colour-seaspray: #b9d7d7;
   --cc-colour-seaspray-light: #e6f4f4;
   --cc-colour-error: red;
-  --cc-colour-link: #133d65;
+  --cc-colour-link: blue;
+  --cc-colour-link-visited: purple;
 
-  --font-family: "Helvetica", "Arial", sans-serif;
+  --font-family-body: "Helvetica", "Arial", sans-serif;
+  --font-size-body: 1.05rem;
+
+  --font-family-heading: "Horizon", sans-serif;
+  --font-size-heading: 3rem;
+
+  --font-family-subheading: "Albra", sans-serif;
+  --font-size-subheading: 1.5rem;
+  --font-weight-subheading: 700;
+
+  --font-family-button: "Helvetica", "Arial", sans-serif;
+  --font-size-button: 1.2rem;
+  --font-weight-button: 700;
 }
 
 html,
@@ -22,5 +35,13 @@ body {
 
 a {
   color: var(--cc-colour-link);
+  text-decoration: none;
+}
+
+a:hover {
   text-decoration: dotted underline;
+}
+
+a:visited {
+  color: var(--cc-colour-link-visited);
 }

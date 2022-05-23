@@ -8,12 +8,12 @@ function AuthArea() {
   const { isLoggedIn, name } = customer || {};
 
   return (
-    <div>
+    <div className={styles.authArea}>
       {loading ? (
         <LoadingStripes />
       ) : isLoggedIn ? (
         <>
-          <span>{name}</span>
+          <span className={styles.name}>Hi {name}</span>
           <Button onClick={logout}>Logout</Button>
         </>
       ) : (

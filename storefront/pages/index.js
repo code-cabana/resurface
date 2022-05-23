@@ -1,4 +1,5 @@
 import Hero from "../components/hero";
+import Editor from "../components/editor";
 import HowDoesItWork from "../components/how";
 import Features from "../components/features";
 import Pricing from "../components/pricing";
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <MainLayout className={styles.layout}>
       <Hero />
+      <Editor />
       <HowDoesItWork />
       <Pricing />
       <Features />

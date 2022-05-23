@@ -2,6 +2,16 @@
   display: grid;
   grid-template-columns: 1fr;
   row-gap: 18px;
+  padding: 32px;
+  border: 2px solid var(--cc-colour-deepsea);
+  border-radius: 4px;
+}
+
+.form h1 {
+  margin: 0;
+  font-family: var(--font-family-subheading);
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-subheading);
 }
 
 .button {

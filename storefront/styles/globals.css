@@ -16,15 +16,7 @@
 }
 
 :root {
-  --font-family-body: "Helvetica", "Arial", sans-serif;
-  --font-size-body: 1.05rem;
-
-  --font-family-heading: "Horizon", sans-serif;
-  --font-size-heading: 3rem;
-
-  --font-family-subheading: "Albra", sans-serif;
-  --font-size-subheading: 1.5rem;
-  --font-weight-subheading: 700;
+  --font-size-faq-question: 1.3rem;
 }
 
 html,
@@ -40,14 +32,6 @@ body {
 main {
   max-width: 800px;
   margin: auto;
-}
-
-a {
-  text-decoration: dotted underline;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 h1 {
@@ -67,7 +51,8 @@ h6 {
 
 ul li,
 ol li {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  line-height: 1.5;
 }
 
 button {

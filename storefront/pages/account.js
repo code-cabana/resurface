@@ -25,9 +25,10 @@ export default function AccountPage() {
   );
 }
 
+// UP TO - move to shared? sort out login/logout/signup/forgot password flows
+
 // (
 //   <>
-
 //     <p>Hi there {name}</p>
 //     {ownsResurface ? (
 //       <>

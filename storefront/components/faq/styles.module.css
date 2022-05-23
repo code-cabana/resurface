@@ -1,0 +1,5 @@
+.faq li span {
+  font-family: var(--font-family-subheading);
+  font-size: var(--font-size-faq-question);
+  font-weight: var(--font-weight-subheading);
+}

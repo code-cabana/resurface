@@ -12,6 +12,19 @@
   background-color: rgba(255, 255, 255, 0.5);
   border: 2px solid var(--cc-colour-deepsea);
   border-radius: 4px;
+
+  transform: scale(0.95);
+  transition: all 0.05s ease;
+}
+
+.column:hover {
+  text-decoration: none;
+  transform: scale(1);
+  box-shadow: rgba(149, 157, 165, 0.5) 0px 8px 24px;
+}
+
+.column:visited {
+  color: var(--cc-colour-deepsea);
 }
 
 .column ul {
@@ -19,13 +32,14 @@
   padding: 0;
   font-size: 1.5rem;
 }
+
 .pricing h3 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .price {
-  font-size: 2.5rem;
+  font-size: 2.7rem;
   font-weight: bold;
 }
 
