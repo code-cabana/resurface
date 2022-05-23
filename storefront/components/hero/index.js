@@ -15,11 +15,8 @@ export default function Hero() {
         {description}
       </p>
 
-      <p>Frustrated with a crappy code editing experience on the web?</p>
-      <p>
-        {name} provides a sleek interface that plugs in to your existing
-        workflow.
-      </p>
+      <p>Frustrated with a crummy code editing experience on the web?</p>
+      <p>Replace it with {name}!</p>
       <ButtonLink href={getResurfaceLink}>Install now for free</ButtonLink>
     </>
   );
