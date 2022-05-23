@@ -1,15 +1,19 @@
 import { useSwellProduct } from "shared/hooks";
 import { ButtonLink } from "../link";
-import { getPageRel } from "shared/config";
+import { getResurfaceLink } from "shared/config";
+import { cssJoin } from "shared/util";
+import styles from "./styles.module.css";
 
 export default function Hero() {
-  const { product } = useSwellProduct();
+  const { loading, product } = useSwellProduct();
   const { name, description } = product || {};
 
   return (
     <>
       <h1>{name}</h1>
-      <p>{description}</p>
+      <p className={cssJoin(styles.description, loading && styles.loading)}>
+        {description}
+      </p>
       <p>
         Ever had a frustrating experience while editing code on Squarespace?
       </p>
@@ -27,7 +31,7 @@ export default function Hero() {
         <a href="https://code.visualstudio.com/">Visual Studio Code</a>, the
         most popular code editor trusted by developers everywhere
       </p>
-      <ButtonLink href={getPageRel}>Install now for free</ButtonLink>
+      <ButtonLink href={getResurfaceLink}>Install now for free</ButtonLink>
     </>
   );
 }

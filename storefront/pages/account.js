@@ -4,7 +4,7 @@ import { AuthForm, Account, LoadingStripes } from "shared/ui";
 import { resetPasswordPageRel } from "shared/config";
 import Link from "next/link";
 
-export default function Account() {
+export default function AccountPage() {
   const { loading, customer } = useAuth();
   const { isLoggedIn } = customer;
 

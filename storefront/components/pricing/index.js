@@ -1,20 +1,32 @@
 import { useSwellProduct } from "shared/hooks";
 import { ButtonLink } from "../link";
-import { getPageRel } from "shared/config";
+import { getResurfaceLink } from "shared/config";
+import { cssJoin } from "shared/util";
 import styles from "./styles.module.css";
 
-function Column({ title, price, points, cta }) {
+function Column({ title, price, points, cta, className }) {
   return (
-    <div>
-      <h3>{title}</h3>
-      <div className={styles.price}>{price}</div>
-      <ul>
-        {points.map((point, index) => (
-          <li key={index}>{point}</li>
-        ))}
-      </ul>
-      {cta}
-    </div>
+    <>
+      <div className={cssJoin(styles.column, className)}>
+        <div className={styles.header}>
+          <h3>{title}</h3>
+          <div className={styles.price}>{price}</div>
+        </div>
+        <ul>
+          {points.map((point, index) => {
+            const { label, icon } =
+              (typeof point === "string" ? { label: point } : point) || {};
+            return (
+              <li key={index} className={styles.point}>
+                {icon && <img src={`/img/${icon}.png`} />}
+                {label}
+              </li>
+            );
+          })}
+        </ul>
+        {cta}
+      </div>
+    </>
   );
 }
 
@@ -30,8 +42,19 @@ export default function Pricing() {
         <Column
           title="Personal"
           price="Free"
-          points={["All features", "Personal use", "Watermarked"]}
-          cta={<ButtonLink label="Get Resurface" href={getPageRel} />}
+          points={[
+            { icon: "check", label: "All features" },
+            { icon: "scale", label: "Personal use" },
+            { icon: "droplets", label: "Watermarked" },
+          ]}
+          cta={
+            <ButtonLink
+              label="Install now"
+              href={getResurfaceLink}
+              className={styles.button}
+            />
+          }
+          className={styles.personal}
         />
         <Column
           title="Business"
@@ -44,12 +67,19 @@ export default function Pricing() {
             </>
           }
           points={[
-            "All features",
-            "Commercial use",
-            "No watermark",
-            "Cancel anytime",
+            { icon: "check", label: "All features" },
+            { icon: "scale", label: "Business use" },
+            { icon: "droplets", label: "No watermark" },
+            { icon: "bye", label: "Cancel anytime" },
           ]}
-          cta={<ButtonLink label="Subscribe" href="/account" />}
+          cta={
+            <ButtonLink
+              label="Subscribe"
+              href="/account"
+              className={styles.button}
+            />
+          }
+          className={styles.business}
         />
       </div>
     </>

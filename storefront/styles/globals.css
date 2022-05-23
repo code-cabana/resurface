@@ -17,9 +17,14 @@
 
 :root {
   --font-family-body: "Helvetica", "Arial", sans-serif;
+  --font-size-body: 1.05rem;
+
   --font-family-heading: "Horizon", sans-serif;
+  --font-size-heading: 3rem;
+
   --font-family-subheading: "Albra", sans-serif;
-  --font-size-body: 1rem;
+  --font-size-subheading: 1.5rem;
+  --font-weight-subheading: 700;
 }
 
 html,
@@ -47,6 +52,7 @@ a {
 
 h1 {
   font-family: var(--font-family-heading);
+  font-size: var(--font-size-heading);
 }
 
 h2,
@@ -55,6 +61,8 @@ h4,
 h5,
 h6 {
   font-family: var(--font-family-subheading);
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-subheading);
 }
 
 ul li,

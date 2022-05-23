@@ -1,0 +1,10 @@
+.description {
+  font-family: var(--font-family-subheading);
+  font-size: var(--font-size-subheading);
+  font-weight: var(--font-weight-subheading);
+  margin-top: 0;
+}
+
+.loading {
+  visibility: hidden;
+}
