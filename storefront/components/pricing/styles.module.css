@@ -4,6 +4,12 @@
   column-gap: 32px;
 }
 
+@media only screen and (max-width: 768px) {
+  .pricing {
+    grid-template-columns: 1fr;
+  }
+}
+
 .column {
   display: grid;
   align-content: space-between;

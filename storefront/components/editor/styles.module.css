@@ -9,7 +9,13 @@
   width: 164px;
   top: 0;
   right: 0;
-  transform: translate(50%, -50%);
+  transform: translate(15%, -50%);
+}
+
+@media only screen and (min-width: 1000px) {
+  .img {
+    transform: translate(50%, -50%);
+  }
 }
 
 .editor {
