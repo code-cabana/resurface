@@ -42,6 +42,7 @@ export function Checkbox({
       {labelPos === "start" && label}
       <div>
         <input
+          tabIndex={0}
           type="checkbox"
           checked={value}
           disabled={disabled}

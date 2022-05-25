@@ -1,0 +1,17 @@
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 49px;
+  align-items: center;
+  row-gap: 16px;
+}
+
+.lastRow {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+}
+
+.lastRow a {
+  align-self: start;
+}

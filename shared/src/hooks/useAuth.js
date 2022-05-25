@@ -159,9 +159,30 @@ export function AuthProvider({ children }) {
     });
   }
 
+  // Update customer details
+  // https://developers.swell.is/frontend-api/accounts#update-the-account
+  function updateCustomer({ firstName, lastName, email, optIn }) {
+    return new Promise((resolve, reject) => {
+      setLoading(true);
+
+      swell.account
+        .update({
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          email_optin: optIn,
+        })
+        .then(refresh)
+        .then(resolve)
+        .catch(reject)
+        .finally(() => setLoading(false));
+    });
+  }
+
   // Adds extra data to the customer object
   async function enhanceCustomerData(customerObj) {
-    const { first_name, last_name, name, metadata } = customerObj || {};
+    const { first_name, last_name, name, email, email_optin, metadata } =
+      customerObj || {};
     const { sessions } = metadata || {};
     const isLoggedIn = Boolean(customerObj);
     const promises =
@@ -176,6 +197,10 @@ export function AuthProvider({ children }) {
       sessions.some((session) => isEqual(currentSession, session));
     return {
       name: first_name || last_name || name || null,
+      firstName: first_name,
+      lastName: last_name,
+      email,
+      emailOptIn: email_optin,
       isLoggedIn,
       ownsResurface,
       checkoutUrl,
@@ -252,6 +277,7 @@ export function AuthProvider({ children }) {
         logout,
         refresh,
         addCurrentSession,
+        updateCustomer,
         sendResetPasswordEmail,
         resetPassword,
       }}

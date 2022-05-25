@@ -43,6 +43,7 @@ export function SwellSubProvider({ children }) {
             paused,
             canceled,
             price,
+            currency,
             paid,
             unpaid,
             interval,
@@ -59,6 +60,7 @@ export function SwellSubProvider({ children }) {
             paid,
             unpaid,
             price,
+            currency,
             interval,
             datePeriodEnd,
           });

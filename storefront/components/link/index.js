@@ -4,10 +4,12 @@ import { cssJoin } from "shared/util";
 import styles from "./styles.module.css";
 
 // Regular internal link
-export function TextLink({ label, href, className, ...args }) {
+export function TextLink({ label, href, children, className, ...args }) {
   return (
-    <Link href={href} className={cssJoin(styles.textLink, className)} {...args}>
-      {label}
+    <Link href={href} passHref>
+      <a className={cssJoin(styles.textLink, className)} {...args}>
+        {label || children}
+      </a>
     </Link>
   );
 }

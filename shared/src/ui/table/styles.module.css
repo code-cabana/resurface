@@ -1,0 +1,23 @@
+.table {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 16px;
+  margin-bottom: 32px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 48px 32px;
+  font-size: 1.5rem;
+  border-radius: 4px;
+  box-shadow: rgba(149, 157, 165, 0.15) 0px 4px 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Mobile */
+@media only screen and (max-width: 768px) {
+  .row {
+    font-size: 1rem;
+  }
+}
