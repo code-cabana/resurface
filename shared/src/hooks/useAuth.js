@@ -25,7 +25,7 @@ const customerInitialState = {
 
 export function AuthProvider({ children }) {
   const [customer, setCustomer] = useState(customerInitialState);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // https://swell.store/docs/js/account#log-in
   function login(email, password) {

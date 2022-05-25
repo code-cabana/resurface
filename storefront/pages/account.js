@@ -11,16 +11,17 @@ export default function AccountPage() {
 
   return (
     <MainLayout>
-      {loading ? (
-        <LoadingStripes />
-      ) : isLoggedIn ? (
+      {loading && <LoadingStripes overlay />}
+      {isLoggedIn ? (
         <Account />
       ) : (
-        <AuthForm
-          resetPasswordLink={
-            <Link href={resetPasswordPageRel}>I forgot my password</Link>
-          }
-        />
+        !loading && (
+          <AuthForm
+            resetPasswordLink={
+              <Link href={resetPasswordPageRel}>I forgot my password</Link>
+            }
+          />
+        )
       )}
     </MainLayout>
   );

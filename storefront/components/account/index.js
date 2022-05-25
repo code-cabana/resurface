@@ -30,7 +30,7 @@ function Customer() {
 
   function onSubmit(event) {
     event.preventDefault();
-    updateCustomer({ firstName, lastName, email, optIn });
+    updateCustomer({ email, optIn });
   }
 
   useEffect(resetFormState, [_email, emailOptIn]);
