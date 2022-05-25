@@ -6,7 +6,7 @@
   --cc-colour-seaspray-light: #e6f4f4;
   --cc-colour-error: #da3633;
   --cc-colour-warning: #f49f0a;
-  --cc-colour-success: #baff29;
+  --cc-colour-success: #16c60c;
   --cc-colour-link: blue;
   --cc-colour-link-visited: #c04cfd;
 
@@ -23,11 +23,6 @@
   --font-family-button: "Helvetica", "Arial", sans-serif;
   --font-size-button: 1.2rem;
   --font-weight-button: 700;
-
-  /*
-  --phlox: #c04cfd;
-  --bitter-lime: #baff29;
-  */
 }
 
 html,

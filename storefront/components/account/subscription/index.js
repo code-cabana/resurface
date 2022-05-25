@@ -1,12 +1,12 @@
-import { Row, Table, Button } from "shared/ui";
+import { Row, Table, Button, Modal, LoadingStripes } from "shared/ui";
 import { useAuth, useSwellSub } from "shared/hooks";
 import styles from "./styles.module.css";
 
 export function Subscription() {
-  const { customer } = useAuth();
+  const { customer, refresh: refreshAuth } = useAuth();
   const { ownsResurface, checkoutUrl } = customer;
 
-  const { subscription, pause, unpause, cancel } = useSwellSub();
+  const { loading, subscription, pause, unpause, cancel } = useSwellSub();
   const {
     active,
     status,
@@ -21,8 +21,13 @@ export function Subscription() {
   const priceAsString =
     price && currency && interval && `$${price} ${currency} ${interval}`;
 
+  function cancelSubscription() {
+    cancel().finally(refreshAuth);
+  }
+
   return (
-    <>
+    <div className={styles.container}>
+      {loading && <LoadingStripes overlay />}
       {ownsResurface ? (
         <>
           <p>Your Resurface subscription is active ✔️</p>
@@ -45,18 +50,52 @@ export function Subscription() {
                   Pause subscription
                 </Button>
               )}
-              <Button onClick={cancel} className={styles.terminate}>
-                Terminate subscription
-              </Button>
+              <Modal
+                heading="Terminate subscription"
+                button={{
+                  label: "Terminate subscription",
+                  className: styles.terminate,
+                }}
+                content={({ closeModalAnd }) => (
+                  <>
+                    <p>Are you sure you want to terminate your subscription?</p>
+                    <p>
+                      If you change your mind later you will need to complete
+                      another checkout process.
+                      {!paused && (
+                        <>
+                          <br />
+                          Pause your subscription (forever) instead to preserve
+                          your subscription information.
+                        </>
+                      )}
+                    </p>
+                    <div className={styles.modalButtons}>
+                      {!paused && (
+                        <Button
+                          label="Pause instead"
+                          onClick={closeModalAnd(pause)}
+                          className={styles.pause}
+                        />
+                      )}
+                      <Button
+                        label="Terminate"
+                        onClick={closeModalAnd(cancelSubscription)}
+                        className={styles.terminate}
+                      />
+                    </div>
+                  </>
+                )}
+              />
             </div>
           )}
         </>
       ) : (
         <>
-          <p>You are not yet subscribed to Resurface ❌</p>
+          <p>You are not subscribed to Resurface ❌</p>
           <a href={checkoutUrl}>Continue to checkout</a>
         </>
       )}
-    </>
+    </div>
   );
 }

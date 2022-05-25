@@ -1,3 +1,7 @@
+.container {
+  position: relative;
+}
+
 .table span:nth-child(2) {
   text-align: right;
 }
@@ -9,30 +13,48 @@
   row-gap: 12px;
 }
 
-.pause {
-  border-color: var(--cc-colour-warning);
-  border-style: dotted;
-  background-color: transparent;
-  color: var(--cc-colour-warning);
+.modalButtons {
+  display: grid;
+  margin-top: 32px;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  column-gap: 16px;
 }
 
-.pause:hover {
-  background-color: var(--cc-colour-warning);
+.ghostButton {
+  border-style: dotted;
+  background-color: transparent;
+}
+.ghostButton:hover {
   border-color: rgba(255, 255, 255, 0.5);
   color: white;
+}
+
+.pause {
+  composes: ghostButton;
+  border-color: var(--cc-colour-warning);
+  color: var(--cc-colour-warning);
+}
+.pause:hover {
+  background-color: var(--cc-colour-warning);
+}
+
+.resume {
+  composes: ghostButton;
+  border-color: var(--cc-colour-success);
+  color: var(--cc-colour-success);
+}
+.resume:hover {
+  background-color: var(--cc-colour-success);
 }
 
 .terminate {
+  composes: ghostButton;
   border-color: var(--cc-colour-error);
-  border-style: dotted;
-  background-color: transparent;
   color: var(--cc-colour-error);
 }
-
 .terminate:hover {
   background-color: var(--cc-colour-error);
-  border-color: rgba(255, 255, 255, 0.5);
-  color: white;
 }
 
 /* Mobile */

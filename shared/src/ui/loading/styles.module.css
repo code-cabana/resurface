@@ -3,6 +3,7 @@
   height: 45px;
   text-align: center;
   overflow: hidden;
+  z-index: 1;
   --cc-stripe-1: #133d65;
   --cc-stripe-2: #f5efe4;
   --cc-stripe-anim-duration: 0.6s;

@@ -48,7 +48,7 @@ export function SwellSubProvider({ children }) {
             unpaid,
             interval,
             date_period_end: datePeriodEnd,
-          } = foundSub;
+          } = foundSub || {};
 
           resolve({
             id,
@@ -71,6 +71,7 @@ export function SwellSubProvider({ children }) {
 
   function updateSubscription(subscriptionId, data) {
     return new Promise((resolve, reject) => {
+      setLoading(true);
       swell.subscriptions
         .update(subscriptionId, data)
         .then(refresh)
