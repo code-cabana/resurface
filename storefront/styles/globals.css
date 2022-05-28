@@ -29,11 +29,6 @@ body {
   background-color: var(--cc-colour-sand);
 }
 
-main {
-  max-width: 800px;
-  margin: auto;
-}
-
 h1 {
   font-family: var(--font-family-heading);
   font-size: var(--font-size-heading);

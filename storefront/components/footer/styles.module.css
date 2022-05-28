@@ -1,9 +1,22 @@
 .footer {
   position: relative;
-  padding: 32px;
-  bottom: 0;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  text-align: right;
+  bottom: 0;
+  padding: 32px;
 
-  /* border: 1px solid red; */
+  font-size: 0.9rem;
+}
+
+.footer a {
+  color: var(--cc-colour-deepsea);
+}
+
+.cc {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
 }

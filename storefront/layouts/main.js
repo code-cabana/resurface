@@ -6,8 +6,10 @@ import styles from "./styles.module.css";
 export default function MainLayout({ className, children }) {
   return (
     <div className={cssJoin(styles.container, className)}>
-      <Header />
-      <main>{children}</main>
+      <div>
+        <Header />
+        <main>{children}</main>
+      </div>
       <Footer />
     </div>
   );

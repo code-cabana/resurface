@@ -38,7 +38,7 @@ function Customer() {
   return (
     <>
       <form className={styles.form} onSubmit={onSubmit}>
-        <Email value={email} setValue={setEmail} />
+        <Email required value={email} setValue={setEmail} />
         <Checkbox
           label="Email me occasionally"
           value={optIn}

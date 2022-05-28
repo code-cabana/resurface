@@ -42,10 +42,14 @@
 }
 
 .switchAction {
-  font-size: 0.9rem;
-  font-style: italic;
   margin: 0;
   margin-bottom: 18px;
+}
+
+.switchAction,
+.switchAction button {
+  font-size: 0.9rem;
+  font-style: italic;
 }
 
 .firstLast {
