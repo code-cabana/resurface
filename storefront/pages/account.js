@@ -15,13 +15,12 @@ export default function AccountPage() {
       {isLoggedIn ? (
         <Account />
       ) : (
-        !loading && (
-          <AuthForm
-            resetPasswordLink={
-              <Link href={resetPasswordPageRel}>I forgot my password</Link>
-            }
-          />
-        )
+        <AuthForm
+          disabled={loading}
+          resetPasswordLink={
+            <Link href={resetPasswordPageRel}>I forgot my password</Link>
+          }
+        />
       )}
     </MainLayout>
   );

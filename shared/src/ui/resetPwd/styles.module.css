@@ -17,3 +17,14 @@
 .button {
   justify-self: end;
 }
+
+.errorMessage {
+  color: var(--cc-colour-error);
+}
+
+/* Mobile */
+@media only screen and (max-width: 378px) {
+  .button {
+    justify-self: stretch;
+  }
+}

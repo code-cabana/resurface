@@ -59,7 +59,7 @@ export function AuthProvider({ children }) {
           password,
         })
         .then((response) => {
-          if (!response) throw "Empty registration response";
+          if (!response) throw "Registration failed";
           if (response.email?.message === "Already exists")
             throw "That email is already registered";
           if (response.email?.message) throw response.email.message;
