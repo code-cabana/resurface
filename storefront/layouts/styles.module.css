@@ -1,0 +1,23 @@
+.container {
+  display: grid;
+  align-content: space-between;
+  min-height: 100vh;
+}
+
+.container main {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 64px;
+}
+
+/* Mobile */
+@media only screen and (max-width: 378px) {
+  .container main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

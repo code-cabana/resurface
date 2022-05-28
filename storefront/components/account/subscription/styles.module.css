@@ -1,0 +1,65 @@
+.container {
+  position: relative;
+}
+
+.table span:nth-child(2) {
+  text-align: right;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  row-gap: 12px;
+}
+
+.modalButtons {
+  display: grid;
+  margin-top: 32px;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  column-gap: 16px;
+}
+
+.ghostButton {
+  border-style: dotted;
+  background-color: transparent;
+}
+.ghostButton:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+.pause {
+  composes: ghostButton;
+  border-color: var(--cc-colour-warning);
+  color: var(--cc-colour-warning);
+}
+.pause:hover {
+  background-color: var(--cc-colour-warning);
+}
+
+.resume {
+  composes: ghostButton;
+  border-color: var(--cc-colour-success);
+  color: var(--cc-colour-success);
+}
+.resume:hover {
+  background-color: var(--cc-colour-success);
+}
+
+.terminate {
+  composes: ghostButton;
+  border-color: var(--cc-colour-error);
+  color: var(--cc-colour-error);
+}
+.terminate:hover {
+  background-color: var(--cc-colour-error);
+}
+
+/* Mobile */
+@media only screen and (max-width: 768px) {
+  .buttons {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,8 +1,9 @@
 export const email = "hello@codecabana.com.au";
+export const supportEmail = "support@codecabana.com.au";
 export const website = "https://codecabana.com.au";
 export const site = website.replace("https://", "");
 export const defaultDescription =
-  "Upgraded code editor for Squarespace, Shopify, Wix + more!";
+  "Sleek code editor for Squarespace, Shopify, Wix + more!";
 export const SWELL_STOREFRONT_ID = "codecabana";
 export const SWELL_STOREFRONT_PUBLIC_KEY =
   "pk_TFORHblo8bbLmufbS7B7tQa8Vr0grpI3";
@@ -20,3 +21,10 @@ export const resetPasswordPage = `${homePage}${resetPasswordPageRel}`;
 
 const resetPasswordKeyPageRel = "/reset-password/{reset_key}";
 export const resetPasswordKeyPage = `${homePage}${resetPasswordKeyPageRel}`;
+
+export const getPageRel = "/get";
+
+// Webstore
+const extensionId = "mcneombcjoaibfjnpodhhngnlhapiocl";
+export const webstorePage = `https://chrome.google.com/webstore/detail/resurface/${extensionId}`;
+export const getResurfaceLink = webstorePage; // TODO Uncomment when more than 1 browser is supported

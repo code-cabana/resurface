@@ -1,0 +1,27 @@
+.container {
+  position: relative;
+  margin-top: 32px;
+  height: 400px;
+}
+
+.img {
+  position: absolute;
+  width: 142px;
+  top: 0;
+  right: -10px;
+  transform: translateY(-100%);
+}
+
+@media only screen and (max-width: 420px) {
+  .container {
+    margin-top: 64px;
+  }
+
+  .img {
+    top: 10px;
+  }
+}
+
+.editor {
+  height: 400px;
+}

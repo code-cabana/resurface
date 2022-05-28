@@ -1,5 +1,6 @@
 import { useSwellProduct } from "shared/hooks";
 import { website, site, email } from "shared/config";
+import styles from "./styles.module.css";
 
 export default function FAQ() {
   const { product } = useSwellProduct();
@@ -8,12 +9,12 @@ export default function FAQ() {
   return (
     <>
       <h2>FAQ</h2>
-      <ul>
+      <ul className={styles.faq}>
         <li>
           <span>Which browsers can I use {name} with?</span>
           <p>
-            At the moment only Google Chrome. Firefox and Safari support is
-            coming soon!
+            Google Chrome is currently supported. Firefox and Safari are on the
+            way.
           </p>
         </li>
         <li>
@@ -23,14 +24,9 @@ export default function FAQ() {
             At the time of writing this includes Squarespace, Shopify, Wix,
             Klaviyo + more.
           </p>
-          <p>
-            Please <a href={`mailto:${email}`}>shoot us an email</a> if
-            you&apos;d like to confirm if a site you&apos;re building on is
-            supported
-          </p>
         </li>
         <li>
-          <span>Can {name} cause me to lose my work?</span>
+          <span>Can using {name} cause me to lose my work?</span>
           <p>
             No, changes made within a {name} editor are instantly synced across
             to the webpage that opened it, meaning that the website builder will
@@ -42,15 +38,17 @@ export default function FAQ() {
           <p>
             Unfortunately because of the digital nature of {name}, we cannot
             issue refunds. Please try the free version, or{" "}
-            <a href={`mailto:${email}`}>email us</a> before buying if you are
-            unsure if {name} is right for you
+            <a href={`mailto:${email}`}>email us</a> before buying if you
+            aren&apos;t sure {name} is right for you
           </p>
         </li>
         <li>
           <span>Wow I love it! What else have you got for me?</span>
           <p>
-            Fantastic! :) Our mission is to make your job as a web designer
-            easier. See all our offerings at <a href={website}>{site}</a>
+            Fantastic! 😄
+            <br />
+            Our mission is to make your job as a web designer easier. See all
+            our offerings at <a href={website}>{site}</a>
           </p>
         </li>
       </ul>

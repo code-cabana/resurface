@@ -7,11 +7,19 @@
   align-items: center;
 }
 
+/* Mobile */
+@media only screen and (max-width: 378px) {
+  .input {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+  }
+}
+
 .input input {
   width: 100%;
   padding: 12px;
   background-color: var(--cc-colour-seaspray-light);
-  border: 1px solid black;
+  border: 2px solid var(--cc-colour-deepsea);
   border-radius: 4px;
   font-size: 18px;
 }
@@ -30,7 +38,7 @@
 
 .checkbox input {
   position: absolute;
-  visibility: hidden;
+  opacity: 0;
   width: 0;
   height: 0;
 }

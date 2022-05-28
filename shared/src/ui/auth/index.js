@@ -30,12 +30,14 @@ export function AuthForm({ resetPasswordLink: _resetPasswordLink, disabled }) {
     );
   }
 
+  function handleError(error) {
+    console.error(error); // TODO logging
+    setError(error || "Incorrect email or password");
+  }
+
   function onSubmit(event) {
     event.preventDefault();
     setError("");
-    const handleError = (error) => {
-      setError(error || "Incorrect email or password");
-    };
 
     if (lcAction === "login") {
       login(email, password).catch(handleError);
@@ -50,8 +52,13 @@ export function AuthForm({ resetPasswordLink: _resetPasswordLink, disabled }) {
 
   const emailAndPassword = (
     <>
-      <Email value={email} setValue={setEmail} disabled={disabled} />
-      <Password value={password} setValue={setPassword} disabled={disabled} />
+      <Email required value={email} setValue={setEmail} disabled={disabled} />
+      <Password
+        required
+        value={password}
+        setValue={setPassword}
+        disabled={disabled}
+      />
     </>
   );
 
@@ -83,11 +90,13 @@ export function AuthForm({ resetPasswordLink: _resetPasswordLink, disabled }) {
             <>
               <div className={styles.firstLast}>
                 <FirstName
+                  required
                   value={firstName}
                   setValue={setFirstName}
                   disabled={disabled}
                 />
                 <LastName
+                  required
                   value={lastName}
                   setValue={setLastName}
                   disabled={disabled}

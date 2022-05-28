@@ -1,0 +1,29 @@
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 49px;
+  align-items: center;
+  row-gap: 16px;
+}
+
+.lastRow {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+}
+
+.lastRow a {
+  align-self: start;
+}
+
+/* Mobile */
+@media only screen and (max-width: 378px) {
+  .form {
+    grid-auto-rows: auto;
+  }
+
+  .lastRow {
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+  }
+}

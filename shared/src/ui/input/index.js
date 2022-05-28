@@ -42,6 +42,7 @@ export function Checkbox({
       {labelPos === "start" && label}
       <div>
         <input
+          tabIndex={0}
           type="checkbox"
           checked={value}
           disabled={disabled}
@@ -58,17 +59,37 @@ export function Checkbox({
 }
 
 export function Email(props) {
-  return <Input label="Email" type="email" name="email" {...props} />;
+  return (
+    <Input
+      label="Email"
+      type="email"
+      name="email"
+      autoComplete="email"
+      {...props}
+    />
+  );
 }
 
 export function Password(props) {
-  return <Input label="Password" type="password" name="password" {...props} />;
+  return (
+    <Input
+      label="Password"
+      type="password"
+      name="password"
+      autoComplete="password"
+      {...props}
+    />
+  );
 }
 
 export function FirstName(props) {
-  return <Input label="First name" name="fname" {...props} />;
+  return (
+    <Input label="First name" name="fname" autoComplete="fname" {...props} />
+  );
 }
 
 export function LastName(props) {
-  return <Input label="Last name" name="lname" {...props} />;
+  return (
+    <Input label="Last name" name="lname" autoComplete="lname" {...props} />
+  );
 }
