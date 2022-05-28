@@ -1,0 +1,7 @@
+.layout :global(h1) {
+  margin-bottom: 0;
+}
+
+.layout :global(h2) {
+  margin-top: 48px;
+}

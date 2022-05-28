@@ -1,25 +1,37 @@
 import Link from "next/link";
+import { ButtonLink as _ButtonLink } from "shared/ui";
 import { cssJoin } from "shared/util";
 import styles from "./styles.module.css";
 
-// Internal link that looks like a button
-export function ButtonLink({ label, href, className, ...args }) {
+// Regular internal link
+export function TextLink({ label, href, children, className, ...args }) {
   return (
-    <Link
-      href={href}
-      className={cssJoin(styles.buttonLink, className)}
-      {...args}
-    >
-      {label}
+    <Link href={href} passHref>
+      <a className={cssJoin(styles.textLink, className)} {...args}>
+        {label || children}
+      </a>
     </Link>
   );
 }
 
-// Regular internal link
-export function TextLink({ label, href, ...args }) {
+// Link that looks like a button
+export function ButtonLink({ href, className, ...args }) {
   return (
-    <Link href={href} {...args}>
-      {label}
+    <Link href={href} passHref>
+      <_ButtonLink
+        {...args}
+        className={cssJoin(styles.buttonLink, className)}
+      />
+    </Link>
+  );
+}
+
+export function LogoLink({ href = "/", className, ...args }) {
+  return (
+    <Link href={href}>
+      <a className={cssJoin(styles.logo, className)} {...args}>
+        <img src="/logo.png" alt="Resurface" />
+      </a>
     </Link>
   );
 }

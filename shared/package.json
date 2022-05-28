@@ -1,6 +1,7 @@
 {
   "name": "shared",
   "description": "shared library source code",
+  "type": "module",
   "exports": {
     "./config": "./src/config.js",
     "./hooks": "./src/hooks/index.js",

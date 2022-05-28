@@ -43,11 +43,12 @@ export function SwellSubProvider({ children }) {
             paused,
             canceled,
             price,
+            currency,
             paid,
             unpaid,
             interval,
             date_period_end: datePeriodEnd,
-          } = foundSub;
+          } = foundSub || {};
 
           resolve({
             id,
@@ -59,6 +60,7 @@ export function SwellSubProvider({ children }) {
             paid,
             unpaid,
             price,
+            currency,
             interval,
             datePeriodEnd,
           });
@@ -69,6 +71,7 @@ export function SwellSubProvider({ children }) {
 
   function updateSubscription(subscriptionId, data) {
     return new Promise((resolve, reject) => {
+      setLoading(true);
       swell.subscriptions
         .update(subscriptionId, data)
         .then(refresh)
@@ -89,7 +92,7 @@ export function SwellSubProvider({ children }) {
 
   function cancel() {
     if (!subscription?.id) return;
-    return updateSubscription(subscription.id, { canceled: true }); //cancel_at_end instead? https://developers.swell.is/backend-api/subscriptions/update-a-subscription#update-a-subscription
+    return updateSubscription(subscription.id, { canceled: true }); // TODO cancel_at_end instead? https://developers.swell.is/backend-api/subscriptions/update-a-subscription#update-a-subscription
   }
 
   useEffect(() => {

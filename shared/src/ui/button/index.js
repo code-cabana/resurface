@@ -1,5 +1,15 @@
+import { forwardRef } from "react";
 import { cssJoin } from "../../util";
 import styles from "./styles.module.css";
+
+// Button that looks like an avatar img
+export function ImgButton({ img, className, ...rest }) {
+  return (
+    <button {...rest} className={cssJoin(styles.imgButton, className)}>
+      <img {...img} />
+    </button>
+  );
+}
 
 // Button that looks like a link
 export function LinkButton({
@@ -21,13 +31,15 @@ export function LinkButton({
 }
 
 // Link that looks like a button
-export function ButtonLink({ label, children, className, ...args }) {
-  return (
-    <a className={cssJoin(styles.buttonLink, className)} {...args}>
-      {label || children || "ButtonLink"}
-    </a>
-  );
-}
+export const ButtonLink = forwardRef(
+  ({ label, children, className, ...args }, ref) => {
+    return (
+      <a className={cssJoin(styles.buttonLink, className)} {...args} ref={ref}>
+        {label || children || "ButtonLink"}
+      </a>
+    );
+  }
+);
 
 // Regular button
 export function Button({
