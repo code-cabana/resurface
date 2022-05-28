@@ -7,7 +7,7 @@ export default function Footer() {
       <TextLink href="/privacy">Privacy Policy</TextLink>
       <div className={styles.cc}>
         <TextLink href="https://codecabana.com.au">Code Cabana</TextLink>
-        <img src="/img/palm.png" width={24} />
+        <img src="/img/palm.png" width={24} alt="palm tree" />
       </div>
     </footer>
   );

@@ -14,8 +14,8 @@ export default function PrivacyPolicy() {
       <ol>
         <Item heading={`1. What is "personal information"?`}>
           <p>
-            (a) The Privacy Act 1988 (Cth) currently defines "personal
-            information" as meaning information or an opinion about an
+            (a) The Privacy Act 1988 (Cth) currently defines &quot;personal
+            information&quot; as meaning information or an opinion about an
             identified individual or an individual who is reasonably
             identifiable: whether the information or opinion is true or not; and
             (ii) whether the information or opinion is recorded in a material
@@ -24,8 +24,8 @@ export default function PrivacyPolicy() {
           <p>
             (b) If the information does not disclose your identity or enable
             your identity to be ascertained, it will in most cases not be
-            classified as "personal information" and will not be subject to this
-            privacy policy.
+            classified as &quot;personal information&quot; and will not be
+            subject to this privacy policy.
           </p>
         </Item>
 
@@ -107,8 +107,8 @@ export default function PrivacyPolicy() {
             breach of the Australian Privacy Principles if your personal
             information is mishandled in that jurisdiction. If your personal
             information is transferred to a jurisdiction which does not have
-            data protection laws as comprehensive as Australia's, we will take
-            reasonable steps to secure a contractual commitment from the
+            data protection laws as comprehensive as Australia&apos;s, we will
+            take reasonable steps to secure a contractual commitment from the
             recipient to handle your information in accordance with the
             Australian Privacy Principles.
           </p>

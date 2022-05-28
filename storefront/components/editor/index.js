@@ -26,7 +26,11 @@ export default function Editor() {
   return (
     <>
       <div className={styles.container}>
-        <img src="/img/try.png" className={styles.img} />
+        <img
+          src="/img/try.png"
+          className={styles.img}
+          alt="try the Resurface editor below"
+        />
         <MonacoEditor
           theme="vs-dark"
           defaultLanguage="css"

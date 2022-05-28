@@ -19,7 +19,7 @@ function Column({ title, href, price, points, cta, className }) {
               (typeof point === "string" ? { label: point } : point) || {};
             return (
               <li key={index} className={styles.point}>
-                {icon && <img src={`/img/${icon}.png`} />}
+                {icon && <img src={`/img/${icon}.png`} alt="" />}
                 {label}
               </li>
             );
