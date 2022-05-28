@@ -4,7 +4,7 @@ import { cssJoin } from "../../util";
 import { Button as _Button } from "../button";
 import styles from "./styles.module.css";
 
-export function Dropdown({ button: _button, items, ...rest }) {
+export function Dropdown({ button: _button, items, className, ...rest }) {
   const [expanded, setExpanded] = useState(false);
   const ref = useRef();
 
@@ -25,7 +25,7 @@ export function Dropdown({ button: _button, items, ...rest }) {
   });
 
   return (
-    <div ref={ref} className={styles.dropdown}>
+    <div ref={ref} className={cssJoin(styles.dropdown, className)}>
       {button}
       <Items
         {...rest}

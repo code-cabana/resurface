@@ -30,6 +30,7 @@ body {
   margin: 0;
   padding: 0;
   color: var(--cc-colour-deepsea);
+  min-width: 300px;
 }
 
 * {
@@ -47,4 +48,11 @@ a:hover {
 
 a:visited {
   color: var(--cc-colour-link-visited);
+}
+
+/* Mobile */
+@media only screen and (max-width: 378px) {
+  :root {
+    --font-size-body: 0.9rem;
+  }
 }

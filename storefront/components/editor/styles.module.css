@@ -6,15 +6,19 @@
 
 .img {
   position: absolute;
-  width: 164px;
+  width: 142px;
   top: 0;
-  right: 0;
-  transform: translate(15%, -50%);
+  right: -10px;
+  transform: translateY(-100%);
 }
 
-@media only screen and (min-width: 1000px) {
+@media only screen and (max-width: 420px) {
+  .container {
+    margin-top: 64px;
+  }
+
   .img {
-    transform: translate(50%, -50%);
+    top: 10px;
   }
 }
 

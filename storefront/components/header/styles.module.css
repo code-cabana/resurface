@@ -46,3 +46,23 @@
 .item:visited {
   color: var(--cc-colour-deepsea);
 }
+
+/* Tablet */
+@media only screen and (max-width: 768px) {
+  .header {
+    padding: 2rem 0.5rem;
+  }
+
+  .dropdownButton {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: auto;
+  }
+}
+
+/* Mobile */
+@media only screen and (max-width: 378px) {
+  .dropdownButton span {
+    display: none;
+  }
+}

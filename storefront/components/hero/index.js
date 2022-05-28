@@ -10,7 +10,7 @@ export default function Hero() {
 
   return (
     <>
-      <h1>{name}</h1>
+      <h1 className={styles.heading}>{name}</h1>
       <p className={cssJoin(styles.description, loading && styles.loading)}>
         {description}
       </p>

@@ -39,6 +39,7 @@ function AuthArea() {
                 ),
               },
             ]}
+            className={styles.dropdown}
           />
         </>
       ) : (

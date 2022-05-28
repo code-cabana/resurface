@@ -15,3 +15,15 @@
 .lastRow a {
   align-self: start;
 }
+
+/* Mobile */
+@media only screen and (max-width: 378px) {
+  .form {
+    grid-auto-rows: auto;
+  }
+
+  .lastRow {
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+  }
+}

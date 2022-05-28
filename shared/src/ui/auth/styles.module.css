@@ -38,6 +38,7 @@
   display: grid;
   grid-template-columns: auto auto;
   justify-content: space-between;
+  row-gap: 18px;
 }
 
 .switchAction {
@@ -50,7 +51,7 @@
 .firstLast {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 18px;
+  gap: 18px;
 }
 
 .firstLast label {
@@ -59,4 +60,23 @@
 
 .resetPassword {
   font-size: 0.9rem;
+}
+
+/* Mobile */
+@media only screen and (max-width: 378px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .firstLast {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+  }
+
+  .footer .button {
+    justify-self: stretch;
+  }
 }
