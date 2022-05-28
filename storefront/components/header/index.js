@@ -1,6 +1,7 @@
-import { LogoLink, ButtonLink } from "../link";
+import { LogoLink, TextLink, ButtonLink } from "../link";
 import { useAuth } from "shared/hooks";
-import { Button, LoadingStripes } from "shared/ui";
+import { Button, LinkButton, LoadingStripes, Dropdown } from "shared/ui";
+import { ReactSVG } from "react-svg";
 import styles from "./styles.module.css";
 
 function AuthArea() {
@@ -13,8 +14,32 @@ function AuthArea() {
         <LoadingStripes />
       ) : isLoggedIn ? (
         <>
-          <span className={styles.name}>Hi {name}</span>
-          <Button onClick={logout}>Logout</Button>
+          <Dropdown
+            button={
+              <Button className={styles.dropdownButton}>
+                <span>{name}</span>
+                <ReactSVG src="/img/person.svg" className={styles.avatar} />
+              </Button>
+            }
+            items={[
+              {
+                children: (
+                  <TextLink
+                    label="Account"
+                    href="/account"
+                    className={styles.item}
+                  />
+                ),
+              },
+              {
+                children: (
+                  <LinkButton onClick={logout} className={styles.item}>
+                    Logout
+                  </LinkButton>
+                ),
+              },
+            ]}
+          />
         </>
       ) : (
         <ButtonLink label="Login" href="/account" />

@@ -1,5 +1,7 @@
 import { Row, Table, Button, Modal, LoadingStripes } from "shared/ui";
 import { useAuth, useSwellSub } from "shared/hooks";
+import { DateTime } from "luxon";
+import capitalize from "lodash.capitalize";
 import styles from "./styles.module.css";
 
 export function Subscription() {
@@ -30,13 +32,24 @@ export function Subscription() {
       {loading && <LoadingStripes overlay />}
       {ownsResurface ? (
         <>
-          <p>Your Resurface subscription is active ✔️</p>
+          <div className={styles.blurb}>
+            {paused ? (
+              <>
+                <p>Your Resurface subscription is paused 🏝️</p>
+                <p>Watermark will appear after expiry date</p>
+              </>
+            ) : (
+              <p>Your Resurface subscription is active ✔️</p>
+            )}
+          </div>
           <Table className={styles.table}>
-            <Row label="Status" value={status} />
+            <Row label="Status" value={capitalize(status)} />
             <Row label="Price" value={priceAsString} />
             <Row
-              label={active ? "Next payment" : "Expires on"}
-              value={datePeriodEnd}
+              label={active && !paused ? "Next payment" : "Expires on"}
+              value={DateTime.fromISO(datePeriodEnd).toLocaleString(
+                DateTime.DATE_MED
+              )}
             />
           </Table>
           {!canceled && (

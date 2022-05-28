@@ -18,6 +18,7 @@
 /* Button that looks like a link */
 .linkButton {
   display: inline;
+  padding: 0;
   border: none;
   color: var(--cc-colour-link);
   background-color: transparent;
@@ -44,4 +45,10 @@
 
 .buttonLink:visited {
   color: var(--cc-colour-deepsea);
+}
+
+.imgButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }

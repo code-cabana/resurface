@@ -1,5 +1,6 @@
 export * from "./auth";
 export * from "./button";
+export * from "./dropdown";
 export * from "./input";
 export * from "./loading";
 export * from "./modal";

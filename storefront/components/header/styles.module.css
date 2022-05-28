@@ -21,6 +21,28 @@
   min-width: 100px;
 }
 
-.name {
-  margin-right: 16px;
+.dropdownButton {
+  background-color: transparent;
+  border: none;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  column-gap: 16px;
+}
+
+.dropdownButton .avatar {
+  width: 50px;
+  color: var(--cc-colour-deepsea);
+}
+
+.item {
+  display: block;
+  color: var(--cc-colour-deepsea);
+  width: 100%;
+  text-align: left;
+  padding: 16px 12px;
+}
+
+.item:visited {
+  color: var(--cc-colour-deepsea);
 }
