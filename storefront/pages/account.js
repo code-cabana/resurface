@@ -10,7 +10,10 @@ export default function AccountPage() {
   const { isLoggedIn } = customer;
 
   return (
-    <MainLayout>
+    <MainLayout
+      title="Account | Resurface"
+      description="Manage your Resurface account and subscription settings"
+    >
       {loading && <LoadingStripes overlay />}
       {isLoggedIn ? (
         <Account />

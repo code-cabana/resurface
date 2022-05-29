@@ -5,7 +5,11 @@ import styles from "../styles/privacy.module.css";
 
 export default function PrivacyPolicy() {
   return (
-    <MainLayout className={styles.container}>
+    <MainLayout
+      title="Privacy Policy | Resurface"
+      description="Resurface privacy policy and support information"
+      className={styles.container}
+    >
       <h1>Privacy Policy</h1>
       <p>
         This Privacy Policy applies to all personal information collected by

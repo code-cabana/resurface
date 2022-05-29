@@ -8,7 +8,7 @@ export default function ResetPasswordKey() {
   const { key } = router.query || {};
 
   return (
-    <MainLayout>
+    <MainLayout title="Change Password | Resurface" noIndex>
       <ResetPasswordForm resetKey={key} />
     </MainLayout>
   );

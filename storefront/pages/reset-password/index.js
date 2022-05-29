@@ -3,7 +3,10 @@ import { SendResetPasswordEmailForm } from "shared/ui";
 
 export default function ResetPassword() {
   return (
-    <MainLayout>
+    <MainLayout
+      title="Reset Password | Resurface"
+      description="Reset your Resurface account password"
+    >
       <SendResetPasswordEmailForm />
     </MainLayout>
   );
