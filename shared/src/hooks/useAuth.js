@@ -192,11 +192,11 @@ export function AuthProvider({ children }) {
     const ownsResurface = isLoggedIn ? promises[0].value : false;
     const checkoutUrl = isLoggedIn ? promises[1].value : null;
     const currentSession = getCurrentSession();
+    const isVip = group === "vip";
     const paidSession =
-      ownsResurface &&
+      (ownsResurface || isVip) &&
       sessions &&
       sessions.some((session) => isEqual(currentSession, session));
-    const isVip = group === "vip";
     return {
       name: first_name || last_name || name || null,
       firstName: first_name,

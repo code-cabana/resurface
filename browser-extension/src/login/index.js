@@ -33,7 +33,7 @@ function UnAuthenticated() {
 function Authenticated() {
   const { loading } = useAuth();
   const { customer, logout, addCurrentSession } = useAuth();
-  const { name, ownsResurface, paidSession, checkoutUrl } = customer;
+  const { name, ownsResurface, isVip, paidSession, checkoutUrl } = customer;
   useEffect(addCurrentSession, []);
 
   return (
@@ -54,15 +54,17 @@ function Authenticated() {
       </div>
 
       <p>
-        Hey {name} <img src={getPath("/assets/waving-hand.svg")} width={32} />
-        {ownsResurface && (
+        Hey {name} <img src={getPath("/assets/waving-hand.svg")} width={24} />
+        {(ownsResurface || isVip) && (
           <>
             <br />
-            Thank you for subscribing to Resurface!
+            {isVip
+              ? "You are a VIP 😎"
+              : "Thank you for subscribing to Resurface!"}
           </>
         )}
       </p>
-      {!ownsResurface && (
+      {!ownsResurface && !isVip && (
         <p>
           You aren't subscribed to Resurface yet.
           <br />
@@ -71,7 +73,7 @@ function Authenticated() {
         </p>
       )}
 
-      {ownsResurface ? (
+      {ownsResurface || isVip ? (
         paidSession ? (
           <p className={styles.paidSession}>
             Watermark is hidden for this device
@@ -83,10 +85,10 @@ function Authenticated() {
       ) : null}
 
       <div className={styles.buttons}>
-        {ownsResurface && !paidSession && (
+        {(ownsResurface || isVip) && !paidSession && (
           <Button onClick={addCurrentSession}>Disable editor watermark</Button>
         )}
-        {!ownsResurface && (
+        {!ownsResurface && !isVip && (
           <ButtonLink href={checkoutUrl} target="_blank">
             Subscribe to Resurface
           </ButtonLink>
