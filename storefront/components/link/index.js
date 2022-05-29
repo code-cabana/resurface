@@ -32,7 +32,13 @@ export function LogoLink({ href = "/", className, ...args }) {
   return (
     <Link href={href}>
       <a className={cssJoin(styles.logo, className)} {...args}>
-        <Img src={logoImg} alt="Resurface" className={styles.img} />
+        <Img
+          src={logoImg}
+          width={128}
+          height={128}
+          alt="Resurface"
+          className={styles.img}
+        />
       </a>
     </Link>
   );

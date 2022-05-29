@@ -45,7 +45,11 @@ function Customer() {
           setValue={setOptIn}
         />
         <div className={styles.lastRow}>
-          <TextLink label="Reset password" href={resetPasswordPageRel} />
+          <TextLink
+            label="Reset password"
+            href={resetPasswordPageRel}
+            className={styles.resetPass}
+          />
           <Button type="submit">Save</Button>
         </div>
       </form>

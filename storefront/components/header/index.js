@@ -16,7 +16,10 @@ function AuthArea() {
         <>
           <Dropdown
             button={
-              <Button className={styles.dropdownButton}>
+              <Button
+                aria-label="my account menu"
+                className={styles.dropdownButton}
+              >
                 <span>{name}</span>
                 <ReactSVG src="/img/person.svg" className={styles.avatar} />
               </Button>

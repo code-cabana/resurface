@@ -16,6 +16,10 @@
   align-self: start;
 }
 
+.resetPass {
+  padding: 16px 0;
+}
+
 /* Mobile */
 @media only screen and (max-width: 378px) {
   .form {

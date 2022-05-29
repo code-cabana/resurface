@@ -23,7 +23,8 @@
 
 .ghostButton {
   border-style: dotted;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 4px 8px;
 }
 .ghostButton:hover {
   border-color: rgba(255, 255, 255, 0.5);
@@ -32,26 +33,30 @@
 
 .pause {
   composes: ghostButton;
-  border-color: var(--cc-colour-warning);
-  color: var(--cc-colour-warning);
+  border-color: var(--cc-colour-deepsea);
+  color: var(--cc-colour-deepsea);
 }
 .pause:hover {
-  background-color: var(--cc-colour-warning);
+  color: var(--cc-colour-deepsea);
+  border-color: var(--cc-colour-deepsea);
+  background-color: var(--cc-colour-seaspray);
 }
 
 .resume {
   composes: ghostButton;
-  border-color: var(--cc-colour-success);
-  color: var(--cc-colour-success);
+  border-color: var(--cc-colour-deepsea);
+  color: var(--cc-colour-deepsea);
 }
 .resume:hover {
-  background-color: var(--cc-colour-success);
+  color: var(--cc-colour-deepsea);
+  border-color: var(--cc-colour-deepsea);
+  background-color: var(--cc-colour-seaspray);
 }
 
 .terminate {
   composes: ghostButton;
-  border-color: var(--cc-colour-error);
-  color: var(--cc-colour-error);
+  border-color: var(--cc-colour-deepsea);
+  color: var(--cc-colour-deepsea);
 }
 .terminate:hover {
   background-color: var(--cc-colour-error);
