@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ResetPasswordForm } from "shared/ui";
+import { ResetPasswordForm } from "../../components/resetPwd";
 import MainLayout from "../../layouts/main";
 
 // The user returns to this page after clicking the reset password link in their email

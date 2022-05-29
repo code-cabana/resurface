@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "shared/hooks";
-import { Button, Checkbox, Email, FirstName, LastName } from "shared/ui";
+import { cssJoin } from "shared/util";
+import { Button, Checkbox, Email } from "shared/ui";
 import { resetPasswordPageRel } from "shared/config";
 import { Subscription } from "./subscription";
 import { TextLink } from "../link";
@@ -11,6 +12,7 @@ export function Account() {
     <>
       <h2>Account</h2>
       <Customer />
+      <hr className={styles.hr} />
       <h2>Subscription</h2>
       <Subscription />
     </>
@@ -18,25 +20,34 @@ export function Account() {
 }
 
 function Customer() {
-  const { customer, updateCustomer } = useAuth();
+  const { loading, customer, updateCustomer } = useAuth();
   const { email: _email = "", emailOptIn = true } = customer;
   const [email, setEmail] = useState(_email);
   const [optIn, setOptIn] = useState(emailOptIn);
+  const [error, setError] = useState("");
+  const [synced, setSynced] = useState(true);
 
   function resetFormState() {
     setEmail(_email);
     setOptIn(emailOptIn);
+    setSynced(true);
   }
 
   function onSubmit(event) {
     event.preventDefault();
-    updateCustomer({ email, optIn });
+    updateCustomer({ email, optIn }).catch((error) => {
+      console.error(error); // TODO logging
+      setError("Could not save details, please try again");
+      setSynced(false);
+    });
   }
 
+  useEffect(() => setSynced(false), [email, optIn]);
   useEffect(resetFormState, [_email, emailOptIn]);
 
   return (
     <>
+      {error && <p className={styles.errorMessage}>{error}</p>}
       <form className={styles.form} onSubmit={onSubmit}>
         <Email required value={email} setValue={setEmail} />
         <Checkbox
@@ -50,7 +61,13 @@ function Customer() {
             href={resetPasswordPageRel}
             className={styles.resetPass}
           />
-          <Button type="submit">Save</Button>
+          <Button
+            type="submit"
+            disabled={loading}
+            className={cssJoin(styles.saveButton, synced && styles.synced)}
+          >
+            {loading ? "Saving..." : synced ? "Saved" : "Save"}
+          </Button>
         </div>
       </form>
     </>

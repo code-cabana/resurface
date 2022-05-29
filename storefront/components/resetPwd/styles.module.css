@@ -3,6 +3,8 @@
   grid-template-columns: 1fr;
   row-gap: 18px;
   padding: 32px;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border: 2px solid var(--cc-colour-deepsea);
   border-radius: 4px;
 }
@@ -20,6 +22,21 @@
 
 .errorMessage {
   color: var(--cc-colour-error);
+}
+
+.whatNext ul {
+  padding-left: 1.5rem;
+}
+
+.whatNext li {
+  margin: 0;
+}
+
+/* Tablet */
+@media only screen and (max-width: 768px) {
+  .form {
+    padding: 24px;
+  }
 }
 
 /* Mobile */

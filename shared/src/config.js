@@ -11,10 +11,12 @@ export const SWELL_PRODUCT_ID = "6274bc25623e4b0012e85773";
 export const SWELL_PLAN_ID = "6274bc25623e4b0012e8577a";
 
 // Routes
-export const homePage = "https://resurface.codecabana.com.au";
+export const domain = "resurface.codecabana.com.au";
+export const homePage = `https://${domain}`;
 
 export const accountPageRel = "/account";
 export const accountPage = `${homePage}${accountPageRel}`;
+export const accountPagePretty = `${domain}${accountPageRel}`;
 
 export const resetPasswordPageRel = "/reset-password";
 export const resetPasswordPage = `${homePage}${resetPasswordPageRel}`;

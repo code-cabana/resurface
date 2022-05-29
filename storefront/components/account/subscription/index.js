@@ -20,8 +20,9 @@ export function Subscription() {
     datePeriodEnd,
   } = subscription || {};
 
-  const priceAsString =
-    price && currency && interval && `$${price} ${currency} ${interval}`;
+  const priceAsString = paused
+    ? "N/A"
+    : price && currency && interval && `$${price} ${currency} ${interval}`;
 
   function cancelSubscription() {
     cancel().finally(refreshAuth);

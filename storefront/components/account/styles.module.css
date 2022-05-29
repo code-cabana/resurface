@@ -20,6 +20,26 @@
   padding: 16px 0;
 }
 
+.hr {
+  margin: 32px 0;
+  margin-bottom: 24px;
+  opacity: 0.25;
+}
+
+.saveButton:not(.synced) {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.saveButton.synced {
+  background-color: transparent;
+  border-style: dotted;
+}
+
+.errorMessage {
+  color: var(--cc-colour-error);
+  margin: 16px 0;
+}
+
 /* Mobile */
 @media only screen and (max-width: 378px) {
   .form {

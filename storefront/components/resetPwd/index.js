@@ -1,9 +1,14 @@
-import { cssJoin, isEmptyStr } from "../../util";
 import { useState } from "react";
-import { useAuth } from "../../hooks";
-import { Button } from "../button";
-import { Email, Password } from "../input";
+import { useAuth } from "shared/hooks";
+import { Email, Password, Button } from "shared/ui";
+import { cssJoin, isEmptyStr } from "shared/util";
+import {
+  accountPageRel,
+  accountPagePretty,
+  getResurfaceLink,
+} from "shared/config";
 import styles from "./styles.module.css";
+import { TextLink } from "../link";
 
 // Sends an email to the given email address with a link to reset the account password
 export function SendResetPasswordEmailForm({ className }) {
@@ -48,7 +53,7 @@ export function ResetPasswordForm({ resetKey, className }) {
     setError("");
     resetPassword({ password, resetKey })
       .then(() => {
-        setMessage("Success. You have changed your password");
+        setMessage("Success. You've changed your password");
         setSucceeded(true);
       })
       .catch((error) => {
@@ -64,7 +69,9 @@ export function ResetPasswordForm({ resetKey, className }) {
       <h1>Change password</h1>
       {message && <span className={styles.message}>{message}</span>}
       {error && <span className={styles.errorMessage}>{error}</span>}
-      {!succeeded && (
+      {succeeded ? (
+        <WhatsNext />
+      ) : (
         <>
           <Password
             autoComplete="new-password"
@@ -75,9 +82,28 @@ export function ResetPasswordForm({ resetKey, className }) {
             label="Change password"
             type="submit"
             className={styles.button}
-          />{" "}
+          />
         </>
       )}
     </form>
+  );
+}
+
+function WhatsNext() {
+  return (
+    <div className={styles.whatNext}>
+      <h3>What&apos;s next?</h3>
+      <span>Log in via</span>
+      <ul>
+        <li>
+          <TextLink href={getResurfaceLink}>the Resurface extension</TextLink>{" "}
+          to activate your subscription and remove the watermark
+        </li>
+        <li>
+          <TextLink href={accountPageRel}>{accountPagePretty}</TextLink> to
+          manage your account settings
+        </li>
+      </ul>
+    </div>
   );
 }

@@ -4,6 +4,17 @@ import { Button, LinkButton, LoadingStripes, Dropdown } from "shared/ui";
 import { ReactSVG } from "react-svg";
 import styles from "./styles.module.css";
 
+export default function Header() {
+  return (
+    <header className={styles.header}>
+      <div className={styles.navLinks}>
+        <LogoLink />
+      </div>
+      <AuthArea />
+    </header>
+  );
+}
+
 function AuthArea() {
   const { loading, customer, logout } = useAuth();
   const { isLoggedIn, name } = customer || {};
@@ -53,16 +64,5 @@ function AuthArea() {
         />
       )}
     </div>
-  );
-}
-
-export default function Header() {
-  return (
-    <header className={styles.header}>
-      <div className={styles.navLinks}>
-        <LogoLink />
-      </div>
-      <AuthArea />
-    </header>
   );
 }

@@ -4,6 +4,8 @@
   justify-content: center;
   row-gap: 18px;
   padding: 32px;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border: 2px solid var(--cc-colour-deepsea);
   border-radius: 4px;
 }
@@ -42,7 +44,7 @@
 }
 
 .switchAction {
-  margin: 0;
+  margin-top: 12px;
   margin-bottom: 18px;
 }
 
@@ -60,6 +62,7 @@
 
 .firstLast label {
   grid-template-columns: 1fr;
+  row-gap: 6px;
 }
 
 .resetPassword {
