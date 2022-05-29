@@ -6,8 +6,7 @@ import styles from "./styles.module.css";
 
 export function Subscription() {
   const { customer, refresh: refreshAuth } = useAuth();
-  const { ownsResurface, checkoutUrl } = customer;
-
+  const { ownsResurface, isVip, checkoutUrl } = customer;
   const { loading, subscription, pause, unpause, cancel } = useSwellSub();
   const {
     active,
@@ -103,6 +102,14 @@ export function Subscription() {
               />
             </div>
           )}
+        </>
+      ) : isVip ? (
+        <>
+          <div>You are a VIP 😎</div>
+          <p>
+            No watermark will appear in Resurface editors, and subscription is
+            not necessary ✔️
+          </p>
         </>
       ) : (
         <>

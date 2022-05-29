@@ -181,8 +181,9 @@ export function AuthProvider({ children }) {
 
   // Adds extra data to the customer object
   async function enhanceCustomerData(customerObj) {
-    const { first_name, last_name, name, email, email_optin, metadata } =
+    const { first_name, last_name, name, email, email_optin, group, metadata } =
       customerObj || {};
+
     const { sessions } = metadata || {};
     const isLoggedIn = Boolean(customerObj);
     const promises =
@@ -195,6 +196,7 @@ export function AuthProvider({ children }) {
       ownsResurface &&
       sessions &&
       sessions.some((session) => isEqual(currentSession, session));
+    const isVip = group === "vip";
     return {
       name: first_name || last_name || name || null,
       firstName: first_name,
@@ -203,6 +205,7 @@ export function AuthProvider({ children }) {
       emailOptIn: email_optin,
       isLoggedIn,
       ownsResurface,
+      isVip,
       checkoutUrl,
       paidSession,
       currentSession,
