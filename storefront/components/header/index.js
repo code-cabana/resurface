@@ -11,7 +11,7 @@ function AuthArea() {
   return (
     <div className={styles.authArea}>
       {loading ? (
-        <LoadingStripes />
+        <LoadingStripes className={styles.stripes} />
       ) : isLoggedIn ? (
         <>
           <Dropdown
@@ -43,7 +43,11 @@ function AuthArea() {
           />
         </>
       ) : (
-        <ButtonLink label="Login" href="/account" />
+        <ButtonLink
+          label="Login"
+          href="/account"
+          className={styles.loginButton}
+        />
       )}
     </div>
   );

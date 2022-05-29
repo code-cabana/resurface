@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 const defaultValue = `/* my_cool_styles.css */
 
 body {
-  color: var(--cc-colour-deepsea); 
+  color: var(--cc-colour-deepsea);
 
   /* Try uncommenting this! */
   /* color: blue; */

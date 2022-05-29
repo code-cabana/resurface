@@ -58,6 +58,13 @@
     padding-right: 1rem;
     margin-left: auto;
   }
+
+  .loginButton {
+    margin-right: 1.25rem;
+  }
+  .stripes {
+    right: 1.25rem;
+  }
 }
 
 /* Mobile */
