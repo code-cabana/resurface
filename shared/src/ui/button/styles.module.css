@@ -12,7 +12,9 @@
 }
 
 .button:hover {
-  text-decoration: dotted underline;
+  text-decoration: none;
+  background-color: var(--cc-colour-seaspray-hover);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .button[disabled] {
