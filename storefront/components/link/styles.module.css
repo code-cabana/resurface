@@ -4,7 +4,7 @@
   height: 64px;
 }
 
-.logo img {
+.logo .img {
   width: 80%;
   position: absolute;
   top: 50%;
@@ -13,6 +13,6 @@
   transition: width 0.1s ease;
 }
 
-.logo:hover img {
+.logo:hover .img {
   width: 100%;
 }

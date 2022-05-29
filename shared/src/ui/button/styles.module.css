@@ -46,9 +46,3 @@
 .buttonLink:visited {
   color: var(--cc-colour-deepsea);
 }
-
-.imgButton {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}

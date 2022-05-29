@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Img from "../img";
+import tryImg from "../../public/img/try.png";
 import MonacoEditor from "@monaco-editor/react";
 import styles from "./styles.module.css";
 
@@ -26,10 +28,10 @@ export default function Editor() {
   return (
     <>
       <div className={styles.container}>
-        <img
-          src="/img/try.png"
-          className={styles.img}
+        <Img
+          src={tryImg}
           alt="try the Resurface editor below"
+          className={styles.img}
         />
         <MonacoEditor
           theme="vs-dark"

@@ -2,15 +2,6 @@ import { forwardRef } from "react";
 import { cssJoin } from "../../util";
 import styles from "./styles.module.css";
 
-// Button that looks like an avatar img
-export function ImgButton({ img, className, ...rest }) {
-  return (
-    <button {...rest} className={cssJoin(styles.imgButton, className)}>
-      <img {...img} />
-    </button>
-  );
-}
-
 // Button that looks like a link
 export function LinkButton({
   label,

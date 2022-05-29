@@ -20,3 +20,7 @@
   grid-auto-flow: column;
   align-items: center;
 }
+
+.cc .img {
+  width: 24px;
+}

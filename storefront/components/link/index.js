@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Img from "../img";
+import logoImg from "../../public/img/logo.png";
 import { ButtonLink as _ButtonLink } from "shared/ui";
 import { cssJoin } from "shared/util";
 import styles from "./styles.module.css";
@@ -30,7 +32,7 @@ export function LogoLink({ href = "/", className, ...args }) {
   return (
     <Link href={href}>
       <a className={cssJoin(styles.logo, className)} {...args}>
-        <img src="/logo.png" alt="Resurface" />
+        <Img src={logoImg} alt="Resurface" className={styles.img} />
       </a>
     </Link>
   );

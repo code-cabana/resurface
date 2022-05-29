@@ -1,4 +1,6 @@
+import Img from "../img";
 import { TextLink } from "../link";
+import palmImg from "../../public/img/palm.png";
 import styles from "./styles.module.css";
 
 export default function Footer() {
@@ -7,7 +9,7 @@ export default function Footer() {
       <TextLink href="/privacy">Privacy Policy</TextLink>
       <div className={styles.cc}>
         <TextLink href="https://codecabana.com.au">Code Cabana</TextLink>
-        <img src="/img/palm.png" width={24} alt="palm tree" />
+        <Img src={palmImg} alt="palm tree" className={styles.img} />
       </div>
     </footer>
   );

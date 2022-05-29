@@ -1,6 +1,6 @@
-import { useSwellProduct } from "shared/hooks";
-// import { ButtonLink } from "../link";
+import Img from "../img";
 import { Button } from "shared/ui";
+import { useSwellProduct } from "shared/hooks";
 import { getResurfaceLink } from "shared/config";
 import { cssJoin } from "shared/util";
 import styles from "./styles.module.css";
@@ -19,7 +19,15 @@ function Column({ title, href, price, points, cta, className }) {
               (typeof point === "string" ? { label: point } : point) || {};
             return (
               <li key={index} className={styles.point}>
-                {icon && <img src={`/img/${icon}.png`} alt="" />}
+                {icon && (
+                  <Img
+                    src={`/img/${icon}.png`}
+                    width={32}
+                    height={32}
+                    alt=""
+                    className={styles.icon}
+                  />
+                )}
                 {label}
               </li>
             );
