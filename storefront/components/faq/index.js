@@ -26,7 +26,7 @@ export default function FAQ() {
           </p>
         </li>
         <li>
-          <span>Can using {name} cause me to lose my work?</span>
+          <span>If {name} crashes, will I lose my work?</span>
           <p>
             No, changes made within a {name} editor are instantly synced across
             to the webpage that opened it, meaning that the website builder will
