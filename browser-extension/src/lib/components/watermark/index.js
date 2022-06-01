@@ -5,12 +5,12 @@ import { ButtonLink, LinkButton } from "shared/ui";
 import { useSwellProduct } from "shared/hooks";
 import styles from "./styles.module.css";
 
-export default function Watermark() {
+export default function Watermark({ opacity }) {
   const { loading, product } = useSwellProduct();
   const { price } = product || {};
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ opacity }}>
       <span className={styles.text}>
         Please support Code Cabana to remove this watermark
       </span>

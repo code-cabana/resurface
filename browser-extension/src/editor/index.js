@@ -4,6 +4,7 @@ import * as monaco from "monaco-editor/esm/vs/editor/editor.main.js";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { useStoredValue, useResizeEnd, useInterval } from "../lib/hooks";
 import Watermark from "../lib/components/watermark";
+import { watermarkGracePeriod } from "../config";
 import renderWithProviders from "../lib/render";
 import { goToOptionsPage } from "../lib/util";
 import detectLang from "lang-detector";
@@ -35,6 +36,7 @@ function Editor() {
     true
   );
   const [_, setEditorSize] = useStoredValue("cc-resurface-editor-size");
+  const [inGracePeriod, setInGracePeriod] = useState(true);
 
   const port = useRef(_port);
   const setPort = (newPort) => {
@@ -72,6 +74,13 @@ function Editor() {
   useEffect(() => setEditorTheme(theme), [theme]);
   useEffect(() => setEditorMinimap({ editor, enabled: minimap }), [minimap]);
 
+  // Save editor size on mount
+  useEffect(() => {
+    if (!rememberEditorSize || !window) return;
+    setEditorSize({ width: window.innerWidth, height: window.innerHeight });
+  }, [rememberEditorSize]);
+
+  // Save editor size on window resize end
   useResizeEnd(
     (_, width, height) => {
       if (!rememberEditorSize) return;
@@ -81,11 +90,6 @@ function Editor() {
     [rememberEditorSize]
   );
 
-  useEffect(() => {
-    if (!rememberEditorSize || !window) return;
-    setEditorSize({ width: window.innerWidth, height: window.innerHeight });
-  }, [rememberEditorSize]);
-
   // Prevent right click menu
   useEffect(() => {
     if (!window) return;
@@ -94,6 +98,13 @@ function Editor() {
     return () => {
       window.removeEventListener("contextmenu", onContextMenu);
     };
+  }, []);
+
+  // Show the watermark after grace period ends
+  useEffect(() => {
+    const endGracePeriod = () => setInGracePeriod(false);
+    const timeout = setTimeout(endGracePeriod, watermarkGracePeriod * 1000);
+    return () => clearTimeout(timeout);
   }, []);
 
   const languageOptions = monaco.languages.getLanguages();
@@ -112,6 +123,8 @@ function Editor() {
       </option>
     );
   }
+
+  const showWatermark = paidSession === false && !inGracePeriod;
 
   return (
     <>
@@ -137,7 +150,7 @@ function Editor() {
         </Button>
       </div>
       <div ref={editorRef} className={styles.editor} />
-      {paidSession === false && <Watermark />}
+      <Watermark opacity={showWatermark ? 1 : 0} />
     </>
   );
 }
