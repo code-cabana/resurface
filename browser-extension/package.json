@@ -21,6 +21,7 @@
     "bestzip": "^2.2.1",
     "browser-sync": "^2.27.9",
     "cross-env": "^7.0.3",
+    "css-format-monaco": "^2.0.4",
     "esbuild-css-modules-plugin": "^2.2.16",
     "esbuild-runner": "^2.2.1",
     "lang-detector": "^1.0.6",

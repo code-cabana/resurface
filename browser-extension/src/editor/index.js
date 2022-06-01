@@ -1,3 +1,4 @@
+import cssFormatMonaco from "css-format-monaco";
 import { debug as _debug, error as _error, warn as _warn } from "../lib/log";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.main.js";
 import { useEffect, useRef, useState } from "preact/hooks";
@@ -131,11 +132,22 @@ function Editor() {
         <Button onClick={goToOptionsPage} className={styles.button}>
           Options
         </Button>
+        <Button onClick={formatEditor(editor)} className={styles.button}>
+          Format
+        </Button>
       </div>
       <div ref={editorRef} className={styles.editor} />
       {paidSession === false && <Watermark />}
     </>
   );
+}
+
+function formatEditor(editor) {
+  return () => {
+    if (!editor.current) return;
+    debug("Formatting editor content");
+    editor.current.getAction("editor.action.formatDocument").run();
+  };
 }
 
 // Turn the minimap on/off
@@ -258,6 +270,8 @@ function spawnEditor({ editorRef, port, setEditor }) {
       value: "waiting for CodeMirror data...",
     });
 
+    const disposeCssPlugin = cssFormatMonaco(monaco, {}); // Editor cannot format CSS without this plugin
+
     function layoutEditor() {
       const { offsetWidth, offsetHeight } = editorRef.current;
       newEditor.layout({ width: offsetWidth, height: offsetHeight });
@@ -268,6 +282,7 @@ function spawnEditor({ editorRef, port, setEditor }) {
 
     return () => {
       window.removeEventListener("resize", layoutEditor);
+      disposeCssPlugin();
       newEditor.dispose();
       setEditor(null);
     };
