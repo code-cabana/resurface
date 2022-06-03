@@ -3,6 +3,7 @@ import { Account } from "../components/account";
 import { AuthForm, LoadingStripes } from "shared/ui";
 import { resetPasswordPageRel } from "shared/config";
 import { useAuth } from "shared/hooks";
+import logger from "../lib/logger";
 import Link from "next/link";
 
 export default function AccountPage() {
@@ -19,6 +20,7 @@ export default function AccountPage() {
         <Account />
       ) : (
         <AuthForm
+          logger={logger}
           disabled={loading}
           resetPasswordLink={
             <Link href={resetPasswordPageRel}>I forgot my password</Link>

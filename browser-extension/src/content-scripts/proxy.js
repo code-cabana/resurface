@@ -1,13 +1,22 @@
+import {
+  debug as _debug,
+  warn as _warn,
+  error as _error,
+} from "../lib/console";
+import { sentryInit, sentryError } from "../lib/sentry";
 import { initWindowState } from "../lib/util";
-import { debug as _debug, warn as _warn, error as _error } from "../lib/log";
 import { onStorageToggleChange } from "../lib/chrome";
 // https://developer.chrome.com/docs/extensions/mv3/content_scripts/#host-page-communication
 
 initWindowState(window);
+sentryInit();
 const logPrefix = "[Proxy]";
 const debug = (...args) => _debug(logPrefix, ...args);
-const error = (...args) => _error(logPrefix, ...args);
 const warn = (...args) => _warn(logPrefix, ...args);
+const error = (...args) => {
+  sentryError(new Error(...args));
+  _error(logPrefix, ...args);
+};
 
 // Facilitate sending messages from DOM -> Editor
 function onDomMessage(event) {
@@ -39,6 +48,7 @@ function onDomMessage(event) {
           _debug(...event.data.args);
           break;
         case "errorLog":
+          sentryError(new Error(...event.data.args));
           _error(...event.data.args);
           break;
         default:

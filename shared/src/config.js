@@ -29,4 +29,4 @@ export const getPageRel = "/get";
 // Webstore
 const extensionId = "mcneombcjoaibfjnpodhhngnlhapiocl";
 export const webstorePage = `https://chrome.google.com/webstore/detail/resurface/${extensionId}`;
-export const getResurfaceLink = webstorePage; // TODO Uncomment when more than 1 browser is supported
+export const getResurfaceLink = webstorePage; // Uncomment when more than 1 browser is supported

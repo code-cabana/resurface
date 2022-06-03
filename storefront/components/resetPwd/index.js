@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TextLink } from "../link";
 import { useAuth } from "shared/hooks";
 import { Email, Password, Button } from "shared/ui";
 import { cssJoin, isEmptyStr } from "shared/util";
@@ -7,8 +8,8 @@ import {
   accountPagePretty,
   getResurfaceLink,
 } from "shared/config";
+import logger from "../../lib/logger";
 import styles from "./styles.module.css";
-import { TextLink } from "../link";
 
 // Sends an email to the given email address with a link to reset the account password
 export function SendResetPasswordEmailForm({ className }) {
@@ -24,7 +25,7 @@ export function SendResetPasswordEmailForm({ className }) {
         setMessage("A reset password email has been sent to your inbox")
       )
       .catch((error) => {
-        console.error(error); // TODO logging
+        logger.error(new Error(error));
         setError("Resetting password failed, please try again later");
       });
   }
@@ -57,7 +58,7 @@ export function ResetPasswordForm({ resetKey, className }) {
         setSucceeded(true);
       })
       .catch((error) => {
-        console.error(error); // TODO logging
+        logger.error(new Error(error));
         setError(
           "Resetting password failed, please re-attempt with a new link"
         );

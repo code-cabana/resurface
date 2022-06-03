@@ -1,7 +1,7 @@
 import { excludedUrls } from "./config";
 import { onStorageToggleChange, isStorageToggleEnabled } from "./lib/chrome";
 import { isEmptyStr, includesAny } from "./lib/util";
-import { warn as _warn, debug as _debug } from "./lib/log";
+import { warn as _warn, debug as _debug } from "./lib/console";
 
 const logPrefix = "[SW]";
 const debug = (...args) => _debug(logPrefix, ...args);

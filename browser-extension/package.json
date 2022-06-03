@@ -18,6 +18,8 @@
   },
   "devDependencies": {
     "@preact/compat": "^17.0.3",
+    "@sentry/browser": "^7.0.0",
+    "@sentry/tracing": "^7.0.0",
     "bestzip": "^2.2.1",
     "browser-sync": "^2.27.9",
     "cross-env": "^7.0.3",

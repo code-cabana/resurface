@@ -1,5 +1,9 @@
+import {
+  debug as _debug,
+  error as _error,
+  warn as _warn,
+} from "../lib/console";
 import cssFormatMonaco from "css-format-monaco";
-import { debug as _debug, error as _error, warn as _warn } from "../lib/log";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.main.js";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { useStoredValue, useResizeEnd, useInterval } from "../lib/hooks";
@@ -7,6 +11,7 @@ import Watermark from "../lib/components/watermark";
 import { watermarkGracePeriod } from "../config";
 import renderWithProviders from "../lib/render";
 import { goToOptionsPage } from "../lib/util";
+import { sentryError, sentryInit } from "../lib/sentry";
 import detectLang from "lang-detector";
 import { Button } from "shared/ui";
 import { useAuth } from "shared/hooks";
@@ -15,10 +20,14 @@ import "shared/styles";
 import "../lib/styles/global.css";
 import styles from "./styles.module.css";
 
+sentryInit();
 const logPrefix = "[EDITOR]";
 const debug = (...args) => _debug(logPrefix, ...args);
 const warn = (...args) => _warn(logPrefix, ...args);
-const error = (...args) => _error(logPrefix, ...args);
+const error = (...args) => {
+  sentryError(new Error(...args));
+  _error(logPrefix, ...args);
+};
 
 function Editor() {
   const { customer, refresh } = useAuth();

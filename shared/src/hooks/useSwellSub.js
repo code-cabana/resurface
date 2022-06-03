@@ -11,7 +11,7 @@ swell.init(SWELL_STOREFRONT_ID, SWELL_STOREFRONT_PUBLIC_KEY);
 
 const SwellSubContext = createContext({});
 
-export function SwellSubProvider({ children }) {
+export function SwellSubProvider({ logger = {}, children }) {
   const { customer } = useAuth();
   const { isLoggedIn } = customer;
   const [subscription, setSubscription] = useState([]);
@@ -22,7 +22,7 @@ export function SwellSubProvider({ children }) {
     setLoading(true);
     fetchSubscription()
       .then(setSubscription)
-      .catch(console.error) // TODO: logger
+      .catch(logger.error)
       .finally(() => setLoading(false));
   }
 
@@ -92,7 +92,7 @@ export function SwellSubProvider({ children }) {
 
   function cancel() {
     if (!subscription?.id) return;
-    return updateSubscription(subscription.id, { canceled: true }); // TODO cancel_at_end instead? https://developers.swell.is/backend-api/subscriptions/update-a-subscription#update-a-subscription
+    return updateSubscription(subscription.id, { canceled: true });
   }
 
   useEffect(() => {

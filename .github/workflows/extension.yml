@@ -19,8 +19,8 @@ jobs:
       - name: npm ci
         run: npm ci
 
-      - name: npm run be build
-        run: npm run be build
+      - name: npm run xtn build
+        run: npm run xtn build
 
       - name: npm run release
         run: npm run release

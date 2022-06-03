@@ -1,4 +1,5 @@
 import nextTranspileModules from "next-transpile-modules";
+import { withSentryConfig } from "@sentry/nextjs";
 import { getPageRel, webstorePage } from "shared/config";
 const withTM = nextTranspileModules(["shared"]);
 
@@ -16,4 +17,4 @@ const nextConfig = {
   },
 };
 
-export default withTM(nextConfig);
+export default withSentryConfig(withTM(nextConfig));

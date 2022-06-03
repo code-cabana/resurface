@@ -19,7 +19,7 @@ const initialState = {
   period: "monthly",
 };
 
-export function SwellProductProvider({ children }) {
+export function SwellProductProvider({ logger = {}, children }) {
   const [product, setProduct] = useState(initialState);
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +28,7 @@ export function SwellProductProvider({ children }) {
     setLoading(true);
     fetchProductDetails()
       .then(setProduct)
-      .catch(console.error) // TODO: logger
+      .catch(logger.error)
       .finally(() => setLoading(false));
   }
 
@@ -48,7 +48,9 @@ export function SwellProductProvider({ children }) {
         })
         .catch((error) => {
           reject(
-            `Could not fetch product: ${productId} details. ${error.toString()}`
+            new Error(
+              `Could not fetch product: ${productId} details. ${error.toString()}`
+            )
           );
         });
     });

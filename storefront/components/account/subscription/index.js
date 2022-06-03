@@ -105,7 +105,7 @@ export function Subscription() {
         </>
       ) : isVip ? (
         <>
-          <div>You are a VIP 😎</div>
+          <div>You&apos;re a VIP 😎</div>
           <p>
             No watermark will appear in Resurface editors, and subscription is
             not necessary ✔️
@@ -113,7 +113,7 @@ export function Subscription() {
         </>
       ) : (
         <>
-          <p>You are not subscribed to Resurface ❌</p>
+          <p>You&apos;re not subscribed to Resurface ❌</p>
           <a href={checkoutUrl}>Continue to checkout</a>
         </>
       )}
