@@ -292,7 +292,7 @@ function spawnEditor({ editorRef, port, setEditor }) {
       value: "waiting for CodeMirror data...",
     });
 
-    const disposeCssPlugin = cssFormatMonaco(monaco, {}); // Editor cannot format CSS without this plugin
+    const disposeCssPlugin = cssFormatMonaco(monaco, { indent_size: 2 }); // Editor cannot format CSS without this plugin
 
     function layoutEditor() {
       const { offsetWidth, offsetHeight } = editorRef.current;

@@ -100,7 +100,7 @@ function attachButtons(codeMirrors) {
     button.innerText = "Open Resurface editor";
     button.style = `
         position: absolute;
-        top: 0; right: 0;
+        top: 0; left: 0;
         cursor: pointer;
         padding: 12px;
         border: none;

@@ -110,7 +110,7 @@ const defaultStorageOptions = {
   "cc-resurface-minimap": true,
   "cc-resurface-theme": "vs",
   "cc-resurface-remember-editor-size": true,
-  "cc-resurface-editor-size": { width: 400, height: 800 },
+  "cc-resurface-editor-size": { width: 450, height: 800 },
   "cc-resurface-editor-position": {},
 };
 function setDefaultStorageOptions() {
