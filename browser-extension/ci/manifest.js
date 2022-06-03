@@ -33,6 +33,7 @@ function getManifest() {
 
 function writeManifest(path) {
   try {
+    console.log(`Writing ${path}. Detected version: ${pkg.version}`);
     fs.writeFileSync(path, JSON.stringify(getManifest(), null, 2));
   } catch (err) {
     console.error(err);
