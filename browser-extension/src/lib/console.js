@@ -7,12 +7,12 @@ async function logIfEnabled(callback) {
   callback();
 }
 
-const logger = {
+const consoleLogger = {
   debug: (...args) => logIfEnabled(() => console.debug(...args)),
   warn: (...args) => logIfEnabled(() => console.warn(...args)),
   error: (...args) => logIfEnabled(() => console.error(...args)),
 };
 
-export const debug = (...args) => logger.debug(logPrefix, ...args);
-export const warn = (...args) => logger.warn(logPrefix, ...args);
-export const error = (...args) => logger.error(logPrefix, ...args);
+export const debug = (...args) => consoleLogger.debug(logPrefix, ...args);
+export const warn = (...args) => consoleLogger.warn(logPrefix, ...args);
+export const error = (...args) => consoleLogger.error(logPrefix, ...args);

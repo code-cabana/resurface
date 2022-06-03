@@ -12,7 +12,11 @@ import { cssJoin } from "../../util";
 import { resetPasswordPage } from "../../config";
 import styles from "./styles.module.css";
 
-export function AuthForm({ resetPasswordLink: _resetPasswordLink, disabled }) {
+export function AuthForm({
+  resetPasswordLink: _resetPasswordLink,
+  disabled,
+  logger = {},
+}) {
   const [action, setAction] = useState("Login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +35,7 @@ export function AuthForm({ resetPasswordLink: _resetPasswordLink, disabled }) {
   }
 
   function handleError(error) {
-    console.error(error); // TODO logging
+    error && logger?.error && logger.error(new Error(error));
     setError(error || "Incorrect email or password");
   }
 

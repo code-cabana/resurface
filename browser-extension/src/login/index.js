@@ -8,9 +8,12 @@ import {
 import { useEffect } from "preact/hooks";
 import { useAuth } from "shared/hooks";
 import { homePage, accountPage } from "shared/config";
+import { sentryInit, sentryError } from "../lib/sentry";
 import { getPath } from "../lib/util";
 import renderWithProviders from "../lib/render/page";
 import styles from "./styles.module.css";
+
+sentryInit();
 
 function LoginPage() {
   const { customer } = useAuth();
@@ -24,7 +27,7 @@ function UnAuthenticated() {
     <div className={styles.unAuthenticated}>
       <div className={styles.container}>
         {loading && <LoadingStripes overlay />}
-        <AuthForm disabled={loading} />
+        <AuthForm logger={{ error: sentryError }} disabled={loading} />
       </div>
     </div>
   );
@@ -54,12 +57,12 @@ function Authenticated() {
       </div>
 
       <p>
-        Hey {name} <img src={getPath("/assets/waving-hand.svg")} width={24} />
+        Hey {name} 👋
         {(ownsResurface || isVip) && (
           <>
             <br />
             {isVip
-              ? "You are a VIP 😎"
+              ? "You're a VIP 😎"
               : "Thank you for subscribing to Resurface!"}
           </>
         )}
@@ -75,12 +78,9 @@ function Authenticated() {
 
       {ownsResurface || isVip ? (
         paidSession ? (
-          <p className={styles.paidSession}>
-            Watermark is hidden for this device
-            <Checkbox value={true} disabled />
-          </p>
+          <p className={styles.paidSession}>Watermark is hidden ✔️</p>
         ) : (
-          <p>Watermark is visible for this device</p>
+          <p>Watermark is visible</p>
         )
       ) : null}
 

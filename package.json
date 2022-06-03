@@ -11,7 +11,7 @@
     "shared"
   ],
   "scripts": {
-    "be": "npm run -w browser-extension --",
+    "xtn": "npm run -w browser-extension --",
     "store": "npm run -w storefront --",
     "release": "semantic-release",
     "format": "prettier --write . --ignore-path .gitignore",

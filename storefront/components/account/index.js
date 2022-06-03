@@ -5,6 +5,7 @@ import { Button, Checkbox, Email } from "shared/ui";
 import { resetPasswordPageRel } from "shared/config";
 import { Subscription } from "./subscription";
 import { TextLink } from "../link";
+import logger from "../../lib/logger";
 import styles from "./styles.module.css";
 
 export function Account() {
@@ -36,7 +37,7 @@ function Customer() {
   function onSubmit(event) {
     event.preventDefault();
     updateCustomer({ email, optIn }).catch((error) => {
-      console.error(error); // TODO logging
+      logger.error(new Error(error));
       setError("Could not save details, please try again");
       setSynced(false);
     });
