@@ -34,7 +34,6 @@ export function SwellSubProvider({ logger = {}, children }) {
           const foundSub = response?.results?.find(
             (sub) => sub.product_id === SWELL_PRODUCT_ID
           );
-
           const {
             id,
             plan_id: planId,
@@ -43,6 +42,7 @@ export function SwellSubProvider({ logger = {}, children }) {
             paused,
             canceled,
             price,
+            grand_total: grandTotal,
             currency,
             paid,
             unpaid,
@@ -59,7 +59,7 @@ export function SwellSubProvider({ logger = {}, children }) {
             canceled,
             paid,
             unpaid,
-            price,
+            grandTotal: grandTotal || price,
             currency,
             interval,
             datePeriodEnd,

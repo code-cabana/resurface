@@ -13,7 +13,7 @@ export function Subscription() {
     status,
     paused,
     canceled,
-    price,
+    grandTotal,
     currency,
     interval,
     datePeriodEnd,
@@ -21,7 +21,10 @@ export function Subscription() {
 
   const priceAsString = paused
     ? "N/A"
-    : price && currency && interval && `$${price} ${currency} ${interval}`;
+    : grandTotal &&
+      currency &&
+      interval &&
+      `$${grandTotal} ${currency} ${interval}`;
 
   function cancelSubscription() {
     cancel().finally(refreshAuth);
