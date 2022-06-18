@@ -159,7 +159,7 @@ function Editor() {
         </Button>
       </div>
       <div ref={editorRef} className={styles.editor} />
-      <Watermark opacity={showWatermark ? 1 : 0} />
+      <Watermark enabled={showWatermark} />
     </>
   );
 }
