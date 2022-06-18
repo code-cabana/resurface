@@ -1,7 +1,7 @@
 {
   "name": "resurface",
   "displayName": "Resurface",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "author": "Code Cabana",
   "description": "Replace Code Mirror editors with a pop-out Monaco (VS Code) editor",
   "private": true,
