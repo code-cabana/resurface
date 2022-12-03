@@ -1,6 +1,6 @@
 // https://developer.chrome.com/docs/extensions/mv3/content_scripts/#host-page-communication
 import { initWindowState } from "../lib/util";
-import { ResurfaceCodeMirrorInput } from "../lib/inputs";
+import { CodeInputs } from "../lib/inputs";
 
 initWindowState(window);
 let codeMirrors;
@@ -13,7 +13,7 @@ const error = (...args) =>
 
 // Create editor buttons and listen for events
 function init() {
-  codeMirrors = new ResurfaceCodeMirrorInput(postMessageToProxy)
+  codeMirrors = new CodeInputs(postMessageToProxy)
   if (!codeMirrors.hasInputs)
     return debug("No CodeMirrors found");
   listen();

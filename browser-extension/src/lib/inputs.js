@@ -1,6 +1,53 @@
 
 const buttonBg = "#133d65";
 const buttonText = "white";
+const CODE_MIRROR_PREFIX = 'CM'
+
+class CodeInputs {
+  constructor(postMsg) {
+    this.codeInputs = new Map();
+    this.codeInputs.set(CODE_MIRROR_PREFIX, new ResurfaceCodeMirrorInput(postMsg))
+  }
+
+
+  get hasInputs() {
+    return Array.from(this.codeInputs.values()).reduce((x, hasInputs) => hasInputs || x.hasInputs(), false)
+  }
+
+  destroy() {
+    for (const codeInput of this.codeInputs.values()) {
+      codeInput.destroy();
+    }
+  }
+
+  _getCodeInput(inputId){
+    //split based on -
+    // lookup in map based on prefix
+    // return the value
+    return this.codeInputs.get(inputId.split("-")[0])
+  }
+
+  disableInput(inputId) {
+    this._getCodeInput(inputId).disableInput(inputId)
+  }
+
+  enableInput(inputId) {
+    this._getCodeInput(inputId).enableInput(inputId)
+  }
+
+  getValue(inputId) {
+    return this._getCodeInput(inputId).getValue(inputId)
+  }
+
+  editorChanged(inputId, changes) {
+    this._getCodeInput(inputId).editorChanged(inputId, changes)
+  }
+
+  getCodeInputById(inputId) {
+    return this._getCodeInput(inputId).getCodeInputById(inputId)
+  }
+}
+
 class ResurfaceInput {
 
   constructor(postMsg) {
@@ -20,6 +67,11 @@ class ResurfaceInput {
    */
   getValue(inputId){
     throw new Error("getValue not implemented")
+  }
+
+
+  get prefix(){
+    throw new Error("prefix not implmented")
   }
 
   enableInput(inputId){
@@ -113,14 +165,14 @@ class ResurfaceInput {
           this.postMessageToProxy({
             type: "openEditor",
             recipient: "service-worker",
-            mirrorId: index,
+            mirrorId: `${this.prefix}-index`,
           }),
         false
       );
 
       // Attach mirrorIds
-      button.dataset.resurfaceInputId = index;
-      mirror.dataset.resurfaceInputId = index;
+      button.dataset.resurfaceInputId = `${this.prefix}-index`;
+      mirror.dataset.resurfaceInputId = `${this.prefix}-index`;
       mirror.appendChild(button); // Attach button to CodeMirror
       // TODO: buttons have not been initialized yet so this enableInput will not work.
       //this.enableInput(index); // Enable the mirror for editing in case it was disabled earlier
@@ -130,6 +182,10 @@ class ResurfaceInput {
 }
 
 class ResurfaceCodeMirrorInput extends ResurfaceInput {
+
+  get prefix(){
+    return CODE_MIRROR_PREFIX
+  }
 
   preventKeyboardEntry(_cm, event) {
     event.preventDefault();
@@ -242,4 +298,4 @@ class ResurfaceTextareaInput extends ResurfaceInput {
   }
 }
 
-export {ResurfaceCodeMirrorInput}
+export {ResurfaceCodeMirrorInput, CodeInputs}
