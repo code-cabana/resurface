@@ -43,7 +43,7 @@ function tryReinit() {
 // Returns true if any code mirrors are found on the page
 function hasCodeMirrors() {
   debug("Checking for CodeMirrors...");
-  const result = !!document.querySelector(".CodeMirror");
+  const result = CodeInputs.hasCodeElements();
   debug("CodeMirrors found:", result);
   return result;
 }

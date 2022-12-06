@@ -2,12 +2,19 @@
 const buttonBg = "#133d65";
 const buttonText = "white";
 const CODE_MIRROR_PREFIX = 'CM'
+const TEXTAREA_PREFIX = 'TA'
 
 class CodeInputs {
   constructor(postMsg) {
     this.codeInputs = new Map();
     this.codeInputs.set(CODE_MIRROR_PREFIX, new ResurfaceCodeMirrorInput(postMsg))
+    this.codeInputs.set(TEXTAREA_PREFIX, new ResurfaceTextareaInput(postMsg))
   }
+
+  static hasCodeElements(){
+    return ResurfaceTextareaInput.hasCodeElements() || ResurfaceCodeMirrorInput.hasCodeElements();
+  }
+
 
 
   get hasInputs() {
@@ -57,6 +64,10 @@ class ResurfaceInput {
     this.buttons = this.attachButtons()
   }
 
+  static hasCodeElements() {
+    throw new Error("hasCodeElements not implemented")
+  }
+
   findInputs() {
     throw new Error("findInputs not implemented")
   }
@@ -68,7 +79,6 @@ class ResurfaceInput {
   getValue(inputId){
     throw new Error("getValue not implemented")
   }
-
 
   get prefix(){
     throw new Error("prefix not implmented")
@@ -161,12 +171,13 @@ class ResurfaceInput {
         `; // z-index 5 is required for Squarespace (might need to change per platform)
       button.addEventListener(
         "click",
-        () =>
+        (evt) =>{
+          evt.preventDefault();
           this.postMessageToProxy({
             type: "openEditor",
             recipient: "service-worker",
             mirrorId: `${this.prefix}-index`,
-          }),
+          })},
         false
       );
 
@@ -189,6 +200,10 @@ class ResurfaceCodeMirrorInput extends ResurfaceInput {
 
   preventKeyboardEntry(_cm, event) {
     event.preventDefault();
+  }
+
+  static hasCodeElements() {
+    return !!document.querySelector(".CodeMirror")
   }
 
   getValue(inputId){
@@ -245,6 +260,14 @@ class ResurfaceCodeMirrorInput extends ResurfaceInput {
 
 class ResurfaceTextareaInput extends ResurfaceInput {
 
+  get prefix(){
+    return TEXTAREA_PREFIX;
+  }
+
+  static hasCodeElements() {
+    return !!document.querySelector("textarea")
+  }
+
   preventKeyboardEntry(_cm, event) {
     event.preventDefault();
   }
@@ -260,13 +283,13 @@ class ResurfaceTextareaInput extends ResurfaceInput {
   }
 
 // Disables a given code mirror so that it cannot be edited
-  disableInput(mirrorId) {
+  disableInput(codeInput) {
     codeInput.disable = true;
   }
 
   findInputs() {
-    const foundMirrors = Array.from(document.querySelectorAll(".CodeMirror"));
-    this.elements = foundMirrors.filter(Boolean);
+    const foundTextareas = Array.from(document.querySelectorAll("textarea"));
+    this.elements = foundTextareas.filter(Boolean);
   }
 
   /*
