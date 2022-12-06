@@ -4,6 +4,10 @@ const buttonText = "white";
 const CODE_MIRROR_PREFIX = 'CM'
 const TEXTAREA_PREFIX = 'TA'
 
+/**
+ * CodeInputs is the main interface used from main.js to initialize all code inputs on a page that can be used with
+ * resurface.
+ */
 class CodeInputs {
   constructor(postMsg) {
     this.codeInputs = new Map();
@@ -11,50 +15,96 @@ class CodeInputs {
     this.codeInputs.set(TEXTAREA_PREFIX, new ResurfaceTextareaInput(postMsg))
   }
 
+  /**
+   * Are there any code elements on the page?
+   * @returns {boolean} True if there are code elements on page, false otherwise.
+   */
   static hasCodeElements(){
     return ResurfaceTextareaInput.hasCodeElements() || ResurfaceCodeMirrorInput.hasCodeElements();
   }
 
-
-
+  /**
+   * Are their initialized code elements on the page?
+   * @returns {boolean} True if there are already intialized ResurfaceInputs on the page, false otherwise.
+   */
   get hasInputs() {
     return Array.from(this.codeInputs.values()).reduce((x, hasInputs) => hasInputs || x.hasInputs(), false)
   }
 
+  /**
+   * Destroy all inputs that have been initialized.
+   */
   destroy() {
     for (const codeInput of this.codeInputs.values()) {
       codeInput.destroy();
     }
   }
 
+  /**
+   * Helper function to get ResurfaceInput instance used for a given ID
+   * @param inputId - the ID of the element
+   * @returns {ResurfaceInput} The initialized ResurfaceInput instance to use for the ID
+   * @private
+   */
   _getCodeInput(inputId){
-    //split based on -
-    // lookup in map based on prefix
-    // return the value
     return this.codeInputs.get(inputId.split("-")[0])
   }
 
+  /**
+   * Disable an input. Called before editing in Resurface Editor
+   * @param inputId - ID of input to disable
+   */
   disableInput(inputId) {
     this._getCodeInput(inputId).disableInput(inputId)
   }
 
+  /**
+   * Enable an input. Called after editing is completed.
+   * @param inputId - ID of input to enable
+   */
   enableInput(inputId) {
     this._getCodeInput(inputId).enableInput(inputId)
   }
 
+  /**
+   * Get the current value of an input. This is used to intialize the editor with the correct code contents.
+   * @param inputId - ID of input to get value for
+   * @returns {string} The current value of the input on the page.
+   */
   getValue(inputId) {
     return this._getCodeInput(inputId).getValue(inputId)
   }
 
+  /**
+   * Called to update the input on the page. This is called every time the resurface editor has changed
+   * @param inputId - ID of the input that is being edited.
+   * @param changes - Change being made with this format:
+   *        https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IModelContentChange.html#text
+   */
   editorChanged(inputId, changes) {
     this._getCodeInput(inputId).editorChanged(inputId, changes)
   }
 
+  /**
+   * Given an ID get the DOM element
+   * @param inputId The ID of the element to get
+   * @returns {*} DOM element for the given ID
+   */
   getCodeInputById(inputId) {
     return this._getCodeInput(inputId).getCodeInputById(inputId)
   }
 }
 
+/**
+ * Baseclass for any Resurface Input.
+ * Any new inputs that inherit from this class must implement:
+ *    - hasCodeElements
+ *    - findInputs
+ *    - getValue
+ *    - prefix (this is just a getter with the static prefix for this input type. Define a const above.
+ *    - enable
+ *    - disable
+ */
 class ResurfaceInput {
 
   constructor(postMsg) {
@@ -64,22 +114,32 @@ class ResurfaceInput {
     this.buttons = this.attachButtons()
   }
 
+  /**
+   * A static method that checks if there are any inputs on the page that could use a code editor
+   */
   static hasCodeElements() {
     throw new Error("hasCodeElements not implemented")
   }
 
+  /**
+   * Will be called on initalization and should find all inputs on the page and save the DOM elements to
+   * `this.elements`.
+   */
   findInputs() {
     throw new Error("findInputs not implemented")
   }
 
   /**
-   * Get a value from the given inputId
-   * @param inputId
+   * Get the string value of a given inputId. This should get the current code in the DOM input element.
+   * @param inputId the ID of the input to get the value for.
    */
   getValue(inputId){
     throw new Error("getValue not implemented")
   }
 
+  /**
+   * Getter for the prefix. Each class that inherits from ResurfaceInput needs a unique prefix
+   */
   get prefix(){
     throw new Error("prefix not implmented")
   }
@@ -91,10 +151,18 @@ class ResurfaceInput {
     this.toggleButton(inputId, true);
   }
 
+  /**
+   * Given a DOM element enable it for editing
+   * @param codeInput The DOM element stored in `this.elements`
+   */
   enable(codeInput) {
     throw new Error("enableInput not implemented")
   }
 
+  /**
+   * Given a DOM element disable it for editing
+   * @param codeInput The DOM element stored in `this.elements`
+   */
   disable(codeInput) {
     throw new Error("disableInput not implemented")
   }
@@ -106,10 +174,14 @@ class ResurfaceInput {
     this.toggleButton(inputId, false);
   }
 
-  // Returns codeMirror DOM element by ID index
-  getCodeInputById(mirrorId) {
+  /**
+   * Converts the inputID to the DOM element
+   * @param inputId - The ID to get the DOM element for
+   * @returns {*} DOM element for the ID
+   */
+  getCodeInputById(inputId) {
     return this.elements.find(
-      (mirror) => mirror.dataset.resurfaceInputId === mirrorId.toString()
+      (el) => el.dataset.resurfaceInputId === inputId.toString()
     );
   }
 
@@ -321,4 +393,4 @@ class ResurfaceTextareaInput extends ResurfaceInput {
   }
 }
 
-export {ResurfaceCodeMirrorInput, CodeInputs}
+export {CodeInputs}
