@@ -248,14 +248,14 @@ class ResurfaceInput {
           this.postMessageToProxy({
             type: "openEditor",
             recipient: "service-worker",
-            mirrorId: `${this.prefix}-index`,
+            mirrorId: `${this.prefix}-${index}`,
           })},
         false
       );
 
       // Attach mirrorIds
-      button.dataset.resurfaceInputId = `${this.prefix}-index`;
-      mirror.dataset.resurfaceInputId = `${this.prefix}-index`;
+      button.dataset.resurfaceInputId = `${this.prefix}-${index}`;
+      mirror.dataset.resurfaceInputId = `${this.prefix}-${index}`;
       mirror.appendChild(button); // Attach button to CodeMirror
       // TODO: buttons have not been initialized yet so this enableInput will not work.
       //this.enableInput(index); // Enable the mirror for editing in case it was disabled earlier
