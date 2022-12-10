@@ -224,15 +224,16 @@ class ResurfaceInput {
     this.elements = [];
   }
 
-  attachButtons() {
-    return this.elements.map((mirror, index) => {
-      const button = document.createElement("button");
-      button.classList.add("resurface-editor-button");
-      button.classList.add("resurface-stripe");
-      button.innerText = "Open Resurface editor";
-      button.style = `
+  getButtonStyle(element) {
+
+    const parentTopOffset = element.offsetTop;
+    const parentLeftOffset = element.offsetLeft;
+
+    return `
         position: absolute;
-        top: 0; left: 0;
+        top: ${parentTopOffset + 10}px; 
+        left: ${parentLeftOffset + 10}px;
+        width: 200px;
         cursor: pointer;
         padding: 12px;
         border: none;
@@ -241,6 +242,15 @@ class ResurfaceInput {
         color: ${buttonText};
         z-index: 5;
         `; // z-index 5 is required for Squarespace (might need to change per platform)
+  }
+
+  attachButtons() {
+    return this.elements.map((mirror, index) => {
+      const button = document.createElement("button");
+      button.classList.add("resurface-editor-button");
+      button.classList.add("resurface-stripe");
+      button.innerText = "Open Resurface editor";
+      button.style = this.getButtonStyle(mirror);
       button.addEventListener(
         "click",
         (evt) =>{
@@ -256,7 +266,7 @@ class ResurfaceInput {
       // Attach mirrorIds
       button.dataset.resurfaceInputId = `${this.prefix}-${index}`;
       mirror.dataset.resurfaceInputId = `${this.prefix}-${index}`;
-      mirror.appendChild(button); // Attach button to CodeMirror
+      mirror.parentNode.insertBefore(button, mirror); // Attach button to target
       // TODO: buttons have not been initialized yet so this enableInput will not work.
       //this.enableInput(index); // Enable the mirror for editing in case it was disabled earlier
       return button;
@@ -297,7 +307,7 @@ class ResurfaceCodeMirrorInput extends ResurfaceInput {
 
   findInputs() {
     const foundMirrors = Array.from(document.querySelectorAll(".CodeMirror"));
-    this.elements = foundMirrors.filter(Boolean);
+    this.elements = foundMirrors.filter((el) => el && el.offsetParent);
   }
 
   /*
@@ -351,46 +361,29 @@ class ResurfaceTextareaInput extends ResurfaceInput {
 
 // Enables a given code mirror for editing
   enable(codeInput) {
-    codeInput.disable = false;
+    codeInput.disabled = false;
   }
 
 // Disables a given code mirror so that it cannot be edited
-  disableInput(codeInput) {
-    codeInput.disable = true;
+  disable(codeInput) {
+    codeInput.disabled = true;
   }
 
   findInputs() {
     const foundTextareas = Array.from(document.querySelectorAll("textarea"));
-    this.elements = foundTextareas.filter(Boolean);
+    this.elements = foundTextareas.filter((el) => el && el.offsetParent);
   }
 
-  /*
-      Converts Monaco changes
-      https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IModelContentChange.html#text
 
-      to CodeMirror replaceRange from/to args
-      https://codemirror.net/doc/manual.html#api
-  */
-  _translateMonacoChanges(monacoChanges) {
-    return monacoChanges.map((change) => {
-      const { range, text: replacement } = change;
-      const { startColumn, startLineNumber, endColumn, endLineNumber } = range;
-      const from = { line: startLineNumber - 1, ch: startColumn - 1 };
-      const to = { line: endLineNumber - 1, ch: endColumn - 1 };
-      return { replacement, from, to };
+  editorChanged(inputId, changes) {
+    const codeInput = this.getCodeInputById(inputId);
+    if (!codeInput) return;
+
+    changes.forEach((change) => {
+      codeInput.setRangeText(change.text, change.rangeOffset, change.rangeOffset + change.rangeLength);
     });
   }
 
-  editorChanged(inputId, changes) {
-    //const codeMirror = this.getCodeInputById(inputId);
-    //if (!codeMirror) return;
-
-    //const translated = this._translateMonacoChanges(changes);
-    //translated.forEach((change) => {
-    //  const { replacement, from, to } = change;
-    //  codeMirror.CodeMirror.doc.replaceRange(replacement, from, to);
-    //});
-  }
 }
 
 export {CodeInputs}
