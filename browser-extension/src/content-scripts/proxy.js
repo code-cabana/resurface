@@ -72,12 +72,12 @@ chrome.runtime.onMessage.addListener(onChromeMessage);
 async function listen(message) {
   debug("Received message:", message);
   const { tabId } = await chrome.runtime.sendMessage({ type: "getTabId" });
-  const { editorId, recipientId, type, mirrorId } = message;
+  const { editorId, recipientId, type, targetId } = message;
   if (recipientId !== tabId) return { success: false };
   switch (type) {
     case "connect":
       window.__RESURFACE__.port = chrome.runtime.connect({
-        name: `${editorId}-${recipientId}-${mirrorId}`,
+        name: `${editorId}-${recipientId}-${targetId}`,
       });
 
       window.__RESURFACE__.port.onMessage.addListener((message) => {
@@ -86,11 +86,11 @@ async function listen(message) {
       });
 
       window.__RESURFACE__.port.onDisconnect.addListener(() => {
-        debug(`Port for mirror ${mirrorId} disconnected`);
-        postMessageToDom({ type: "portDisconnected", mirrorId });
+        debug(`Port for mirror ${targetId} disconnected`);
+        postMessageToDom({ type: "portDisconnected", targetId });
       });
 
-      postMessageToDom({ type: "portConnected", mirrorId });
+      postMessageToDom({ type: "portConnected", targetId });
       return { success: true };
     default:
       warn("Unknown message type:", type);

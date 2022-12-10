@@ -1,9 +1,9 @@
 // https://developer.chrome.com/docs/extensions/mv3/content_scripts/#host-page-communication
 import { initWindowState } from "../lib/util";
-import { CodeInputs } from "../lib/inputs";
+import { ResurfaceTargets } from "../lib/targets";
 
 initWindowState(window);
-let codeMirrors;
+let resurfaceTargets;
 
 const logPrefix = "[DOM]";
 const debug = (...args) =>
@@ -13,16 +13,16 @@ const error = (...args) =>
 
 // Create editor buttons and listen for events
 function init() {
-  codeMirrors = new CodeInputs(postMessageToProxy)
-  if (!codeMirrors.hasInputs)
-    return debug("No CodeMirrors found");
+  resurfaceTargets = new ResurfaceTargets(postMessageToProxy)
+  if (!resurfaceTargets.hasInputs)
+    return debug("No ResurfaceTargets found");
   listen();
 }
 
 // Remove buttons and stop listening
 function destroy() {
-  if(codeMirrors){
-    codeMirrors.destroy();
+  if(resurfaceTargets){
+    resurfaceTargets.destroy();
   }
   unlisten();
 }
@@ -33,18 +33,18 @@ function reinit() {
   init();
 }
 
-// Reinitializes if at least one code mirror exists
+// Reinitializes if at least one target exists
 function tryReinit() {
-  if (!hasCodeMirrors()) return false;
+  if (!hasResurfaceTargets()) return false;
   reinit();
   return true;
 }
 
-// Returns true if any code mirrors are found on the page
-function hasCodeMirrors() {
-  debug("Checking for CodeMirrors...");
-  const result = CodeInputs.hasCodeElements();
-  debug("CodeMirrors found:", result);
+// Returns true if any targets are found on the page
+function hasResurfaceTargets() {
+  debug("Checking for ResurfaceTargets...");
+  const result = ResurfaceTargets.hasCodeElements();
+  debug("ResurfaceTargets found:", result);
   return result;
 }
 
@@ -60,8 +60,6 @@ function _postMsgToProxy(message) {
     "*"
   );
 }
-
-// Create button elements above each CodeMirror
 
 
 // Listen for events from proxy content script running on the same page
@@ -84,36 +82,36 @@ function handleMessage(event) {
   if (event.source != window) return;
   if (event.data?.sender !== "CC_RESURFACE_PROXY") return;
   debug("Got message:", event.data);
-  const { mirrorId: mirrorId, type } = event.data;
+  const { targetId: targetId, type } = event.data;
   if (type === "disabled") return destroy();
-  if (!mirrorId && mirrorId !== 0) return error("Invalid mirrorId:", mirrorId);
-  const codeMirror = codeMirrors.getCodeInputById(mirrorId);
-  if (!codeMirror) return error("Could not find CodeMirror with ID:", mirrorId);
+  if (!targetId && targetId !== 0) return error("Invalid targetId:", targetId);
+  const resurfaceTarget = resurfaceTargets.getResurfaceTargetById(targetId);
+  if (!resurfaceTarget) return error("Could not find ResurfaceTarget with ID:", targetId);
 
   switch (type) {
     case "portConnected":
-      codeMirrors.disableInput(mirrorId);
+      resurfaceTargets.disableInput(targetId);
       break;
     case "portDisconnected":
-      codeMirrors.enableInput(mirrorId);
+      resurfaceTargets.enableInput(targetId);
       break;
     case "populateEditorRequest":
       postMessageToProxy({
         type: "populateEditorResponse",
-        value: codeMirrors.getValue(mirrorId),
+        value: resurfaceTargets.getValue(targetId),
         recipient: "editor",
       });
       break;
     case "editorChanged":
       const { changes } = event.data;
-      codeMirrors.editorChanged(mirrorId, changes)
+      resurfaceTargets.editorChanged(targetId, changes)
       break;
     default:
       error("Received unknown message type:", event.data);
   }
 }
 
-// Poll page 10 times until CodeMirror is found
+// Poll page 10 times until ResurfaceTarget is found
 function poll() {
   const firstTryWorked = tryReinit();
   if (firstTryWorked) return;

@@ -36,7 +36,7 @@ function Editor() {
   const editorRef = useRef(null);
   const [_port, _setPort] = useState();
   const [_editor, _setEditor] = useState();
-  const [_mirrorId, _setMirrorId] = useState();
+  const [_targetId, _setTargetId] = useState();
   const [language, setLanguage] = useState();
   const [theme] = useStoredValue("cc-resurface-theme", "vs-dark");
   const [minimap] = useStoredValue("cc-resurface-minimap", true);
@@ -59,16 +59,16 @@ function Editor() {
     _setEditor(newEditor);
   };
 
-  const mirrorId = useRef(_mirrorId);
-  const setMirrorId = (newMirrorId) => {
-    mirrorId.current = newMirrorId;
-    _setMirrorId(newMirrorId);
+  const targetId = useRef(_targetId);
+  const setTargetId = (newTargetId) => {
+    targetId.current = newTargetId;
+    _setTargetId(newTargetId);
   };
 
   useEffect(() => refresh(), []);
   useInterval(() => refresh(), 5000);
-  useEffect(handleGlobalMessages({ setPort, setMirrorId }), []);
-  useEffect(handleProxyMessages({ port, editor, mirrorId, setLanguage }), [
+  useEffect(handleGlobalMessages({ setPort, setTargetId }), []);
+  useEffect(handleProxyMessages({ port, editor, targetId, setLanguage }), [
     editor.current,
     port.current,
   ]);
@@ -193,10 +193,10 @@ function setEditorLanguage({ editor, language }) {
   };
 }
 
-function handleGlobalMessages({ setPort, setMirrorId }) {
+function handleGlobalMessages({ setPort, setTargetId }) {
   return () => {
     chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-      handleGlobalMessage({ message: request, setPort, setMirrorId }).then(
+      handleGlobalMessage({ message: request, setPort, setTargetId }).then(
         (response) => {
           if (!response) return;
           debug("Responding:", response);
@@ -208,11 +208,11 @@ function handleGlobalMessages({ setPort, setMirrorId }) {
   };
 }
 
-async function handleGlobalMessage({ message, setPort, setMirrorId }) {
+async function handleGlobalMessage({ message, setPort, setTargetId }) {
   debug("Received message:", message);
   switch (message.type) {
     case "createdInfo": // Open long-lived connection to proxy content script
-      const { openedTabId, openerTabId, mirrorId } = message;
+      const { openedTabId, openerTabId, targetId } = message;
 
       // Tell proxy to open a long-lived connection to this editor
       chrome.tabs.sendMessage(
@@ -221,7 +221,7 @@ async function handleGlobalMessage({ message, setPort, setMirrorId }) {
           type: "connect",
           editorId: openedTabId,
           recipientId: openerTabId,
-          mirrorId,
+          targetId,
         },
         ({ success }) => {
           if (!success) error("Could not connect to opener tab's CodeMirror");
@@ -229,10 +229,10 @@ async function handleGlobalMessage({ message, setPort, setMirrorId }) {
       );
       // Await connection from proxy
       chrome.runtime.onConnect.addListener((port) => {
-        if (port.name !== `${openedTabId}-${openerTabId}-${mirrorId}`) return;
+        if (port.name !== `${openedTabId}-${openerTabId}-${targetId}`) return;
         debug("Successfully connected to proxy");
         setPort(port);
-        setMirrorId(mirrorId);
+        setTargetId(targetId);
       });
       return { success: true };
     default:
@@ -242,7 +242,7 @@ async function handleGlobalMessage({ message, setPort, setMirrorId }) {
 }
 
 // Handle incoming messages from proxy content script
-function handleProxyMessages({ port, editor, mirrorId, setLanguage }) {
+function handleProxyMessages({ port, editor, targetId, setLanguage }) {
   return () => {
     if (!port.current || !editor.current) return;
 
@@ -261,7 +261,7 @@ function handleProxyMessages({ port, editor, mirrorId, setLanguage }) {
             port.current.postMessage({
               type: "editorChanged",
               changes,
-              mirrorId: mirrorId.current,
+              targetId: targetId.current,
             });
           });
           break;
@@ -275,7 +275,7 @@ function handleProxyMessages({ port, editor, mirrorId, setLanguage }) {
 
     port.current.postMessage({
       type: "populateEditorRequest",
-      mirrorId: mirrorId.current,
+      targetId: targetId.current,
     });
 
     return () => {
