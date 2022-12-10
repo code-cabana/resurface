@@ -75,7 +75,7 @@ async function listen(message, sender) {
           openedWindowId: newWindow.id,
           openerTabId: sender.tab.id,
           openerWindowId: sender.tab.windowId,
-          mirrorId: message.mirrorId,
+          targetId: message.targetId,
         });
       });
 

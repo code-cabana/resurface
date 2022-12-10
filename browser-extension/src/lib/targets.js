@@ -5,14 +5,14 @@ const CODE_MIRROR_PREFIX = 'CM'
 const TEXTAREA_PREFIX = 'TA'
 
 /**
- * CodeInputs is the main interface used from main.js to initialize all code inputs on a page that can be used with
+ * ResurfaceTargets is the main interface used from main.js to initialize all code inputs on a page that can be used with
  * resurface.
  */
-class CodeInputs {
+class ResurfaceTargets {
   constructor(postMsg) {
-    this.codeInputs = new Map();
-    this.codeInputs.set(CODE_MIRROR_PREFIX, new ResurfaceCodeMirrorInput(postMsg))
-    this.codeInputs.set(TEXTAREA_PREFIX, new ResurfaceTextareaInput(postMsg))
+    this.resurfaceInstances = new Map();
+    this.resurfaceInstances.set(CODE_MIRROR_PREFIX, new ResurfaceCodeMirrorTarget(postMsg))
+    this.resurfaceInstances.set(TEXTAREA_PREFIX, new ResurfaceTextareaTarget(postMsg))
   }
 
   /**
@@ -20,7 +20,7 @@ class CodeInputs {
    * @returns {boolean} True if there are code elements on page, false otherwise.
    */
   static hasCodeElements(){
-    return ResurfaceTextareaInput.hasCodeElements() || ResurfaceCodeMirrorInput.hasCodeElements();
+    return ResurfaceTextareaTarget.hasCodeElements() || ResurfaceCodeMirrorTarget.hasCodeElements();
   }
 
   /**
@@ -28,26 +28,26 @@ class CodeInputs {
    * @returns {boolean} True if there are already intialized ResurfaceInputs on the page, false otherwise.
    */
   get hasInputs() {
-    return Array.from(this.codeInputs.values()).reduce((x, hasInputs) => hasInputs || x.hasInputs(), false)
+    return Array.from(this.resurfaceInstances.values()).reduce((x, hasInputs) => hasInputs || x.hasInputs(), false)
   }
 
   /**
    * Destroy all inputs that have been initialized.
    */
   destroy() {
-    for (const codeInput of this.codeInputs.values()) {
-      codeInput.destroy();
+    for (const resurfaceInstance of this.resurfaceInstances.values()) {
+      resurfaceInstance.destroy();
     }
   }
 
   /**
    * Helper function to get ResurfaceInput instance used for a given ID
    * @param inputId - the ID of the element
-   * @returns {ResurfaceInput} The initialized ResurfaceInput instance to use for the ID
+   * @returns {ResurfaceTarget} The initialized ResurfaceInput instance to use for the ID
    * @private
    */
-  _getCodeInput(inputId){
-    return this.codeInputs.get(inputId.split("-")[0])
+  _getResurfaceInstance(inputId){
+    return this.resurfaceInstances.get(inputId.split("-")[0])
   }
 
   /**
@@ -55,7 +55,7 @@ class CodeInputs {
    * @param inputId - ID of input to disable
    */
   disableInput(inputId) {
-    this._getCodeInput(inputId).disableInput(inputId)
+    this._getResurfaceInstance(inputId).disableInput(inputId)
   }
 
   /**
@@ -63,7 +63,7 @@ class CodeInputs {
    * @param inputId - ID of input to enable
    */
   enableInput(inputId) {
-    this._getCodeInput(inputId).enableInput(inputId)
+    this._getResurfaceInstance(inputId).enableInput(inputId)
   }
 
   /**
@@ -72,7 +72,7 @@ class CodeInputs {
    * @returns {string} The current value of the input on the page.
    */
   getValue(inputId) {
-    return this._getCodeInput(inputId).getValue(inputId)
+    return this._getResurfaceInstance(inputId).getValue(inputId)
   }
 
   /**
@@ -82,7 +82,7 @@ class CodeInputs {
    *        https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.IModelContentChange.html#text
    */
   editorChanged(inputId, changes) {
-    this._getCodeInput(inputId).editorChanged(inputId, changes)
+    this._getResurfaceInstance(inputId).editorChanged(inputId, changes)
   }
 
   /**
@@ -90,8 +90,8 @@ class CodeInputs {
    * @param inputId The ID of the element to get
    * @returns {*} DOM element for the given ID
    */
-  getCodeInputById(inputId) {
-    return this._getCodeInput(inputId).getCodeInputById(inputId)
+  getResurfaceTargetById(inputId) {
+    return this._getResurfaceInstance(inputId).getResurfaceTargetById(inputId)
   }
 }
 
@@ -105,7 +105,7 @@ class CodeInputs {
  *    - enable
  *    - disable
  */
-class ResurfaceInput {
+class ResurfaceTarget {
 
   constructor(postMsg) {
     this.elements = []
@@ -138,39 +138,39 @@ class ResurfaceInput {
   }
 
   /**
-   * Getter for the prefix. Each class that inherits from ResurfaceInput needs a unique prefix
+   * Getter for the prefix. Each class that inherits from ResurfaceTarget needs a unique prefix
    */
   get prefix(){
     throw new Error("prefix not implmented")
   }
 
   enableInput(inputId){
-    const codeInput = this.getCodeInputById(inputId);
-    if (!codeInput) return;
-    this.enable(codeInput);
+    const resurfaceTarget = this.getResurfaceTargetById(inputId);
+    if (!resurfaceTarget) return;
+    this.enable(resurfaceTarget);
     this.toggleButton(inputId, true);
   }
 
   /**
    * Given a DOM element enable it for editing
-   * @param codeInput The DOM element stored in `this.elements`
+   * @param resurfaceTarget The DOM element stored in `this.elements`
    */
-  enable(codeInput) {
+  enable(resurfaceTarget) {
     throw new Error("enableInput not implemented")
   }
 
   /**
    * Given a DOM element disable it for editing
-   * @param codeInput The DOM element stored in `this.elements`
+   * @param resurfaceTarget The DOM element stored in `this.elements`
    */
-  disable(codeInput) {
+  disable(resurfaceTarget) {
     throw new Error("disableInput not implemented")
   }
 
   disableInput(inputId) {
-    const codeInput = this.getCodeInputById(inputId);
-    if (!codeInput) return;
-    this.disable(codeInput)
+    const resurfaceTarget = this.getResurfaceTargetById(inputId);
+    if (!resurfaceTarget) return;
+    this.disable(resurfaceTarget)
     this.toggleButton(inputId, false);
   }
 
@@ -179,7 +179,7 @@ class ResurfaceInput {
    * @param inputId - The ID to get the DOM element for
    * @returns {*} DOM element for the ID
    */
-  getCodeInputById(inputId) {
+  getResurfaceTargetById(inputId) {
     return this.elements.find(
       (el) => el.dataset.resurfaceInputId === inputId.toString()
     );
@@ -216,8 +216,8 @@ class ResurfaceInput {
     //  orphanedButtons ? [...buttons, ...orphanedButtons] : buttons
     //).filter(Boolean);
     this.buttons.forEach((button) => {
-      const mirrorId = button.dataset.resurfaceInputId;
-      this.postMessageToProxy({ type: "closeEditor", mirrorId, recipient: "editor" });
+      const targetId = button.dataset.resurfaceInputId;
+      this.postMessageToProxy({ type: "closeEditor", targetId, recipient: "editor" });
       button.remove();
     });
     this.buttons = [];
@@ -245,12 +245,12 @@ class ResurfaceInput {
   }
 
   attachButtons() {
-    return this.elements.map((mirror, index) => {
+    return this.elements.map((codeElement, index) => {
       const button = document.createElement("button");
       button.classList.add("resurface-editor-button");
       button.classList.add("resurface-stripe");
       button.innerText = "Open Resurface editor";
-      button.style = this.getButtonStyle(mirror);
+      button.style = this.getButtonStyle(codeElement);
       button.addEventListener(
         "click",
         (evt) =>{
@@ -258,15 +258,15 @@ class ResurfaceInput {
           this.postMessageToProxy({
             type: "openEditor",
             recipient: "service-worker",
-            mirrorId: `${this.prefix}-${index}`,
+            targetId: `${this.prefix}-${index}`,
           })},
         false
       );
 
-      // Attach mirrorIds
+      // Attach targetIds
       button.dataset.resurfaceInputId = `${this.prefix}-${index}`;
-      mirror.dataset.resurfaceInputId = `${this.prefix}-${index}`;
-      mirror.parentNode.insertBefore(button, mirror); // Attach button to target
+      codeElement.dataset.resurfaceInputId = `${this.prefix}-${index}`;
+      codeElement.parentNode.insertBefore(button, codeElement); // Attach button to target
       // TODO: buttons have not been initialized yet so this enableInput will not work.
       //this.enableInput(index); // Enable the mirror for editing in case it was disabled earlier
       return button;
@@ -274,7 +274,7 @@ class ResurfaceInput {
   }
 }
 
-class ResurfaceCodeMirrorInput extends ResurfaceInput {
+class ResurfaceCodeMirrorTarget extends ResurfaceTarget {
 
   get prefix(){
     return CODE_MIRROR_PREFIX
@@ -289,7 +289,7 @@ class ResurfaceCodeMirrorInput extends ResurfaceInput {
   }
 
   getValue(inputId){
-    let codeMirror = this.getCodeInputById(inputId)
+    let codeMirror = this.getResurfaceTargetById(inputId)
     return codeMirror.CodeMirror.doc.getValue();
   }
 
@@ -328,7 +328,7 @@ class ResurfaceCodeMirrorInput extends ResurfaceInput {
   }
 
   editorChanged(inputId, changes) {
-    const codeMirror = this.getCodeInputById(inputId);
+    const codeMirror = this.getResurfaceTargetById(inputId);
     if (!codeMirror) return;
 
     const translated = this._translateMonacoChanges(changes);
@@ -340,7 +340,7 @@ class ResurfaceCodeMirrorInput extends ResurfaceInput {
 }
 
 
-class ResurfaceTextareaInput extends ResurfaceInput {
+class ResurfaceTextareaTarget extends ResurfaceTarget {
 
   get prefix(){
     return TEXTAREA_PREFIX;
@@ -355,18 +355,18 @@ class ResurfaceTextareaInput extends ResurfaceInput {
   }
 
   getValue(inputId){
-    let textArea = this.getCodeInputById(inputId)
+    let textArea = this.getResurfaceTargetById(inputId)
     return textArea.value;
   }
 
-// Enables a given code mirror for editing
-  enable(codeInput) {
-    codeInput.disabled = false;
+  // Enables a given text area for editing
+  enable(resurfaceTarget) {
+    resurfaceTarget.disabled = false;
   }
 
-// Disables a given code mirror so that it cannot be edited
-  disable(codeInput) {
-    codeInput.disabled = true;
+  // Disables a given text area so that it cannot be edited
+  disable(resurfaceTarget) {
+    resurfaceTarget.disabled = true;
   }
 
   findInputs() {
@@ -376,14 +376,14 @@ class ResurfaceTextareaInput extends ResurfaceInput {
 
 
   editorChanged(inputId, changes) {
-    const codeInput = this.getCodeInputById(inputId);
-    if (!codeInput) return;
+    const resurfaceTarget = this.getResurfaceTargetById(inputId);
+    if (!resurfaceTarget) return;
 
     changes.forEach((change) => {
-      codeInput.setRangeText(change.text, change.rangeOffset, change.rangeOffset + change.rangeLength);
+      resurfaceTarget.setRangeText(change.text, change.rangeOffset, change.rangeOffset + change.rangeLength);
     });
   }
 
 }
 
-export {CodeInputs}
+export {ResurfaceTargets}
