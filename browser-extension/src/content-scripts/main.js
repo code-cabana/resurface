@@ -21,9 +21,7 @@ function init() {
 
 // Remove buttons and stop listening
 function destroy() {
-  if(resurfaceTargets){
-    resurfaceTargets.destroy();
-  }
+  if(resurfaceTargets) resurfaceTargets.destroy();
   unlisten();
 }
 

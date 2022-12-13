@@ -86,7 +86,7 @@ async function listen(message) {
       });
 
       window.__RESURFACE__.port.onDisconnect.addListener(() => {
-        debug(`Port for mirror ${targetId} disconnected`);
+        debug(`Port for target ${targetId} disconnected`);
         postMessageToDom({ type: "portDisconnected", targetId });
       });
 
