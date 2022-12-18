@@ -224,7 +224,8 @@ async function handleGlobalMessage({ message, setPort, setTargetId }) {
           targetId,
         },
         ({ success }) => {
-          if (!success) error("Could not connect to opener tab's CodeMirror");
+          if (!success)
+            error("Could not connect to opener tab's ResurfaceTarget");
         }
       );
       // Await connection from proxy
@@ -289,7 +290,7 @@ function spawnEditor({ editorRef, port, setEditor }) {
   return () => {
     if (!editorRef.current || !port.current) return;
     const newEditor = monaco.editor.create(editorRef.current, {
-      value: "waiting for CodeMirror data...",
+      value: "waiting for data...",
     });
 
     const disposeCssPlugin = cssFormatMonaco(monaco, { indent_size: 2 }); // Editor cannot format CSS without this plugin
