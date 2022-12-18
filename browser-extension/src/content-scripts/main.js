@@ -1,9 +1,8 @@
 // https://developer.chrome.com/docs/extensions/mv3/content_scripts/#host-page-communication
 import { initWindowState } from "../lib/util";
-import { ResurfaceTargets } from "../lib/targets";
+import { getResurfaceTargets, hasResurfaceTargets } from "../lib/targets";
 
 initWindowState(window);
-let resurfaceTargets;
 
 const logPrefix = "[DOM]";
 const debug = (...args) =>
@@ -12,17 +11,28 @@ const error = (...args) =>
   _postMsgToProxy({ type: "errorLog", args: [logPrefix, ...args] });
 
 // Create editor buttons and listen for events
-function init() {
-  resurfaceTargets = new ResurfaceTargets(postMessageToProxy)
-  if (!resurfaceTargets.hasInputs)
-    return debug("No ResurfaceTargets found");
+async function init() {
+  window.__RESURFACE__ = { targets: [], listeners: [] };
+  initTargets();
   listen();
 }
 
 // Remove buttons and stop listening
 function destroy() {
-  if(resurfaceTargets) resurfaceTargets.destroy();
+  destroyTargets();
   unlisten();
+}
+
+// Get and record all resurface targets on the page
+async function initTargets() {
+  window.__RESURFACE__.targets = await getResurfaceTargets(document);
+  window.__RESURFACE__.targets.forEach((target, idx) => target.initialize(idx));
+}
+
+// Remove all records of resurface targets
+function destroyTargets() {
+  (window.__RESURFACE__?.targets || []).forEach((target) => target.destroy());
+  window.__RESURFACE__.targets = [];
 }
 
 // Destroy buttons + event listeners and then re-initialize
@@ -32,18 +42,10 @@ function reinit() {
 }
 
 // Reinitializes if at least one target exists
-function tryReinit() {
-  if (!hasResurfaceTargets()) return false;
+async function tryReinit() {
+  if (!hasResurfaceTargets(document)) return false;
   reinit();
   return true;
-}
-
-// Returns true if any targets are found on the page
-function hasResurfaceTargets() {
-  debug("Checking for ResurfaceTargets...");
-  const result = ResurfaceTargets.hasCodeElements();
-  debug("ResurfaceTargets found:", result);
-  return result;
 }
 
 // Send message to proxy content script on the same page
@@ -53,12 +55,8 @@ function postMessageToProxy(message) {
 }
 
 function _postMsgToProxy(message) {
-  window.postMessage(
-    Object.assign({}, message, { sender: "CC_RESURFACE_DOM" }),
-    "*"
-  );
+  window.postMessage({ ...message, sender: "CC_RESURFACE_DOM" }, "*");
 }
-
 
 // Listen for events from proxy content script running on the same page
 function listen() {
@@ -80,29 +78,37 @@ function handleMessage(event) {
   if (event.source != window) return;
   if (event.data?.sender !== "CC_RESURFACE_PROXY") return;
   debug("Got message:", event.data);
-  const { targetId: targetId, type } = event.data;
+  const { targetId, type } = event.data;
   if (type === "disabled") return destroy();
   if (!targetId && targetId !== 0) return error("Invalid targetId:", targetId);
-  const resurfaceTarget = resurfaceTargets.getResurfaceTargetById(targetId);
-  if (!resurfaceTarget) return error("Could not find ResurfaceTarget with ID:", targetId);
+
+  function getResurfaceTargetById(id) {
+    return (window.__RESURFACE__?.targets || []).find(
+      (target) => target.id === id
+    );
+  }
+
+  const resurfaceTarget = getResurfaceTargetById(targetId);
+  if (!resurfaceTarget)
+    return error("Could not find ResurfaceTarget with ID:", targetId);
 
   switch (type) {
     case "portConnected":
-      resurfaceTargets.disableInput(targetId);
+      resurfaceTarget.setActive(true);
       break;
     case "portDisconnected":
-      resurfaceTargets.enableInput(targetId);
+      resurfaceTarget.setActive(false);
       break;
     case "populateEditorRequest":
       postMessageToProxy({
         type: "populateEditorResponse",
-        value: resurfaceTargets.getValue(targetId),
+        value: resurfaceTarget.getValue(),
         recipient: "editor",
       });
       break;
     case "editorChanged":
       const { changes } = event.data;
-      resurfaceTargets.editorChanged(targetId, changes)
+      resurfaceTarget.processChanges(changes);
       break;
     default:
       error("Received unknown message type:", event.data);
@@ -110,14 +116,14 @@ function handleMessage(event) {
 }
 
 // Poll page 10 times until ResurfaceTarget is found
-function poll() {
-  const firstTryWorked = tryReinit();
+async function poll() {
+  const firstTryWorked = await tryReinit();
   if (firstTryWorked) return;
   const maxAttempts = 10;
   let counter = 0;
-  const checkUntilFound = setInterval(() => {
+  const checkUntilFound = setInterval(async () => {
     counter += 1;
-    const success = tryReinit();
+    const success = await tryReinit();
     if (success || counter > maxAttempts) clearInterval(checkUntilFound);
   }, 1000);
 }
