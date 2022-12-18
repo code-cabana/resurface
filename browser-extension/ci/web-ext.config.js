@@ -1,6 +1,8 @@
+const { devUrls } = require("../src/config/ci");
+
 module.exports = {
   sourceDir: "dist",
   run: {
-    startUrl: ["https://login.squarespace.com/"],
+    startUrl: devUrls,
   },
 };
