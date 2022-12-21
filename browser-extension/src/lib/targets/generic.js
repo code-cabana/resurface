@@ -1,85 +1,87 @@
-export function ResurfaceTarget(element) {
-  const buttonBg = "#133d65";
-  const buttonText = "white";
+const buttonBg = "#133d65";
+const buttonText = "white";
 
-  return {
-    element,
+function initialize(index) {
+  if (typeof index === "undefined")
+    throw `No index provided when initializing element: ${this.element}`;
+  this.id = index;
+  this.element.dataset.resurfaceTargetId = index;
+  this.attachButton();
+}
 
-    initialize(index) {
-      if (typeof index === "undefined")
-        throw `No index provided when initializing element: ${this.element}`;
-      this.id = index;
-      this.element.dataset.resurfaceTargetId = index;
-      this.attachButton();
-    },
+function destroy() {
+  this.setActive(false);
+  this.removeButton();
 
-    destroy() {
-      this.id = null;
-      delete this.element.dataset.resurfaceTargetId;
-      this.removeButton();
-    },
+  this.postMessageToProxy({
+    type: "closeEditor",
+    recipient: "editor",
+    targetId: this.id,
+  });
 
-    // Return the current value of the DOM element
-    getValue() {
-      return this.element.value;
-    },
+  this.id = null;
+  delete this.element.dataset.resurfaceTargetId;
+}
 
-    // Ingest monaco changes from a Resurface editor and apply them to the DOM element
-    processChanges(monacoChanges) {
-      let newValue = this.getValue();
-      let newLines = [];
+// Return the current value of the DOM element
+function getValue() {
+  return this.element.value;
+}
 
-      monacoChanges.forEach((change) => {
-        const { range, text } = change;
+// Ingest monaco changes from a Resurface editor and apply them to the DOM element
+function processChanges(monacoChanges) {
+  let newValue = this.getValue();
+  let newLines = [];
 
-        const { startColumn, startLineNumber, endColumn, endLineNumber } =
-          range;
+  monacoChanges.forEach((change) => {
+    const { range, text } = change;
 
-        const lines = newValue.split(/\r?\n/);
+    const { startColumn, startLineNumber, endColumn, endLineNumber } = range;
 
-        lines.forEach((line, idx) => {
-          const lineNum = idx + 1;
-          if (lineNum < startLineNumber || lineNum > endLineNumber)
-            newLines.push(line);
-          else {
-            const isStartLine = lineNum === startLineNumber;
-            const isEndLine = lineNum === endLineNumber;
+    const lines = newValue.split(/\r?\n/);
 
-            if (isStartLine) {
-              const start = startColumn - 1;
-              const newLine = line.slice(0, start) + text;
-              newLines.push(newLine);
-            }
+    lines.forEach((line, idx) => {
+      const lineNum = idx + 1;
+      if (lineNum < startLineNumber || lineNum > endLineNumber)
+        newLines.push(line);
+      else {
+        const isStartLine = lineNum === startLineNumber;
+        const isEndLine = lineNum === endLineNumber;
 
-            if (isEndLine) {
-              const end = endColumn - 1;
-              const newLine = line.slice(end);
-              newLines[newLines.length - 1] += newLine;
-            }
-          }
-        });
-      });
+        if (isStartLine) {
+          const start = startColumn - 1;
+          const newLine = line.slice(0, start) + text;
+          newLines.push(newLine);
+        }
 
-      this.element.value = newLines.join("\n");
-    },
+        if (isEndLine) {
+          const end = endColumn - 1;
+          const newLine = line.slice(end);
+          newLines[newLines.length - 1] += newLine;
+        }
+      }
+    });
+  });
 
-    // Change this target's DOM element appearance to reflect whether it is
-    // currently receiving input from a Resurface editor
-    setActive(isActive) {
-      this.element.style.opacity = isActive ? 0.5 : 1;
-      this.element.disabled = isActive;
-      this.element.readonly = isActive;
-      this.setButtonEnabled(!isActive);
-    },
+  this.element.value = newLines.join("\n");
+}
 
-    // Add a button to the DOM that opens the Resurface editor
-    attachButton() {
-      const button = document.createElement("button");
-      button.classList.add("resurface-editor-button");
-      button.classList.add("resurface-stripe");
-      button.innerText = "Open Resurface editor";
-      button.type = "button";
-      button.style = `
+// Change this target's DOM element appearance to reflect whether it is
+// currently receiving input from a Resurface editor
+function setActive(isActive) {
+  this.element.style.opacity = isActive ? 0.5 : 1;
+  this.element.disabled = isActive;
+  this.element.readonly = isActive;
+  this.setButtonEnabled(!isActive);
+}
+
+// Add a button to the DOM that opens the Resurface editor
+function attachButton() {
+  const button = document.createElement("button");
+  button.classList.add("resurface-editor-button");
+  button.innerText = "Open Resurface editor";
+  button.type = "button";
+  button.style = `
           position: relative;
           cursor: pointer;
           padding: 12px;
@@ -89,41 +91,54 @@ export function ResurfaceTarget(element) {
           color: ${buttonText};
           z-index: 5;
           `; // z-index 5 is required for Squarespace (might need to change per platform)
-      button.addEventListener(
-        "click",
-        () => {
-          this.postMessageToProxy({
-            type: "openEditor",
-            recipient: "service-worker",
-            targetId: this.id,
-          });
-        },
-        false
-      );
-      this.element.parentElement.appendChild(button);
-      this.button = button;
+  button.addEventListener(
+    "click",
+    () => {
+      this.postMessageToProxy({
+        type: "openEditor",
+        recipient: "service-worker",
+        targetId: this.id,
+      });
     },
+    false
+  );
+  this.element.parentElement.appendChild(button);
+  this.button = button;
+}
 
-    // Remove this target's button from the DOM
-    removeButton() {
-      if (this.button) this.button.remove();
-      this.button = null;
-    },
+// Remove this target's button from the DOM
+function removeButton() {
+  if (this.button) this.button.remove();
+  this.button = null;
+}
 
-    // Modify the button to indicate whether it's enabled or not
-    setButtonEnabled(isEnabled) {
-      this.button.disabled = !isEnabled;
-      this.button.innerText = isEnabled
-        ? "Open Resurface editor"
-        : "(editing via Resurface)";
-      this.button.style.backgroundColor = isEnabled ? buttonBg : "transparent";
-      this.button.style.cursor = isEnabled ? "pointer" : "default";
-      this.button.style.color = isEnabled ? buttonText : "black";
-    },
+// Modify the button to indicate whether it's enabled or not
+function setButtonEnabled(isEnabled) {
+  this.button.disabled = !isEnabled;
+  this.button.innerText = isEnabled
+    ? "Open Resurface editor"
+    : "(editing via Resurface)";
+  this.button.style.backgroundColor = isEnabled ? buttonBg : "transparent";
+  this.button.style.cursor = isEnabled ? "pointer" : "default";
+  this.button.style.color = isEnabled ? buttonText : "black";
+}
 
-    // Send a message to the Resurface service worker via the proxy
-    postMessageToProxy(message) {
-      window.postMessage({ ...message, sender: "CC_RESURFACE_DOM" }, "*");
-    },
+// Send a message to the Resurface service worker via the proxy
+function postMessageToProxy(message) {
+  window.postMessage({ ...message, sender: "CC_RESURFACE_DOM" }, "*");
+}
+
+export function ResurfaceTarget(element) {
+  return {
+    element,
+    initialize,
+    destroy,
+    getValue,
+    processChanges,
+    setActive,
+    attachButton,
+    removeButton,
+    setButtonEnabled,
+    postMessageToProxy,
   };
 }

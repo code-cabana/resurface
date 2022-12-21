@@ -6,7 +6,6 @@ import { useStoredValue } from "../lib/hooks";
 import styles from "./styles.module.css";
 
 function OptionsPage() {
-  const [enabled, setEnabled] = useStoredValue("cc-resurface-enabled");
   const [minimap, setMinimap] = useStoredValue("cc-resurface-minimap");
   const [logging, setLogging] = useStoredValue("cc-resurface-logging");
   const [theme, setTheme] = useStoredValue("cc-resurface-theme");
@@ -35,12 +34,6 @@ function OptionsPage() {
             { label: "Dark", value: "vs-dark" },
             { label: "High Contrast", value: "hc-black" },
           ]}
-        />
-        <Switch
-          label="Enable"
-          description="Allow Resurface to run on pages you visit"
-          value={enabled}
-          setValue={setEnabled}
         />
         <Switch
           label="Show minimap"

@@ -1,51 +1,54 @@
 // https://developer.chrome.com/docs/extensions/mv3/content_scripts/#host-page-communication
-import { initWindowState } from "../lib/util";
-import { getResurfaceTargets, hasResurfaceTargets } from "../lib/targets";
+import { initWindowState, cleanWindowState, isInitialized } from "../lib/util";
+import { getResurfaceTargets } from "../lib/targets";
+import toast from "../lib/toast";
 
-initWindowState(window);
-
+const scriptName = "main.js";
 const logPrefix = "[DOM]";
 const debug = (...args) =>
   _postMsgToProxy({ type: "debugLog", args: [logPrefix, ...args] });
 const error = (...args) =>
   _postMsgToProxy({ type: "errorLog", args: [logPrefix, ...args] });
 
-// Create editor buttons and listen for events
+// Scaffold state, create editor buttons and listen for events
 async function init() {
-  window.__RESURFACE__ = { targets: [], listeners: [] };
-  initTargets();
+  if (isInitialized(scriptName)) return;
+  initWindowState(window, scriptName);
+  const hasTargets = await initTargets();
+  if (hasTargets) onHasTargets();
+  else onNoTargets();
+}
+
+function onHasTargets() {
   listen();
+  debug("main.js initialized");
+  postMessageToProxy({ type: "DOMReady", recipient: "proxy" });
+}
+
+function onNoTargets() {
+  toast.show("No targets found", 3000);
+  destroy();
 }
 
 // Remove buttons and stop listening
 function destroy() {
   destroyTargets();
   unlisten();
+  cleanWindowState(window);
 }
 
 // Get and record all resurface targets on the page
 async function initTargets() {
   window.__RESURFACE__.targets = await getResurfaceTargets(document);
   window.__RESURFACE__.targets.forEach((target, idx) => target.initialize(idx));
+  const hasTargets = window.__RESURFACE__.targets.length > 0;
+  return hasTargets;
 }
 
 // Remove all records of resurface targets
 function destroyTargets() {
-  (window.__RESURFACE__?.targets || []).forEach((target) => target.destroy());
+  (window.__RESURFACE__.targets || []).forEach((target) => target.destroy());
   window.__RESURFACE__.targets = [];
-}
-
-// Destroy buttons + event listeners and then re-initialize
-function reinit() {
-  destroy();
-  init();
-}
-
-// Reinitializes if at least one target exists
-async function tryReinit() {
-  if (!hasResurfaceTargets(document)) return false;
-  reinit();
-  return true;
 }
 
 // Send message to proxy content script on the same page
@@ -79,7 +82,7 @@ function handleMessage(event) {
   if (event.data?.sender !== "CC_RESURFACE_PROXY") return;
   debug("Got message:", event.data);
   const { targetId, type } = event.data;
-  if (type === "disabled") return destroy();
+  if (type === "destroy") return destroy();
   if (!targetId && targetId !== 0) return error("Invalid targetId:", targetId);
 
   function getResurfaceTargetById(id) {
@@ -104,28 +107,19 @@ function handleMessage(event) {
         type: "populateEditorResponse",
         value: resurfaceTarget.getValue(),
         recipient: "editor",
+        targetId,
       });
       break;
     case "editorChanged":
       const { changes } = event.data;
       resurfaceTarget.processChanges(changes);
       break;
+    case "editorClosed":
+      resurfaceTarget.setActive(false);
+      break;
     default:
       error("Received unknown message type:", event.data);
   }
 }
 
-// Poll page 10 times until ResurfaceTarget is found
-async function poll() {
-  const firstTryWorked = await tryReinit();
-  if (firstTryWorked) return;
-  const maxAttempts = 10;
-  let counter = 0;
-  const checkUntilFound = setInterval(async () => {
-    counter += 1;
-    const success = await tryReinit();
-    if (success || counter > maxAttempts) clearInterval(checkUntilFound);
-  }, 1000);
-}
-
-poll();
+init();

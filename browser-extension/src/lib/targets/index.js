@@ -13,12 +13,6 @@ const targets = [
   { type: "textarea", selector: "textarea" },
 ];
 
-// Returns true if the given document contains Resurface compatible DOM elements
-export async function hasResurfaceTargets(document) {
-  const targets = await getResurfaceTargets(document);
-  return targets.length > 0;
-}
-
 // Find all compatible Resurface target elements in the given document
 export async function getResurfaceTargets(document) {
   return await targets.reduce(async (acc, target) => {
@@ -38,6 +32,7 @@ export async function getResurfaceTargets(document) {
 async function recursiveQuerySelectorAll({ document: rootDoc, selector }) {
   let documents = [rootDoc];
   let elements = [];
+  let maxNesting = 100;
 
   /* Extract selector matched elements from the given document,
   and also append any nested iframe documents to the global documents array */
@@ -50,8 +45,9 @@ async function recursiveQuerySelectorAll({ document: rootDoc, selector }) {
     return Array.from(document.querySelectorAll(selector));
   }
 
-  while (documents.length > 0) {
-    const document = documents[documents.length - 1];
+  while (documents.length > 0 && maxNesting-- > 0) {
+    const document = documents[0];
+    if (!document) continue;
     const foundElements = await queryDocument({ document, selector });
     if (foundElements.length > 0) elements.push(...foundElements);
     documents.shift();

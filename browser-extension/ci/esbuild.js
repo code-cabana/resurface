@@ -9,7 +9,7 @@ const prod = mode === "prod";
 build({
   entryPoints: [
     "src/service-worker.js",
-    "src/popup/index.js",
+    "src/help/index.js",
     "src/options/index.js",
     "src/editor/index.js",
     "src/login/index.js",
