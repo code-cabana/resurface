@@ -209,10 +209,11 @@ function handleGlobalMessages({ setPort, setTargetId }) {
 }
 
 async function handleGlobalMessage({ message, setPort, setTargetId }) {
+  if (message.recipient !== "editor") return null;
   debug("Received message:", message);
   switch (message.type) {
     case "createdInfo": // Open long-lived connection to proxy content script
-      const { openedTabId, openerTabId, targetId } = message;
+      const { openedTabId, openedWindowId, openerTabId, targetId } = message;
 
       // Tell proxy to open a long-lived connection to this editor
       chrome.tabs.sendMessage(
@@ -220,6 +221,7 @@ async function handleGlobalMessage({ message, setPort, setTargetId }) {
         {
           type: "connect",
           editorId: openedTabId,
+          windowId: openedWindowId,
           recipientId: openerTabId,
           targetId,
         },

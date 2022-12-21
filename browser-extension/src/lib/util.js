@@ -17,10 +17,22 @@ export function debounce(func, wait = 100) {
 }
 
 // Window state
-export function initWindowState(wObj) {
+export function initWindowState(wObj, scriptName) {
   if (!wObj.__RESURFACE__) wObj.__RESURFACE__ = {};
   if (!wObj.__RESURFACE__.listeners) wObj.__RESURFACE__.listeners = [];
-  if (!wObj.__RESURFACE__.port) wObj.__RESURFACE__.port = null;
+  if (!wObj.__RESURFACE__.targets) wObj.__RESURFACE__.targets = [];
+  if (!wObj.__RESURFACE__.ports) wObj.__RESURFACE__.ports = [];
+  if (!wObj.__RESURFACE__.loadedScripts) wObj.__RESURFACE__.loadedScripts = [];
+  if (scriptName) wObj.__RESURFACE__.loadedScripts.push(scriptName);
+}
+
+export function cleanWindowState(wObj) {
+  if (wObj.__RESURFACE__) delete wObj.__RESURFACE__;
+}
+
+// Returns true if the given scriptName has registered itself on this window
+export function isInitialized(scriptName) {
+  return window.__RESURFACE__?.loadedScripts?.includes(scriptName);
 }
 
 // Chrome

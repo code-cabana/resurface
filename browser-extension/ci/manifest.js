@@ -17,15 +17,9 @@ function getManifest() {
       type: "module",
     },
     action: {
-      default_popup: "assets/popup.html",
+      default_title: "Click me to highlight Resurface targets on this page",
     },
     options_page: "assets/options.html",
-    content_scripts: [
-      {
-        matches: ["<all_urls>"],
-        js: ["content-scripts/proxy.js"],
-      },
-    ],
     permissions: ["scripting", "tabs", "storage", "contextMenus"],
     host_permissions: ["<all_urls>"],
   };
