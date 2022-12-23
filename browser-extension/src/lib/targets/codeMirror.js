@@ -1,8 +1,5 @@
 import { ResurfaceTarget } from "./generic";
 
-const buttonBg = "#133d65";
-const buttonText = "white";
-
 function getValue() {
   return this.element.CodeMirror.doc.getValue();
 }
@@ -43,39 +40,6 @@ function setActive(isActive) {
   }
 }
 
-// Add a button to the DOM that opens the Resurface editor
-function attachButton() {
-  const button = document.createElement("button");
-  button.classList.add("resurface-editor-button");
-  button.innerText = "Open Resurface editor";
-  button.type = "button";
-  button.style = `
-        position: absolute;
-        top: 0; left: 0;
-        cursor: pointer;
-        padding: 12px;
-        border: none;
-        border-radius: 4px;
-        background-color: ${buttonBg};
-        color: ${buttonText};
-        z-index: 5;
-        `; // z-index 5 is required for Squarespace (might need to change per platform)
-  button.addEventListener(
-    "click",
-    () => {
-      this.postMessageToProxy({
-        type: "openEditor",
-        recipient: "service-worker",
-        targetId: this.id,
-      });
-    },
-    false
-  );
-
-  this.element.appendChild(button);
-  this.button = button;
-}
-
 export function CodeMirrorTarget(element) {
   const resurfaceTarget = ResurfaceTarget(element);
   return {
@@ -86,6 +50,5 @@ export function CodeMirrorTarget(element) {
       super.setActive(isActive);
       setActive.call(this, isActive);
     },
-    attachButton,
   };
 }

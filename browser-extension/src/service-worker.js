@@ -30,6 +30,11 @@ async function onActionClick(tab) {
       files: ["content-scripts/proxy.js"],
       target: { tabId: tab.id },
     });
+
+    chrome.scripting.insertCSS({
+      files: ["content-scripts/styles.css"],
+      target: { tabId: tab.id, allFrames: true },
+    });
   }
 }
 chrome.action.onClicked.addListener(onActionClick);

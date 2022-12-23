@@ -15,6 +15,7 @@ build({
     "src/login/index.js",
     "src/content-scripts/main.js",
     "src/content-scripts/proxy.js",
+    "src/content-scripts/styles.css",
   ],
   bundle: true,
   minify: prod,

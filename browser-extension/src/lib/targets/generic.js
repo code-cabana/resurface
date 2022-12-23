@@ -1,6 +1,3 @@
-const buttonBg = "#133d65";
-const buttonText = "white";
-
 function initialize(index) {
   if (typeof index === "undefined")
     throw `No index provided when initializing element: ${this.element}`;
@@ -77,20 +74,33 @@ function setActive(isActive) {
 
 // Add a button to the DOM that opens the Resurface editor
 function attachButton() {
+  const gap = 0;
+  const width = this.element.offsetWidth;
+  const height = this.element.offsetHeight;
+  const top = this.element.offsetTop + gap;
+  const left = this.element.offsetLeft + gap;
+  const right = left + width - gap;
+  const bottom = top + height - gap;
+
+  const containerStyle = `
+  --width: ${width}px;
+  --height: ${height}px;
+  --top: ${top}px;
+  --left: ${left}px;
+  --right: ${right}px;
+  --bottom: ${bottom}px;
+  `;
+
+  const container = document.createElement("div");
+  container.classList.add("resurface-target-container");
+  container.style = containerStyle;
+
+  const stripes = document.createElement("div");
+  stripes.classList.add("resurface-target-stripes");
+
   const button = document.createElement("button");
-  button.classList.add("resurface-editor-button");
-  button.innerText = "Open Resurface editor";
+  button.classList.add("resurface-target-button");
   button.type = "button";
-  button.style = `
-          position: relative;
-          cursor: pointer;
-          padding: 12px;
-          border: none;
-          border-radius: 4px;
-          background-color: ${buttonBg};
-          color: ${buttonText};
-          z-index: 5;
-          `; // z-index 5 is required for Squarespace (might need to change per platform)
   button.addEventListener(
     "click",
     () => {
@@ -102,8 +112,16 @@ function attachButton() {
     },
     false
   );
-  this.element.parentElement.appendChild(button);
-  this.button = button;
+
+  const textbox = document.createElement("div");
+  textbox.classList.add("resurface-target-textbox");
+  textbox.innerText = "Open Resurface editor";
+
+  container.appendChild(stripes);
+  container.appendChild(button);
+  container.appendChild(textbox);
+  this.element.parentElement.insertBefore(container, this.element);
+  this.button = container;
 }
 
 // Remove this target's button from the DOM
@@ -114,13 +132,16 @@ function removeButton() {
 
 // Modify the button to indicate whether it's enabled or not
 function setButtonEnabled(isEnabled) {
-  this.button.disabled = !isEnabled;
-  this.button.innerText = isEnabled
+  if (!this.button) return;
+  if (isEnabled) this.button.classList.remove("editing");
+  else this.button.classList.add("editing");
+  const button = this.button.querySelector(".resurface-target-button");
+  const textbox = this.button.querySelector(".resurface-target-textbox");
+
+  button.disabled = !isEnabled;
+  textbox.innerText = isEnabled
     ? "Open Resurface editor"
     : "(editing via Resurface)";
-  this.button.style.backgroundColor = isEnabled ? buttonBg : "transparent";
-  this.button.style.cursor = isEnabled ? "pointer" : "default";
-  this.button.style.color = isEnabled ? buttonText : "black";
 }
 
 // Send a message to the Resurface service worker via the proxy

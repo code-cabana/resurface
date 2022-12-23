@@ -15,7 +15,8 @@ export function isElementVisible(element) {
         observer.disconnect();
         const { isVisible, intersectionRatio } = entries[0];
         const canUseIsVisible = typeof isVisible !== "undefined"; // https://caniuse.com/intersectionobserver-v2
-        resolve(canUseIsVisible ? isVisible : intersectionRatio > 0);
+        const isIntersecting = intersectionRatio > 0;
+        resolve(canUseIsVisible ? isVisible || isIntersecting : isIntersecting);
       },
       { root: null, trackVisibility: true, delay: 100 }
     );
