@@ -27,10 +27,10 @@ function getValue() {
 
 // Ingest monaco changes from a Resurface editor and apply them to the DOM element
 function processChanges(monacoChanges) {
-  let newValue = this.getValue();
-  let newLines = [];
-
   monacoChanges.forEach((change) => {
+    let newValue = this.getValue();
+    let newLines = [];
+
     const { range, text } = change;
 
     const { startColumn, startLineNumber, endColumn, endLineNumber } = range;
@@ -58,9 +58,9 @@ function processChanges(monacoChanges) {
         }
       }
     });
-  });
 
-  this.element.value = newLines.join("\n");
+    this.element.value = newLines.join("\n");
+  });
 }
 
 // Change this target's DOM element appearance to reflect whether it is
