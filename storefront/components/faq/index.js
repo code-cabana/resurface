@@ -20,9 +20,10 @@ export default function FAQ() {
         <li>
           <span>What websites can I use {name} on?</span>
           <p>
-            {name} can be used on any website that utilizes a CodeMirror editor.
-            At the time of writing this includes Squarespace, Shopify, Wix,
-            Klaviyo + more.
+            {name} can be used on any website that contains an editable textbox.
+            This includes Squarespace, Shopify, Showit, Wix, Klaviyo + more.
+            Install the extension for free and check out if it will work on your
+            site!
           </p>
         </li>
         <li>
