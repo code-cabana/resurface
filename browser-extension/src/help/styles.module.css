@@ -8,13 +8,13 @@
   background-position: 100% 50%;
 }
 
-:global(#popup),
+:global(#help),
 .container {
   width: 100%;
   height: 100%;
 }
 
-:global(#popup) {
+:global(#help) {
   padding: 16px 24px;
 }
 
@@ -25,8 +25,8 @@
   align-content: space-between;
 }
 
-.description {
-  margin-bottom: 0;
+.content {
+  margin-bottom: 64px;
 }
 
 .buttons {

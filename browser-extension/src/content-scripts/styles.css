@@ -1,0 +1,88 @@
+/* Target */
+/* ------- */
+.resurface-target-container {
+  position: absolute;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: var(--width);
+  height: var(--height);
+  top: var(--top);
+  left: var(--left);
+  right: var(--right);
+  bottom: var(--bottom);
+  z-index: 99;
+}
+
+.resurface-target-stripes {
+  --stripe-col-1: rgba(19, 61, 101, 0.25);
+  --stripe-col-2: rgba(230, 244, 244, 0.25);
+  --s-width: 8px;
+  --s-gt: 1px;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+
+  background: repeating-linear-gradient(
+    -60deg,
+    var(--stripe-col-1) var(--s-gt),
+    var(--stripe-col-2) calc(var(--s-gt) * 2),
+    var(--stripe-col-2) calc(var(--s-gt) * 2 + var(--s-width)),
+    var(--stripe-col-1) calc(var(--s-gt) * 3 + var(--s-width)),
+    var(--stripe-col-1) calc(var(--s-gt) * 3 + var(--s-width) * 2)
+  );
+}
+
+.resurface-target-button {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.resurface-target-textbox {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 12px;
+  border-radius: 4px;
+  background-color: #133d65;
+  color: white;
+  pointer-events: none;
+  font-family: "Helvetica", sans-serif;
+  font-size: 16px;
+}
+
+/* Editing target */
+/* ------- */
+.resurface-target-container.editing .resurface-target-stripes {
+  --stripe-col-1: rgba(101, 103, 105, 0.25);
+  --stripe-col-2: rgba(133, 133, 133, 0.25);
+}
+
+.resurface-target-container.editing .resurface-target-button {
+  cursor: default;
+}
+
+.resurface-target-container.editing .resurface-target-textbox {
+  background-color: grey;
+}
+
+/* Toast */
+/* ------- */
+.resurface-toast {
+  color: white;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background-color: #133d65;
+  border-radius: 4px;
+  padding: 1rem 2rem;
+  z-index: 99;
+}

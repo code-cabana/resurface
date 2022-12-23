@@ -4,12 +4,10 @@ import {
   error as _error,
 } from "../lib/console";
 import { sentryInit, sentryError } from "../lib/sentry";
-import { initWindowState } from "../lib/util";
-import { onStorageToggleChange } from "../lib/chrome";
+import { initWindowState, cleanWindowState, isInitialized } from "../lib/util";
 // https://developer.chrome.com/docs/extensions/mv3/content_scripts/#host-page-communication
 
-initWindowState(window);
-sentryInit();
+const scriptName = "proxy.js";
 const logPrefix = "[Proxy]";
 const debug = (...args) => _debug(logPrefix, ...args);
 const warn = (...args) => _warn(logPrefix, ...args);
@@ -18,24 +16,51 @@ const error = (...args) => {
   _error(logPrefix, ...args);
 };
 
+// Listen and wait for main.js (DOM world) to be ready
+function init() {
+  window.addEventListener("message", onDomMessage, false);
+}
+
+// Occurs when main.js has notified proxy.js it is ready
+// Scaffold state, initialize Sentry, and listen for chrome events
+function onDOMReady() {
+  if (isInitialized(scriptName)) return;
+  initWindowState(window, scriptName);
+  sentryInit();
+
+  chrome.runtime.onMessage.addListener(onChromeMessage);
+  debug("proxy.js initialized");
+}
+
+// Remove state, listeners and notify DOM to destroy as well
+function destroy() {
+  window.removeEventListener("message", onDomMessage, false);
+  chrome.runtime.onMessage.removeListener(onChromeMessage);
+  closeAllEditors();
+  postMessageToDom({ type: "destroy" });
+  cleanWindowState(window);
+}
+
 // Facilitate sending messages from DOM -> Editor
 function onDomMessage(event) {
   if (event.source != window) return;
-  if (event.data?.sender !== "CC_RESURFACE_DOM") return;
-  switch (event.data.recipient) {
+  const { sender, recipient, type, targetId } = event?.data || {};
+  if (sender !== "CC_RESURFACE_DOM") return;
+  switch (recipient) {
+    case "proxy":
+      switch (type) {
+        case "DOMReady":
+          onDOMReady();
+          break;
+      }
+      break;
     case "editor":
-      switch (event.data.type) {
+      switch (type) {
         case "closeEditor":
-          if (!window.__RESURFACE__.port)
-            return debug("No editor found to close");
-          window.__RESURFACE__.port.postMessage(event.data);
-          window.__RESURFACE__.port.disconnect();
-          window.__RESURFACE__.port = null;
+          closeEditor(targetId);
           break;
         default:
-          if (!window.__RESURFACE__.port)
-            return error("Invalid window.__RESURFACE__.port");
-          window.__RESURFACE__.port.postMessage(event.data);
+          sendMessageToPort(event.data, targetId);
           break;
       }
       break;
@@ -56,41 +81,90 @@ function onDomMessage(event) {
       }
   }
 }
-window.addEventListener("message", onDomMessage, false);
+
+// Returns the port associated with the given targetId
+function getPort(targetId) {
+  return (window.__RESURFACE__?.ports || []).find(
+    ({ targetId: id }) => id === targetId
+  );
+}
+
+// Delete any saved ports associated with the given targetId
+function deletePort(targetId) {
+  window.__RESURFACE__.ports = (window.__RESURFACE__?.ports || []).filter(
+    ({ targetId: id }) => id !== targetId
+  );
+}
+
+// Send a message to the given targetId's communication port
+function sendMessageToPort(message, targetId) {
+  const foundPort = getPort(targetId);
+  if (!foundPort) return error(`No editor found with targetId ${targetId}`);
+  const { port } = foundPort;
+  port.postMessage(message);
+}
+
+// Close any opened editors and disconnect associated ports
+function closeAllEditors() {
+  (window.__RESURFACE__?.ports || []).forEach(({ port, targetId }) => {
+    port.postMessage({ type: "closeEditor", recipient: "editor", targetId });
+    port.disconnect();
+  });
+}
+
+// Close a specific editor by targetId
+function closeEditor(targetId) {
+  const foundPort = getPort(targetId);
+  if (!foundPort) return debug(`No editor found with targetId ${targetId}`);
+  const { port } = foundPort;
+  port.postMessage({ type: "closeEditor", recipient: "editor", targetId });
+  port.disconnect();
+  deletePort(targetId);
+}
 
 // Facilitate sending messages from Editor -> DOM
 function onChromeMessage(request, _sender, sendResponse) {
-  listen(request).then((response) => {
+  getResponse(request).then((response) => {
     if (!response) return;
     debug("Responding:", response);
     sendResponse(response);
   });
   return true;
 }
-chrome.runtime.onMessage.addListener(onChromeMessage);
 
-async function listen(message) {
+async function getResponse(message) {
   debug("Received message:", message);
   const { tabId } = await chrome.runtime.sendMessage({ type: "getTabId" });
-  const { editorId, recipientId, type, mirrorId } = message;
+  const { recipientId, type } = message;
   if (recipientId !== tabId) return { success: false };
   switch (type) {
     case "connect":
-      window.__RESURFACE__.port = chrome.runtime.connect({
-        name: `${editorId}-${recipientId}-${mirrorId}`,
+      const { editorId, targetId, windowId } = message;
+      const port = chrome.runtime.connect({
+        name: `${editorId}-${recipientId}-${targetId}`,
       });
 
-      window.__RESURFACE__.port.onMessage.addListener((message) => {
+      port.onMessage.addListener((message) => {
         debug("Got message", message);
         postMessageToDom(message);
       });
 
-      window.__RESURFACE__.port.onDisconnect.addListener(() => {
-        debug(`Port for mirror ${mirrorId} disconnected`);
-        postMessageToDom({ type: "portDisconnected", mirrorId });
+      port.onDisconnect.addListener(() => {
+        debug(`Port for target ${targetId} disconnected`);
+        deletePort(targetId);
+        postMessageToDom({ type: "portDisconnected", targetId });
       });
 
-      postMessageToDom({ type: "portConnected", mirrorId });
+      if (!window.__RESURFACE__.ports) window.__RESURFACE__.ports = [];
+      window.__RESURFACE__.ports.push({ targetId, windowId, port });
+
+      postMessageToDom({ type: "portConnected", targetId, editorId, windowId });
+      return { success: true };
+    case "editorClosed":
+      postMessageToDom(message);
+      return { success: true };
+    case "destroy":
+      destroy();
       return { success: true };
     default:
       warn("Unknown message type:", type);
@@ -103,18 +177,4 @@ function postMessageToDom(message) {
   window.postMessage({ ...message, sender: "CC_RESURFACE_PROXY" }, "*");
 }
 
-// Add/remove listeners if "enabled" storage option is changed
-chrome.storage.onChanged.addListener(
-  onStorageToggleChange({
-    key: "cc-resurface-enabled",
-    onEnabled: () => {
-      chrome.runtime.onMessage.addListener(onChromeMessage);
-      window.addEventListener("message", onDomMessage, false);
-    },
-    onDisabled: () => {
-      chrome.runtime.onMessage.removeListener(onChromeMessage);
-      window.removeEventListener("message", onDomMessage, false);
-      postMessageToDom({ type: "disabled" });
-    },
-  })
-);
+init();

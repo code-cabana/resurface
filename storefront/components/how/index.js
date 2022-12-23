@@ -17,16 +17,11 @@ export default function HowDoesItWork() {
             href={getResurfaceLink}
           />
         </li>
-        <li>
-          Open any page that contains a CodeMirror editor <br />
-          <i>
-            (commonly found on Squarespace, Shopify, Wix, Klaviyo and many other
-            website builders)
-          </i>
-        </li>
+        <li>Open any page that contains an editable textbox</li>
+        <li>Click the extension icon in your browser&apos;s toolbar</li>
         <li>
           Click the <i>&quot;Open {name} editor&quot;</i> button that appears
-          within any CodeMirror editor on the page
+          within any editable textboxes on the page
         </li>
         <li>Away you go! 🚀</li>
       </ol>
