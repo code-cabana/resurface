@@ -3,7 +3,7 @@
   "displayName": "Resurface",
   "version": "1.4.0",
   "author": "Code Cabana",
-  "description": "Replace Code Mirror editors with a pop-out Monaco (VS Code) editor",
+  "description": "Replace editable page fields with a pop-out Monaco (VS Code) editor",
   "private": true,
   "workspaces": [
     "browser-extension",
