@@ -3,7 +3,6 @@ import {
   error as _error,
   warn as _warn,
 } from "../lib/console";
-import cssFormatMonaco from "css-format-monaco";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.main.js";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { useStoredValue, useResizeEnd, useInterval } from "../lib/hooks";
@@ -295,8 +294,6 @@ function spawnEditor({ editorRef, port, setEditor }) {
       value: "waiting for data...",
     });
 
-    const disposeCssPlugin = cssFormatMonaco(monaco, { indent_size: 2 }); // Editor cannot format CSS without this plugin
-
     function layoutEditor() {
       const { offsetWidth, offsetHeight } = editorRef.current;
       newEditor.layout({ width: offsetWidth, height: offsetHeight });
@@ -307,7 +304,6 @@ function spawnEditor({ editorRef, port, setEditor }) {
 
     return () => {
       window.removeEventListener("resize", layoutEditor);
-      disposeCssPlugin();
       newEditor.dispose();
       setEditor(null);
     };
