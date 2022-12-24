@@ -1,7 +1,7 @@
 {
   "name": "resurface",
   "displayName": "Resurface",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "author": "Code Cabana",
   "description": "Replace editable page fields with a pop-out Monaco (VS Code) editor",
   "private": true,
