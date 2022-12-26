@@ -30,7 +30,7 @@ function Help() {
           <h2>Features/Tips</h2>
           <ul>
             <li>
-              The Resurface supports many of the same features as{" "}
+              Resurface supports many of the same features as{" "}
               <a href="https://code.visualstudio.com/">VS Code</a>
             </li>
             <li>

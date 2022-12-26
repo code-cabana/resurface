@@ -2,6 +2,7 @@
 import { isElementValid, filterVisible } from "./validation";
 import { ResurfaceTarget } from "./generic";
 import { CodeMirrorTarget } from "./codeMirror";
+import { TextAreaTarget } from "./textArea";
 
 // Compatible DOM elements that can be controlled by Resurface
 const targets = [
@@ -10,7 +11,7 @@ const targets = [
     selector: ".CodeMirror",
     targetClass: CodeMirrorTarget,
   },
-  { type: "textarea", selector: "textarea" },
+  { type: "textarea", selector: "textarea", targetClass: TextAreaTarget },
 ];
 
 // Find all compatible Resurface target elements in the given document

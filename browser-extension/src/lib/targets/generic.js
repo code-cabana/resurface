@@ -25,6 +25,10 @@ function getValue() {
   return this.element.value;
 }
 
+function setValue(newValue) {
+  this.element.value = newValue;
+}
+
 // Ingest monaco changes from a Resurface editor and apply them to the DOM element
 function processChanges(monacoChanges) {
   monacoChanges.forEach((change) => {
@@ -59,7 +63,7 @@ function processChanges(monacoChanges) {
       }
     });
 
-    this.element.value = newLines.join("\n");
+    this.setValue(newLines.join("\n"));
   });
 }
 
@@ -155,6 +159,7 @@ export function ResurfaceTarget(element) {
     initialize,
     destroy,
     getValue,
+    setValue,
     processChanges,
     setActive,
     attachButton,
