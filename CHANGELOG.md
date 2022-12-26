@@ -1,3 +1,11 @@
+## [1.4.4](https://github.com/code-cabana/resurface/compare/v1.4.3...v1.4.4) (2022-12-26)
+
+
+### Bug Fixes
+
+* [xtn] if an editor becomes disconnected from the proxy, close it ([acc4e7c](https://github.com/code-cabana/resurface/commit/acc4e7c2533bb62d8c9486b6b9e255c62c3596b3))
+* [xtn] if editor is closed and page only has 1 target, destroy content scripts ([1f77aac](https://github.com/code-cabana/resurface/commit/1f77aac03be5627d3acf752012d3807f848aff53))
+
 ## [1.4.3](https://github.com/code-cabana/resurface/compare/v1.4.2...v1.4.3) (2022-12-26)
 
 
