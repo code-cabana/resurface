@@ -115,7 +115,13 @@ function handleMessage(event) {
       resurfaceTarget.processChanges(changes);
       break;
     case "editorClosed":
-      resurfaceTarget.setActive(false);
+      const pageHasMultipleTargets = window.__RESURFACE__.targets.length > 1;
+      if (!pageHasMultipleTargets)
+        postMessageToProxy({
+          type: "destroy",
+          recipient: "proxy",
+        });
+      else resurfaceTarget.setActive(false);
       break;
     default:
       error("Received unknown message type:", event.data);

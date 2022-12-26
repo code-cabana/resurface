@@ -52,6 +52,9 @@ function onDomMessage(event) {
         case "DOMReady":
           onDOMReady();
           break;
+        case "destroy":
+          destroy();
+          break;
       }
       break;
     case "editor":
