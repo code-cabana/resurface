@@ -75,6 +75,7 @@ function Editor() {
     editorRef,
     port.current,
   ]);
+  useEffect(handleDisconnect(port), [port.current]);
   useEffect(setEditorLanguage({ language, editor }), [
     language,
     editor.current,
@@ -307,6 +308,17 @@ function spawnEditor({ editorRef, port, setEditor }) {
       newEditor.dispose();
       setEditor(null);
     };
+  };
+}
+
+// If the proxy becomes disconnected for any reason, close the editor
+function handleDisconnect(port) {
+  return () => {
+    if (!port.current) return;
+    port.current.onDisconnect.addListener(() => {
+      debug("Proxy disconnected");
+      window.close();
+    });
   };
 }
 
